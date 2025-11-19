@@ -1,0 +1,40 @@
+// Master cost divisions for MasterFormat breakdown
+export const MASTER_DIVISIONS = [
+  { code: '03', name: 'Concrete', site: 1126, gc: 1134, fab: 0, group: 'Concrete, Masonry & Metals' },
+  { code: '06', name: 'Wood & Plastics', site: 2259, gc: 1, fab: 3851, group: 'Rooms' },
+  { code: '26', name: 'Electrical', site: 3583, gc: 2448, fab: 1158, group: 'MEPs' },
+  { code: 'GC', name: 'GC Charges', site: 3907, gc: 1485, fab: 0, group: 'Charges & Logistics (Estimate)' },
+  { code: 'MOD', name: 'Modular Logistics', site: 0, gc: 0, fab: 1128, group: 'Charges & Logistics (Estimate)' }
+];
+
+// Dummy partner data for marketplace
+export const DUMMY_PARTNERS = [
+  { name: "Atlas Modular Systems", region: "West Coast", type: "Wood Frame", category: "Fabricator", capacity: "1200 units/yr", established: 2015 },
+  { name: "SteelHaus Fab", region: "Midwest", type: "Steel Frame", category: "Fabricator", capacity: "800 units/yr", established: 2008 },
+  { name: "Pod Innovations", region: "Northeast", type: "Bathroom Pods", category: "Fabricator", capacity: "3000 pods/yr", established: 2020 },
+  { name: "Panels United", region: "Southeast", type: "Panelized", category: "Fabricator", capacity: "400 units/yr", established: 2012 },
+  { name: "SiteWorks General", region: "West Coast", type: "Multifamily", category: "GC", capacity: "Large Scale", established: 1998 },
+  { name: "Precision Build Group", region: "Midwest", type: "Modular Installation", category: "GC", capacity: "Medium Scale", established: 2005 },
+  { name: "East Coast Erectors", region: "Northeast", type: "Hospitality", category: "GC", capacity: "High Rise", established: 1985 },
+  { name: "Design Synergy AoR", region: "National", type: "DfMA Expert", category: "AoR", capacity: "15 Architects", established: 2010 },
+  { name: "Zeta Architecture", region: "West Coast", type: "Affordable Housing", category: "AoR", capacity: "8 Architects", established: 2018 },
+  { name: "Structural Solutions Inc.", region: "National", type: "Structural Engineer", category: "Consultant", capacity: "N/A", established: 1995 },
+];
+
+// Asset paths
+export const ASSET_PATHS = {
+  INTRO_GRAPHIC_URL: "https://via.placeholder.com/600x250/BCE9B3/15803D?text=RaaP+Modular+Building+Design",
+  PROJECT_GRAPHIC_URL: "https://via.placeholder.com/1200x180/15803D/ECFDF5?text=Project+Graphic+Placeholder",
+  VIDEO_3_FLOORS: "https://drive.google.com/uc?export=download&id=1oRu-PA0DFqN8pKSVygOfFk1IV99xFg2Y",
+  VIDEO_4_FLOORS: "https://drive.google.com/uc?export=download&id=1RLYh4FrAEwsDcPoMWeBWUaT9N0YRHnyp",
+  VIDEO_5_FLOORS: "https://drive.google.com/uc?export=download&id=18EZJmtQPuX7Z6_3zHbObyQQwDl59wwTd",
+  UNIT_STUDIO: "https://drive.google.com/uc?export=download&id=1kZCNTi8XrVhyJaUUAnPf6Vn0vT_6L2AR",
+  UNIT_1BR_CORNER: "https://drive.google.com/uc?export=download&id=1f6mkGJAMV__qb0hh4yUG_rl86rKLHm34",
+  UNIT_1BR_INLINE: "https://drive.google.com/uc?export=download&id=1Nm4vX_6b0Dlby3ArvWPzIUQZ_MhKLR9b",
+  UNIT_2BR_CORNER: "https://drive.google.com/uc?export=download&id=1GBwsnLoTIZrPF3D-2aSCpPMJzZIl4n5b",
+  UNIT_2BR_INLINE: "https://drive.google.com/uc?export=download&id=1XcsqjBMuK666RbMNA8Ul1kT7HgVOKErO",
+  UNIT_3BR_CORNER: "https://via.placeholder.com/300x150/9333ea/ffffff?text=3BR+Corner+Unit",
+  LAYOUT_SHORT: "https://via.placeholder.com/300x150/4ade80/064e3b?text=Short+Layout",
+  LAYOUT_MEDIUM: "https://via.placeholder.com/300x150/10b981/064e3b?text=Medium+Layout",
+  LAYOUT_LONG: "https://via.placeholder.com/300x150/059669/064e3b?text=Long+Layout",
+};
