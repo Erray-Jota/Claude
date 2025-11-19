@@ -2,121 +2,82 @@ import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
 import { useCalculations, formatCurrency, formatMega } from '../../hooks/useCalculations';
 import { MASTER_DIVISIONS } from '../../data/constants';
+import { calculateDivisionCosts, LOCATION_FACTORS as COST_LOCATION_FACTORS, compareScenarios } from '../../engines/costEngine';
 
 const CostAnalysisTab = () => {
-  const { projectData, switchTab, activeSubtabs, switchSubtab } = useProject();
+  const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
   const calculations = useCalculations(projectData);
 
-  const [scenarioA, setScenarioA] = useState({ property: 0.87, factory: 0.87 });
-  const [scenarioB, setScenarioB] = useState({ property: 1.35, factory: 0.87 });
+  // Cost-specific state
+  const [inputsCollapsed, setInputsCollapsed] = useState(false);
+  const [outputsCollapsed, setOutputsCollapsed] = useState(false);
 
-  const renderDivisionTable = () => {
-    const rows = MASTER_DIVISIONS.map(div => {
-      const scaleFactor = 1000 * calculations.unitRatio * calculations.floorMultiplier;
-      const siteAdj = div.site * projectData.propertyFactor * scaleFactor;
-      const gcAdj = div.gc * projectData.propertyFactor * scaleFactor;
-      const fabAdj = div.fab * projectData.factoryFactor * scaleFactor;
-      const modTotal = gcAdj + fabAdj;
+  // Cost adjustments state
+  const [costAdjustments, setCostAdjustments] = useState({
+    soil: 'good',
+    seismic: 'low',
+    snow: 'no',
+    wind: 'no',
+    finishLevel: 'standard',
+    appliances: 'basic',
+    adaPct: 100,
+  });
 
-      return { ...div, siteAdj, gcAdj, fabAdj, modTotal };
+  // Scenario comparison state
+  const [scenarioA, setScenarioA] = useState({
+    name: 'Site Build - Current Location',
+    entityType: 'siteBuild',
+    propertyLocation: 'Boise, ID',
+    factoryLocation: 'Boise, ID',
+    floors: projectData.floors,
+    unitMix: projectData.optimized,
+  });
+
+  const [scenarioB, setScenarioB] = useState({
+    name: 'Modular - Local Factory',
+    entityType: 'totalModular',
+    propertyLocation: 'Boise, ID',
+    factoryLocation: 'Boise, ID',
+    floors: projectData.floors,
+    unitMix: projectData.optimized,
+  });
+
+  // Assembly explorer state
+  const [assemblySearch, setAssemblySearch] = useState('');
+
+  // Calculate division costs with adjustments
+  const divisionCosts = calculateDivisionCosts(
+    calculations.totalOptimized,
+    projectData.floors,
+    projectData.propertyFactor,
+    projectData.factoryFactor,
+    costAdjustments
+  );
+
+  // Helper to group divisions
+  const groupDivisions = (divisions) => {
+    const groups = {};
+    divisions.forEach(div => {
+      if (!groups[div.group]) {
+        groups[div.group] = [];
+      }
+      groups[div.group].push(div);
     });
-
-    const totals = rows.reduce((acc, row) => ({
-      site: acc.site + row.siteAdj,
-      gc: acc.gc + row.gcAdj,
-      fab: acc.fab + row.fabAdj,
-      mod: acc.mod + row.modTotal,
-    }), { site: 0, gc: 0, fab: 0, mod: 0 });
-
-    return (
-      <div className="card" style={{ marginTop: '12px', padding: 0, boxShadow: 'none' }}>
-        <h2>📊 Cost Breakdown by Division (MasterFormat)</h2>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #d1d5db' }}>
-              <th style={{ padding: '8px', textAlign: 'left', fontSize: '14px' }}>Division</th>
-              <th style={{ padding: '8px', textAlign: 'right', fontSize: '14px' }}>Site Build</th>
-              <th style={{ padding: '8px', textAlign: 'right', fontSize: '14px', color: '#2563eb' }}>Mod GC</th>
-              <th style={{ padding: '8px', textAlign: 'right', fontSize: '14px', color: '#16a34a' }}>Mod Fab</th>
-              <th style={{ padding: '8px', textAlign: 'right', fontSize: '14px' }}>Modular Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, i) => (
-              <tr key={i} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                <td style={{ padding: '8px', paddingLeft: '16px' }}>{row.code} {row.name}</td>
-                <td style={{ padding: '8px', textAlign: 'right' }}>{formatCurrency(row.siteAdj)}</td>
-                <td style={{ padding: '8px', textAlign: 'right', color: '#2563eb' }}>{formatCurrency(row.gcAdj)}</td>
-                <td style={{ padding: '8px', textAlign: 'right', color: '#16a34a' }}>{formatCurrency(row.fabAdj)}</td>
-                <td style={{ padding: '8px', textAlign: 'right' }}><strong>{formatCurrency(row.modTotal)}</strong></td>
-              </tr>
-            ))}
-            <tr style={{ borderTop: '2px solid #374151', background: '#e5e7eb' }}>
-              <td style={{ padding: '8px', fontWeight: 'bold', fontSize: '16px' }}>Total Cost</td>
-              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold', fontSize: '16px' }}>{formatMega(totals.site)}</td>
-              <td colSpan="3" style={{ padding: '8px', textAlign: 'right', fontWeight: 'bold', fontSize: '16px' }}>{formatMega(totals.mod)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
+    return groups;
   };
+
+  const groupedDivisions = groupDivisions(divisionCosts.divisions);
 
   return (
     <div>
-      <h1 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '8px', textAlign: 'center' }}>
-        Cost Analysis
-      </h1>
-
-      {/* Project Info Banner */}
-      <div className="project-info-banner">
-        <div className="cost-column">
-          <div className="metric-label">SITE COST (EST)</div>
-          <div className="metric-main-value" style={{ color: calculations.isSavings ? '#DC2626' : '#111827' }}>
-            {formatMega(calculations.siteCost)}
-          </div>
-          <div className="cost-details-inline">
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Cost/SF:</span>
-              <span className="cost-sub-value">{formatCurrency(calculations.siteCostPerSF)}</span>
-            </div>
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Cost/Unit:</span>
-              <span className="cost-sub-value">{formatCurrency(calculations.siteCostPerUnit / 1000)}K</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="cost-column">
-          <div className="metric-label">MODULAR COST (EST)</div>
-          <div className="metric-main-value" style={{ color: calculations.isSavings ? '#16A34A' : '#DC2626' }}>
-            {formatMega(calculations.modularCost)}
-          </div>
-          <div className="cost-details-inline">
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Cost/SF:</span>
-              <span className="cost-sub-value">{formatCurrency(calculations.modularCostPerSF)}</span>
-            </div>
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Cost/Unit:</span>
-              <span className="cost-sub-value">{formatCurrency(calculations.modularCostPerUnit / 1000)}K</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="time-column">
-          <div className="time-metrics-row">
-            <div className="time-metric-group">
-              <div className="time-label">SITE BUILD TIME</div>
-              <div className="time-main-value">{calculations.siteBuildTimeMonths} mo</div>
-            </div>
-            <div className="time-metric-group">
-              <div className="time-label">MODULAR BUILD TIME</div>
-              <div className="time-main-value">{calculations.modularBuildTimeMonths} mo</div>
-            </div>
-          </div>
-          <span className="time-savings">Savings: {calculations.timeSavings} mo</span>
-        </div>
+      {/* Headline */}
+      <div style={{ textAlign: 'center', marginBottom: '12px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', marginBottom: '4px' }}>
+          Optimize your hard costs
+        </h1>
+        <p style={{ fontSize: '16px', color: '#374151', fontWeight: 500 }}>
+          A scoped, defensible, negotiation-ready cost model—built from real assemblies and factory logic
+        </p>
       </div>
 
       {/* Sub-tabs */}
@@ -126,95 +87,581 @@ const CostAnalysisTab = () => {
             📊 Summary & MasterFormat
           </button>
           <button onClick={() => switchSubtab('cost', 2)} className={`subtab-btn ${activeSubtabs.cost === 2 ? 'active-subtab' : ''}`}>
-            🔄 Scenario Comparison
+            🔀 Scenario Comparison
           </button>
           <button onClick={() => switchSubtab('cost', 3)} className={`subtab-btn ${activeSubtabs.cost === 3 ? 'active-subtab' : ''}`}>
-            📚 Assembly Explorer
+            🔍 Assembly Explorer
           </button>
         </div>
       </div>
 
-      {/* Content */}
-      <div>
-        <div className="card" style={{ background: 'linear-gradient(135deg, #15803D 0%, #0F6630 100%)', color: 'white', padding: '16px', marginBottom: '12px' }}>
-          <h2 style={{ color: 'white', marginBottom: '6px' }}>{projectData.projectName}</h2>
-          <p style={{ opacity: 0.9, fontSize: '14px' }}>
-            {projectData.floors} Floors • {calculations.totalOptimized} Units • {Math.round(calculations.totalGSF).toLocaleString()} GSF
+      {/* SUMMARY SUB TAB */}
+      {activeSubtabs.cost === 1 && (
+        <div>
+          {/* HERO + METRICS BOX (3-column format) */}
+          <div className="project-info-banner" style={{ marginBottom: '12px' }}>
+            {/* Column 1: Site Build Cost */}
+            <div className="cost-column">
+              <div className="metric-label">SITE BUILD COST</div>
+              <div className="metric-main-value" style={{ color: '#DC2626' }}>
+                {formatMega(divisionCosts.totals.siteCost)}
+              </div>
+              <div className="cost-details-inline">
+                <div className="cost-sub-group">
+                  <span className="cost-sub-label">Cost/SF:</span>
+                  <span className="cost-sub-value">{formatCurrency(divisionCosts.totals.siteCost / calculations.totalGSF)}</span>
+                </div>
+                <div className="cost-sub-group">
+                  <span className="cost-sub-label">Cost/Unit:</span>
+                  <span className="cost-sub-value">${Math.round(divisionCosts.totals.siteCost / calculations.totalOptimized / 1000)}K</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: Modular Cost */}
+            <div className="cost-column">
+              <div className="metric-label">MODULAR COST (GC + FAB)</div>
+              <div className="metric-main-value" style={{ color: '#16A34A' }}>
+                {formatMega(divisionCosts.totals.modularTotal)}
+              </div>
+              <div className="cost-details-inline">
+                <div className="cost-sub-group">
+                  <span className="cost-sub-label">Cost/SF:</span>
+                  <span className="cost-sub-value">{formatCurrency(divisionCosts.totals.modularTotal / calculations.totalGSF)}</span>
+                </div>
+                <div className="cost-sub-group">
+                  <span className="cost-sub-label">Cost/Unit:</span>
+                  <span className="cost-sub-value">${Math.round(divisionCosts.totals.modularTotal / calculations.totalOptimized / 1000)}K</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 3: Savings */}
+            <div className="cost-column" style={{ borderRight: 'none' }}>
+              <div className="metric-label">SAVINGS</div>
+              <div className="metric-main-value" style={{ color: divisionCosts.totals.savings > 0 ? '#16A34A' : '#DC2626' }}>
+                {divisionCosts.totals.savings > 0 ? '+' : ''}{formatMega(divisionCosts.totals.savings)}
+              </div>
+              <div className="cost-details-inline">
+                <div className="cost-sub-group">
+                  <span className="cost-sub-label">Savings %:</span>
+                  <span className="cost-sub-value" style={{ color: divisionCosts.totals.savings > 0 ? '#16A34A' : '#DC2626', fontWeight: 700 }}>
+                    {divisionCosts.totals.savingsPercent.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* INPUTS (Collapsible Panel) */}
+          <div className="card" style={{ marginBottom: '12px' }}>
+            <h2 style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={() => setInputsCollapsed(!inputsCollapsed)}>
+              <span>⚙️ Cost Inputs</span>
+              <span style={{ fontSize: '18px' }}>{inputsCollapsed ? '▶' : '▼'}</span>
+            </h2>
+
+            {!inputsCollapsed && (
+              <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
+                {/* LEFT: Building Inputs & Cost Drivers */}
+                <div>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
+                    🏗️ Building (from Design & Project)
+                  </h3>
+                  <div style={{ fontSize: '14px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Project Name:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.projectName}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Floors:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.floors}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Building Length:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.targetLength} ft</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Lobby Type:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>
+                        {projectData.lobbyType === 1 ? 'Single-Loaded' : projectData.lobbyType === 3 ? 'Wrap' : 'Double-Loaded'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Podium Count:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.podiumCount}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
+                      <span style={{ color: '#374151' }}>Common Area %:</span>
+                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.commonAreaPct}%</span>
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
+                    💰 Cost Drivers
+                  </h3>
+                  <div className="form-group">
+                    <label className="form-label">Site Location (Property Factor: {projectData.propertyFactor})</label>
+                    <select className="form-select" value={projectData.propertyLocation || 'Boise, ID'} onChange={(e) => {
+                      const location = e.target.value;
+                      updateProjectData({ propertyLocation: location, propertyFactor: COST_LOCATION_FACTORS[location] || 0.87 });
+                    }}>
+                      {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                        <option key={loc} value={loc}>{loc} ({COST_LOCATION_FACTORS[loc]})</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Fabricator Location (Factory Factor: {projectData.factoryFactor})</label>
+                    <select className="form-select" value={projectData.factoryLocation || 'Boise, ID'} onChange={(e) => {
+                      const location = e.target.value;
+                      updateProjectData({ factoryLocation: location, factoryFactor: COST_LOCATION_FACTORS[location] || 0.87 });
+                    }}>
+                      {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                        <option key={loc} value={loc}>{loc} ({COST_LOCATION_FACTORS[loc]})</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Prevailing Wages</label>
+                    <select className="form-select">
+                      <option>Yes (Union rates apply)</option>
+                      <option>No (Open shop rates)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* RIGHT: Unit Mix, Site Conditions, Amenities */}
+                <div>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
+                    🏠 Unit Mix
+                  </h3>
+                  <div className="grid-4" style={{ gap: '8px', marginBottom: '12px' }}>
+                    {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                      const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                      const target = projectData.targets[key];
+                      const actual = calculations.optimized[key];
+                      return (
+                        <div key={key} style={{ textAlign: 'center', padding: '8px', background: '#f9fafb', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
+                          <div style={{ fontSize: '12px', color: '#374151', fontWeight: 600 }}>{label}</div>
+                          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>Target: {target}</div>
+                          <div style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginTop: '2px' }}>{actual}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ fontSize: '14px', padding: '8px', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '4px', textAlign: 'center' }}>
+                    <span style={{ fontWeight: 600, color: '#15803D' }}>Total GSF:</span>{' '}
+                    <span style={{ fontWeight: 700, color: '#111827' }}>{Math.round(calculations.totalGSF).toLocaleString()} SF</span>
+                  </div>
+
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginTop: '12px', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
+                    🌍 Site Conditions
+                  </h3>
+                  <div className="grid-2" style={{ gap: '8px' }}>
+                    <div className="form-group">
+                      <label className="form-label">Soil</label>
+                      <select className="form-select" value={costAdjustments.soil} onChange={(e) => setCostAdjustments({...costAdjustments, soil: e.target.value})}>
+                        <option value="good">Good</option>
+                        <option value="poor">Poor</option>
+                        <option value="expansive">Expansive</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Seismic</label>
+                      <select className="form-select" value={costAdjustments.seismic} onChange={(e) => setCostAdjustments({...costAdjustments, seismic: e.target.value})}>
+                        <option value="low">Low (A/B)</option>
+                        <option value="moderate">Moderate (C)</option>
+                        <option value="high">High (D/E)</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Snow Load</label>
+                      <select className="form-select" value={costAdjustments.snow} onChange={(e) => setCostAdjustments({...costAdjustments, snow: e.target.value})}>
+                        <option value="no">No</option>
+                        <option value="yes">Yes (High)</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">High Wind</label>
+                      <select className="form-select" value={costAdjustments.wind} onChange={(e) => setCostAdjustments({...costAdjustments, wind: e.target.value})}>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginTop: '12px', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
+                    ✨ Amenities
+                  </h3>
+                  <div className="grid-2" style={{ gap: '8px' }}>
+                    <div className="form-group">
+                      <label className="form-label">Finish Level</label>
+                      <select className="form-select" value={costAdjustments.finishLevel} onChange={(e) => setCostAdjustments({...costAdjustments, finishLevel: e.target.value})}>
+                        <option value="basic">Basic</option>
+                        <option value="standard">Standard</option>
+                        <option value="premium">Premium</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Appliances</label>
+                      <select className="form-select" value={costAdjustments.appliances} onChange={(e) => setCostAdjustments({...costAdjustments, appliances: e.target.value})}>
+                        <option value="none">None</option>
+                        <option value="basic">Basic</option>
+                        <option value="premium">Premium</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">ADA Compliance %</label>
+                      <input type="number" className="form-input" value={costAdjustments.adaPct} min="0" max="100" onChange={(e) => setCostAdjustments({...costAdjustments, adaPct: parseInt(e.target.value)})} />
+                      <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                        {divisionCosts.adaUnits} of {calculations.totalOptimized} units ({costAdjustments.adaPct}%)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Additional Modular Benefits */}
+          <div className="card" style={{ marginBottom: '12px', background: '#f0fdf4', border: '1px solid #86efac' }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#15803D', marginBottom: '8px' }}>
+              ✅ Additional Modular Benefits
+            </h3>
+            <div className="grid-2" style={{ gap: '12px', fontSize: '14px', color: '#374151' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <span style={{ color: '#16a34a', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
+                <span><strong>40% faster construction time</strong> — Parallel factory work and site work</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <span style={{ color: '#16a34a', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
+                <span><strong>Higher quality control</strong> — Factory-built in controlled environment</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <span style={{ color: '#16a34a', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
+                <span><strong>Less weather delays</strong> — 70-90% of work happens indoors</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <span style={{ color: '#16a34a', fontSize: '18px', fontWeight: 'bold' }}>✓</span>
+                <span><strong>Reduced site disruption</strong> — Quieter, cleaner, safer job sites</span>
+              </div>
+            </div>
+          </div>
+
+          {/* OUTPUTS (MasterFormat Detail - Collapsible) */}
+          <div className="card">
+            <h2 style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={() => setOutputsCollapsed(!outputsCollapsed)}>
+              <span>📊 Cost Breakdown by Division (MasterFormat)</span>
+              <span style={{ fontSize: '18px' }}>{outputsCollapsed ? '▶' : '▼'}</span>
+            </h2>
+
+            {!outputsCollapsed && (
+              <div style={{ marginTop: '12px', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                  <thead>
+                    <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #d1d5db' }}>
+                      <th style={{ padding: '10px', textAlign: 'left', fontWeight: 700 }}>Division</th>
+                      <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>Site Built</th>
+                      <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>Modular GC</th>
+                      <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>Fabricator</th>
+                      <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700 }}>Total Modular</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(groupedDivisions).map(([groupName, divisions]) => (
+                      <>
+                        {/* Group Header */}
+                        <tr key={`group-${groupName}`} style={{ background: '#e5e7eb', borderTop: '2px solid #9ca3af' }}>
+                          <td colSpan="5" style={{ padding: '8px', fontWeight: 700, fontSize: '13px', color: '#374151' }}>
+                            {groupName}
+                          </td>
+                        </tr>
+
+                        {/* Division Rows */}
+                        {divisions.map((div, i) => (
+                          <tr key={`${groupName}-${i}`} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                            <td style={{ padding: '8px', paddingLeft: '20px' }}>
+                              <span style={{ fontWeight: 600, color: '#6b7280', marginRight: '6px' }}>{div.code}</span>
+                              {div.name}
+                            </td>
+                            <td style={{ padding: '8px', textAlign: 'right', color: '#DC2626' }}>
+                              {formatCurrency(div.siteCost)}
+                            </td>
+                            <td style={{ padding: '8px', textAlign: 'right', color: '#2563eb' }}>
+                              {formatCurrency(div.gcCost)}
+                            </td>
+                            <td style={{ padding: '8px', textAlign: 'right', color: '#16a34a' }}>
+                              {formatCurrency(div.fabCost)}
+                            </td>
+                            <td style={{ padding: '8px', textAlign: 'right', fontWeight: 600 }}>
+                              {formatCurrency(div.modularTotal)}
+                            </td>
+                          </tr>
+                        ))}
+
+                        {/* Group Subtotal */}
+                        <tr key={`subtotal-${groupName}`} style={{ background: '#f9fafb', borderBottom: '1px solid #d1d5db' }}>
+                          <td style={{ padding: '8px', paddingLeft: '20px', fontWeight: 600, fontStyle: 'italic', color: '#374151' }}>
+                            {groupName} Subtotal
+                          </td>
+                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>
+                            {formatCurrency(divisions.reduce((sum, d) => sum + d.siteCost, 0))}
+                          </td>
+                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>
+                            {formatCurrency(divisions.reduce((sum, d) => sum + d.gcCost, 0))}
+                          </td>
+                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>
+                            {formatCurrency(divisions.reduce((sum, d) => sum + d.fabCost, 0))}
+                          </td>
+                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>
+                            {formatCurrency(divisions.reduce((sum, d) => sum + d.modularTotal, 0))}
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+
+                    {/* TOTAL ROW */}
+                    <tr style={{ background: '#374151', color: 'white', borderTop: '3px solid #111827' }}>
+                      <td style={{ padding: '12px', fontWeight: 700, fontSize: '16px' }}>TOTAL COST</td>
+                      <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
+                        {formatMega(divisionCosts.totals.siteCost)}
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
+                        {formatMega(divisionCosts.totals.gcCost)}
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
+                        {formatMega(divisionCosts.totals.fabCost)}
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
+                        {formatMega(divisionCosts.totals.modularTotal)}
+                      </td>
+                    </tr>
+
+                    {/* SAVINGS ROW */}
+                    <tr style={{ background: divisionCosts.totals.savings > 0 ? '#f0fdf4' : '#fef2f2', border: `2px solid ${divisionCosts.totals.savings > 0 ? '#86efac' : '#fca5a5'}` }}>
+                      <td style={{ padding: '12px', fontWeight: 700, fontSize: '16px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
+                        {divisionCosts.totals.savings > 0 ? '✅ SAVINGS' : '⚠️ PREMIUM'}
+                      </td>
+                      <td colSpan="4" style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '18px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
+                        {formatMega(divisionCosts.totals.savings)} ({divisionCosts.totals.savingsPercent.toFixed(1)}%)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* SCENARIO COMPARISON SUB TAB */}
+      {activeSubtabs.cost === 2 && (
+        <div className="card">
+          <h2>🔀 Scenario Comparison</h2>
+          <p className="small-text" style={{ marginBottom: '12px' }}>
+            Compare different scenarios to understand cost sensitivity to location, mix, and other factors
           </p>
+
+          <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
+            {/* Scenario A Inputs */}
+            <div style={{ background: '#eff6ff', padding: '12px', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1e40af', marginBottom: '8px' }}>Scenario A</h3>
+              <div className="form-group">
+                <label className="form-label">Scenario Name</label>
+                <input type="text" className="form-input" value={scenarioA.name} onChange={(e) => setScenarioA({...scenarioA, name: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Entity Type</label>
+                <select className="form-select" value={scenarioA.entityType} onChange={(e) => setScenarioA({...scenarioA, entityType: e.target.value})}>
+                  <option value="siteBuild">Site GC</option>
+                  <option value="modularGC">Modular GC</option>
+                  <option value="fabricator">Fabricator</option>
+                  <option value="totalModular">Total Modular</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Property Location</label>
+                <select className="form-select" value={scenarioA.propertyLocation} onChange={(e) => setScenarioA({...scenarioA, propertyLocation: e.target.value})}>
+                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Factory Location</label>
+                <select className="form-select" value={scenarioA.factoryLocation} onChange={(e) => setScenarioA({...scenarioA, factoryLocation: e.target.value})}>
+                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Floors</label>
+                <input type="number" className="form-input" value={scenarioA.floors} min="1" max="20" onChange={(e) => setScenarioA({...scenarioA, floors: parseInt(e.target.value)})} />
+              </div>
+            </div>
+
+            {/* Scenario B Inputs */}
+            <div style={{ background: '#f0fdf4', padding: '12px', borderRadius: '6px', border: '1px solid #86efac' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#15803D', marginBottom: '8px' }}>Scenario B</h3>
+              <div className="form-group">
+                <label className="form-label">Scenario Name</label>
+                <input type="text" className="form-input" value={scenarioB.name} onChange={(e) => setScenarioB({...scenarioB, name: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Entity Type</label>
+                <select className="form-select" value={scenarioB.entityType} onChange={(e) => setScenarioB({...scenarioB, entityType: e.target.value})}>
+                  <option value="siteBuild">Site GC</option>
+                  <option value="modularGC">Modular GC</option>
+                  <option value="fabricator">Fabricator</option>
+                  <option value="totalModular">Total Modular</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Property Location</label>
+                <select className="form-select" value={scenarioB.propertyLocation} onChange={(e) => setScenarioB({...scenarioB, propertyLocation: e.target.value})}>
+                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Factory Location</label>
+                <select className="form-select" value={scenarioB.factoryLocation} onChange={(e) => setScenarioB({...scenarioB, factoryLocation: e.target.value})}>
+                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Floors</label>
+                <input type="number" className="form-input" value={scenarioB.floors} min="1" max="20" onChange={(e) => setScenarioB({...scenarioB, floors: parseInt(e.target.value)})} />
+              </div>
+            </div>
+          </div>
+
+          {/* Results Summary */}
+          <div style={{ marginTop: '16px', padding: '16px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>📈 Comparison Results</h3>
+            <div className="grid-3" style={{ gap: '12px', textAlign: 'center' }}>
+              <div style={{ padding: '12px', background: '#eff6ff', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '4px' }}>Scenario A</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>
+                  {formatMega(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
+                </div>
+              </div>
+              <div style={{ padding: '12px', background: 'white', borderRadius: '6px', border: '2px solid #f59e0b', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#ea580c', marginBottom: '4px' }}>Difference</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#f59e0b' }}>
+                  Calculate
+                </div>
+              </div>
+              <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '6px', border: '1px solid #86efac' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '4px' }}>Scenario B</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>
+                  {formatMega(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
+                </div>
+              </div>
+            </div>
+
+            <p className="small-text" style={{ marginTop: '12px', textAlign: 'center', color: '#6b7280', fontStyle: 'italic' }}>
+              Full scenario comparison coming soon with detailed breakdown by division
+            </p>
+          </div>
         </div>
+      )}
 
-        <div className="grid-2">
-          <div className="card" style={{ border: '1px solid #d1d5db', padding: '16px' }}>
-            <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>🏗️ Traditional Build</h3>
-            <p className="small-text">📍 Property Factor: {projectData.propertyFactor.toFixed(2)}</p>
-            <div style={{ fontSize: '28px', fontWeight: 'bold' }}>{formatMega(calculations.siteCost)}</div>
-            <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
-              <div>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#111827' }}>{formatCurrency(calculations.siteCostPerSF)}</div>
-                <div style={{ fontSize: '14px', color: '#6b7280' }}>per sq ft</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#111827' }}>{formatCurrency(calculations.siteCostPerUnit / 1000)}K</div>
-                <div style={{ fontSize: '14px', color: '#6b7280' }}>per unit</div>
-              </div>
+      {/* ASSEMBLY EXPLORER SUB TAB */}
+      {activeSubtabs.cost === 3 && (
+        <div className="card">
+          <h2>🔍 Assembly Explorer</h2>
+          <p className="small-text" style={{ marginBottom: '12px' }}>
+            Explore individual assemblies to understand cost components at a granular level
+          </p>
+
+          {/* Search/Filter */}
+          <div className="form-group" style={{ marginBottom: '16px' }}>
+            <input
+              type="text"
+              className="form-input"
+              placeholder="Search assemblies by code or description..."
+              value={assemblySearch}
+              onChange={(e) => setAssemblySearch(e.target.value)}
+            />
+          </div>
+
+          {/* Assembly Directory */}
+          <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>📁 Assembly Directory (Sample)</h3>
+
+            <div style={{ fontSize: '13px' }}>
+              {/* Sample assemblies */}
+              {[
+                { code: 'B1010-105', desc: 'Wood Frame Exterior Wall, 2x6 @ 16" OC, R-21', siteCost: 18.50, modCost: 22.30, unit: 'SF' },
+                { code: 'B2010-201', desc: 'Basement Floor Slab, 4" Concrete, 6x6 WWF', siteCost: 6.75, modCost: 4.20, unit: 'SF' },
+                { code: 'C1010-115', desc: 'Wood Floor Joist, 2x10 @ 16" OC', siteCost: 7.85, modCost: 12.40, unit: 'SF' },
+                { code: 'C3010-210', desc: 'Gypsum Board, 5/8" Type X, Taped & Finished', siteCost: 2.45, modCost: 3.10, unit: 'SF' },
+                { code: 'D2010-310', desc: 'Sprinkler System, Wet Pipe, Light Hazard', siteCost: 4.85, modCost: 5.20, unit: 'SF' },
+                { code: 'D5010-240', desc: 'Electrical Service, 400A, 3-Phase', siteCost: 12500, modCost: 11800, unit: 'EA' },
+              ].filter(assembly =>
+                !assemblySearch ||
+                assembly.code.toLowerCase().includes(assemblySearch.toLowerCase()) ||
+                assembly.desc.toLowerCase().includes(assemblySearch.toLowerCase())
+              ).map((assembly, i) => (
+                <div key={i} style={{ background: 'white', padding: '12px', borderRadius: '6px', marginBottom: '8px', border: '1px solid #e5e7eb' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '6px' }}>
+                    <div>
+                      <span style={{ fontWeight: 700, color: '#374151', marginRight: '8px' }}>{assembly.code}</span>
+                      <span style={{ color: '#111827' }}>{assembly.desc}</span>
+                    </div>
+                    <span style={{ fontSize: '12px', color: '#6b7280', fontWeight: 600 }}>per {assembly.unit}</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '16px', fontSize: '14px' }}>
+                    <div>
+                      <span style={{ color: '#DC2626', fontWeight: 600 }}>Site: </span>
+                      <span style={{ fontWeight: 700, color: '#111827' }}>{formatCurrency(assembly.siteCost)}</span>
+                    </div>
+                    <div>
+                      <span style={{ color: '#16a34a', fontWeight: 600 }}>Modular: </span>
+                      <span style={{ fontWeight: 700, color: '#111827' }}>{formatCurrency(assembly.modCost)}</span>
+                    </div>
+                    <div>
+                      <span style={{ color: assembly.siteCost > assembly.modCost ? '#16a34a' : '#DC2626', fontWeight: 600 }}>
+                        {assembly.siteCost > assembly.modCost ? 'Savings' : 'Premium'}:
+                      </span>
+                      <span style={{ fontWeight: 700, color: assembly.siteCost > assembly.modCost ? '#16a34a' : '#DC2626' }}>
+                        {' '}{formatCurrency(Math.abs(assembly.siteCost - assembly.modCost))}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="card" style={{ border: '2px solid #16a34a', background: '#f0fdf4', padding: '16px' }}>
-            <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>🏭 RaaP Modular</h3>
-            <p className="small-text">📍 Site: {projectData.propertyFactor.toFixed(2)} | 🏭 Factory: {projectData.factoryFactor.toFixed(2)}</p>
-            <div style={{ color: '#16a34a', fontSize: '28px', fontWeight: 'bold' }}>{formatMega(calculations.modularCost)}</div>
-            <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
-              <div>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#16a34a' }}>{formatCurrency(calculations.modularCostPerSF)}</div>
-                <div style={{ fontSize: '14px', color: '#15803d' }}>per sq ft</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#16a34a' }}>{formatCurrency(calculations.modularCostPerUnit / 1000)}K</div>
-                <div style={{ fontSize: '14px', color: '#15803d' }}>per unit</div>
-              </div>
-            </div>
-
-            <div style={{ background: '#16a34a', color: 'white', padding: '8px', borderRadius: '6px', marginTop: '8px' }}>
-              <p style={{ fontSize: '14px', fontWeight: 600, margin: 0 }}>
-                {calculations.isSavings ? '💚 YOU SAVE' : '⚠️ ADDITIONAL INVESTMENT'}
-              </p>
-              <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '4px 0' }}>
-                {formatMega(Math.abs(calculations.savings))}
-              </p>
-              <p style={{ fontSize: '16px', margin: 0 }}>
-                {Math.abs(calculations.savingsPercent).toFixed(1)}% {calculations.isSavings ? 'Less' : 'More'}
-              </p>
-            </div>
+          {/* Chat Function Placeholder */}
+          <div style={{ marginTop: '16px', padding: '16px', background: '#f0f9ff', borderRadius: '8px', border: '1px solid #7dd3fc' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0369a1', marginBottom: '8px' }}>💬 Assembly Chat (Coming Soon)</h3>
+            <p style={{ fontSize: '13px', color: '#374151' }}>
+              Ask questions about specific assemblies, get recommendations for substitutions, and explore cost-saving alternatives.
+            </p>
+            <textarea
+              className="form-input"
+              rows="3"
+              placeholder="Example: 'What's a cost-effective alternative to B1010-105 for exterior walls?'"
+              style={{ marginTop: '8px', resize: 'none' }}
+              disabled
+            />
           </div>
         </div>
+      )}
 
-        {activeSubtabs.cost === 1 && renderDivisionTable()}
-
-        {activeSubtabs.cost === 2 && (
-          <div className="card" style={{ marginTop: '12px' }}>
-            <h2>🔄 Scenario Comparison</h2>
-            <p className="small-text">Compare different location combinations</p>
-            <div style={{ padding: '20px', textAlign: 'center', color: '#6b7280' }}>
-              Scenario comparison feature coming soon...
-            </div>
-          </div>
-        )}
-
-        {activeSubtabs.cost === 3 && (
-          <div className="card" style={{ marginTop: '12px' }}>
-            <h2>📚 Assembly Explorer</h2>
-            <p className="small-text">Explore construction assemblies with RSMeans codes</p>
-            <div style={{ padding: '20px', textAlign: 'center', color: '#6b7280' }}>
-              Assembly explorer feature coming soon...
-            </div>
-          </div>
-        )}
-
-        <div className="flex-end" style={{ marginTop: '15px' }}>
-          <button className="btn btn-secondary" onClick={() => switchTab(3)}>← Back to Design</button>
-          <button className="btn btn-primary" onClick={() => switchTab(5)}>Continue → Other Factors</button>
-        </div>
+      {/* Navigation */}
+      <div className="flex-end" style={{ marginTop: '15px' }}>
+        <button className="btn btn-secondary" onClick={() => switchTab(3)}>← Back to Design</button>
+        <button className="btn btn-primary" onClick={() => switchTab(5)}>Continue → Other Factors</button>
       </div>
     </div>
   );
