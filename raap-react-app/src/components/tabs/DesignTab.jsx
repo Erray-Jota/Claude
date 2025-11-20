@@ -258,7 +258,7 @@ const DesignTab = () => {
         <div className="card">
           <h2>🏠 RaaP Unit Modules Used in Design</h2>
           <p className="small-text" style={{ marginBottom: '12px' }}>Click on any unit image to see the full floorplan.</p>
-          <div className="grid-3" style={{ gap: '15px' }}>
+          <div className="grid-2" style={{ gap: '15px' }}>
             {Object.entries(calculations.optimized).map(([key, count]) => {
               if (count === 0) return null;
               const unitMap = {
@@ -269,10 +269,12 @@ const DesignTab = () => {
               };
               const unit = unitMap[key];
               return (
-                <div key={key} style={{ background: 'white', border: '1px solid #d1d5db', borderRadius: '6px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                <div key={key} style={{ background: 'white', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                   <a href={unit.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
-                    <img src={unit.link} alt={unit.name} style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-                    <div style={{ padding: '8px', fontWeight: 600, fontSize: '14px', color: '#15803D' }}>{unit.name}</div>
+                    <div style={{ padding: '12px', background: '#f9fafb' }}>
+                      <img src={unit.link} alt={unit.name} style={{ width: '100%', height: 'auto', display: 'block' }} />
+                    </div>
+                    <div style={{ padding: '12px', fontWeight: 700, fontSize: '16px', color: '#15803D', background: '#f0fdf4' }}>{unit.name}</div>
                   </a>
                 </div>
               );
@@ -322,14 +324,13 @@ const DesignTab = () => {
             const svgElements = generateSVGElements(floorPlan);
 
             return (
-              <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px', overflowX: 'auto' }}>
+              <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px' }}>
                 {/* SVG Floorplan (exact from original HTML rendering) */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                <div style={{ marginBottom: '16px' }}>
                   <svg
                     id="floor-plan-svg"
-                    width={svgElements.svgWidth}
-                    height={svgElements.svgHeight}
-                    style={{ border: '1px solid #d1d5db', borderRadius: '4px', background: 'white' }}
+                    viewBox={`0 0 ${svgElements.svgWidth} ${svgElements.svgHeight}`}
+                    style={{ width: '100%', height: 'auto', border: '2px solid #16a34a', borderRadius: '8px', background: 'white' }}
                   >
                     {/* Left Side Units */}
                     {svgElements.leftUnits.map((unit) => (
@@ -464,15 +465,84 @@ const DesignTab = () => {
 
       {activeSubtabs.design === 4 && (
         <div className="card">
-          <h2>🏗️ Building Massing Options (Calculated Length: {calculations.requiredLength.toFixed(1)} ft)</h2>
-          <p className="small-text" style={{ marginBottom: '12px' }}>Based on your current required length, select a building massing option.</p>
+          <h2>🏗️ Building Massing Options</h2>
+          <p className="small-text" style={{ marginBottom: '12px' }}>3D visualization of your {projectData.floors}-story building in different configurations.</p>
+
+          {/* Video */}
+          <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '16px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+            <video controls loop muted autoPlay style={{ width: '100%', height: 'auto', display: 'block', background: '#e5e7eb' }}>
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          </div>
+
+          {/* 3D Building Images */}
           <div className="grid-3" style={{ gap: '15px' }}>
-            <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '6px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              <img src={ASSET_PATHS.LAYOUT_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-              <div style={{ padding: '8px', fontWeight: 700, fontSize: '14px', color: '#16a34a' }}>
-                {projectData.floors}-Story Medium Layout (Recommended)
-              </div>
-            </div>
+            {projectData.floors === 3 && (
+              <>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_SHORT} alt="Short Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Short Layout
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Medium Layout (Recommended)
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_LONG} alt="Long Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Long Layout
+                  </div>
+                </div>
+              </>
+            )}
+            {projectData.floors === 4 && (
+              <>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_4_SHORT} alt="Short Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Short Layout
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_4_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Medium Layout (Recommended)
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_3D_4_LONG} alt="Long Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Long Layout
+                  </div>
+                </div>
+              </>
+            )}
+            {projectData.floors === 5 && (
+              <>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_5_SMALL} alt="Small Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Small Layout
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_5_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Medium Layout (Recommended)
+                  </div>
+                </div>
+                <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+                  <img src={ASSET_PATHS.BUILDING_5_LARGE} alt="Large Layout" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                  <div style={{ padding: '12px', fontWeight: 700, fontSize: '14px', color: '#16a34a', background: '#f0fdf4' }}>
+                    Large Layout
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

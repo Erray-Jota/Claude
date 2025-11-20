@@ -19,11 +19,11 @@ const IntroductionTab = () => {
 
       {/* Hero Image Card */}
       <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
-        <div style={{ height: '14rem', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ overflow: 'hidden', position: 'relative' }}>
           <img
             src={ASSET_PATHS.INTRO_GRAPHIC_URL}
             alt="RaaP Modular Building Design"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
         <div style={{ background: '#15803D', color: 'white', padding: '6px', textAlign: 'center' }}>

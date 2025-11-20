@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
-import { DUMMY_PARTNERS } from '../../data/constants';
+import { DUMMY_PARTNERS, ASSET_PATHS } from '../../data/constants';
 
 const OtherFactorsTab = () => {
   const { switchTab, activeSubtabs, switchSubtab } = useProject();
@@ -186,6 +186,13 @@ const OtherFactorsTab = () => {
             <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '15px' }}>
               We assess transportation, staging, and installation requirements upfront, guaranteeing minimal site constraints.
             </p>
+
+            {/* Video */}
+            <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '16px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+              <video controls loop muted autoPlay style={{ width: '100%', height: 'auto', display: 'block', background: '#e5e7eb' }}>
+                <source src={ASSET_PATHS.VIDEO_TRANSFORMING} type="video/mp4" />
+              </video>
+            </div>
 
             <div className="grid-2" style={{ gap: '20px' }}>
               <div>
