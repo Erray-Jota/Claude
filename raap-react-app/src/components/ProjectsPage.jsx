@@ -20,7 +20,6 @@ const ProjectCard = ({ project, onOpen, onEdit, onDuplicate, onDelete }) => {
         border: '1px solid #e5e7eb',
         borderRadius: '12px',
         overflow: 'hidden',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
         cursor: 'pointer',
         transition: 'all 0.3s ease',
         transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',

@@ -3,6 +3,7 @@ import { useProject } from '../../contexts/ProjectContext';
 import { useCalculations, formatCurrency, formatMega } from '../../hooks/useCalculations';
 import { MASTER_DIVISIONS } from '../../data/constants';
 import { calculateDivisionCosts, LOCATION_FACTORS as COST_LOCATION_FACTORS, compareScenarios } from '../../engines/costEngine';
+import LocationInput from '../LocationInput';
 
 const CostAnalysisTab = () => {
   const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
@@ -355,30 +356,30 @@ const CostAnalysisTab = () => {
 
               {/* RIGHT SIDE */}
               <div>
-                {/* Site & Factory Location (side by side, NO location factors) */}
+                {/* Site & Factory Location (side by side, NO location factors displayed) */}
                 <div className="grid-2" style={{ gap: '8px', marginBottom: '12px' }}>
-                  <div className="form-group">
-                    <label className="form-label">Site Location</label>
-                    <select className="form-select" value={projectData.propertyLocation || 'Boise, ID'} onChange={(e) => {
-                      const location = e.target.value;
-                      updateProjectData({ propertyLocation: location, propertyFactor: COST_LOCATION_FACTORS[location] || 0.87 });
-                    }}>
-                      {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                        <option key={loc} value={loc}>{loc}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Factory Location</label>
-                    <select className="form-select" value={projectData.factoryLocation || 'Boise, ID'} onChange={(e) => {
-                      const location = e.target.value;
-                      updateProjectData({ factoryLocation: location, factoryFactor: COST_LOCATION_FACTORS[location] || 0.87 });
-                    }}>
-                      {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                        <option key={loc} value={loc}>{loc}</option>
-                      ))}
-                    </select>
-                  </div>
+                  <LocationInput
+                    label="Site Location"
+                    value={projectData.propertyLocation || 'Boise, ID'}
+                    placeholder="Enter city or zip code"
+                    onChange={(locationData) => {
+                      updateProjectData({
+                        propertyLocation: locationData.displayLocation,
+                        propertyFactor: locationData.factor
+                      });
+                    }}
+                  />
+                  <LocationInput
+                    label="Factory Location"
+                    value={projectData.factoryLocation || 'Boise, ID'}
+                    placeholder="Enter city or zip code"
+                    onChange={(locationData) => {
+                      updateProjectData({
+                        factoryLocation: locationData.displayLocation,
+                        factoryFactor: locationData.factor
+                      });
+                    }}
+                  />
                 </div>
 
                 {/* Prevailing Wages & ADA Compliance (side by side) */}
@@ -616,17 +617,17 @@ const CostAnalysisTab = () => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Location</label>
-                  <select
-                    className="form-select"
+                  <LocationInput
+                    label="Location"
                     value={(scenarioA.entityType === 'siteBuild' || scenarioA.entityType === 'modularGC') ? projectData.propertyLocation : scenarioA.factoryLocation}
-                    onChange={(e) => setScenarioA({...scenarioA, factoryLocation: e.target.value})}
-                    disabled={scenarioA.entityType === 'siteBuild' || scenarioA.entityType === 'modularGC'}
-                  >
-                    {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
+                    placeholder="Enter city or zip code"
+                    onChange={(locationData) => {
+                      setScenarioA({
+                        ...scenarioA,
+                        factoryLocation: locationData.displayLocation
+                      });
+                    }}
+                  />
                 </div>
 
                 <div className="form-group">
@@ -675,17 +676,17 @@ const CostAnalysisTab = () => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Location</label>
-                  <select
-                    className="form-select"
+                  <LocationInput
+                    label="Location"
                     value={(scenarioB.entityType === 'siteBuild' || scenarioB.entityType === 'modularGC') ? projectData.propertyLocation : scenarioB.factoryLocation}
-                    onChange={(e) => setScenarioB({...scenarioB, factoryLocation: e.target.value})}
-                    disabled={scenarioB.entityType === 'siteBuild' || scenarioB.entityType === 'modularGC'}
-                  >
-                    {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                      <option key={loc} value={loc}>{loc}</option>
-                    ))}
-                  </select>
+                    placeholder="Enter city or zip code"
+                    onChange={(locationData) => {
+                      setScenarioB({
+                        ...scenarioB,
+                        factoryLocation: locationData.displayLocation
+                      });
+                    }}
+                  />
                 </div>
 
                 <div className="form-group">

@@ -18,8 +18,10 @@ const createDefaultProject = (name = 'New Project') => ({
   lobbyType: 2,
   podiumCount: 0,
   commonAreaPct: 5,
+  // User-entered locations (for display only)
   propertyLocation: 'Boise, ID',
   factoryLocation: 'Boise, ID',
+  // Calculated cost factors (based on nearest RaaP city)
   propertyFactor: 0.87,
   factoryFactor: 0.87,
   targets: { studio: 40, oneBed: 40, twoBed: 40, threeBed: 0 },
