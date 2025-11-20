@@ -11,6 +11,7 @@ const CostAnalysisTab = () => {
   // Cost-specific state
   const [inputsCollapsed, setInputsCollapsed] = useState(false);
   const [outputsCollapsed, setOutputsCollapsed] = useState(false);
+  const [collapsedGroups, setCollapsedGroups] = useState({});
 
   // Cost adjustments state
   const [costAdjustments, setCostAdjustments] = useState({
@@ -44,6 +45,10 @@ const CostAnalysisTab = () => {
 
   // Assembly explorer state
   const [assemblySearch, setAssemblySearch] = useState('');
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'assistant', content: 'Hello! I can help explain construction costs and assemblies. Ask me about specific assemblies, material alternatives, or construction methods.' }
+  ]);
+  const [chatInput, setChatInput] = useState('');
 
   // Calculate division costs with adjustments
   const divisionCosts = calculateDivisionCosts(
@@ -68,6 +73,48 @@ const CostAnalysisTab = () => {
 
   const groupedDivisions = groupDivisions(divisionCosts.divisions);
 
+  // Toggle group collapse
+  const toggleGroup = (groupName) => {
+    setCollapsedGroups(prev => ({
+      ...prev,
+      [groupName]: !prev[groupName]
+    }));
+  };
+
+  // Handle chat message send
+  const handleSendMessage = () => {
+    if (!chatInput.trim()) return;
+
+    // Add user message
+    const userMessage = { role: 'user', content: chatInput };
+    setChatMessages(prev => [...prev, userMessage]);
+
+    // Simulate AI response (in production, this would call an AI API)
+    setTimeout(() => {
+      let response = '';
+      const query = chatInput.toLowerCase();
+
+      if (query.includes('foundation') || query.includes('b2010')) {
+        response = "For foundations, assembly B2010-201 (Basement Floor Slab, 4\" Concrete) is commonly used. The modular cost is $4.20/SF vs $6.75/SF for site-built, providing significant savings. The difference comes from controlled factory pours with better quality control.";
+      } else if (query.includes('wall') || query.includes('exterior') || query.includes('b1010')) {
+        response = "Assembly B1010-105 (Wood Frame Exterior Wall, 2x6 @ 16\" OC, R-21) costs $22.30/SF modular vs $18.50/SF site-built. The premium is due to pre-insulation, integrated moisture barriers, and factory QC. Consider value-engineering with different stud spacing or insulation type.";
+      } else if (query.includes('electrical') || query.includes('d5010')) {
+        response = "Electrical Service (D5010-240, 400A 3-Phase) shows modular savings: $11,800 vs $12,500 site-built. Factory pre-wiring and tested panels reduce field labor and rework.";
+      } else if (query.includes('alternative') || query.includes('substitute')) {
+        response = "To find alternatives, I'd recommend: 1) Check similar assemblies within the same division, 2) Consider different framing spacings (16\" vs 24\" OC), 3) Evaluate insulation types (fiberglass vs spray foam), 4) Review labor vs material trade-offs based on your location factor.";
+      } else if (query.includes('saving') || query.includes('save money')) {
+        response = "Top cost-saving strategies: 1) Maximize modular for MEP systems (pre-fabricated = less field labor), 2) Use modular bathroom pods (huge labor savings), 3) Site-built foundations remain cost-effective, 4) Consider panelized vs fully modular for walls based on your GC capabilities.";
+      } else {
+        response = `I can help with questions about assemblies, costs, and construction methods. Try asking about specific assembly codes (like "Tell me about B1010-105"), cost-saving strategies, or material alternatives.`;
+      }
+
+      const assistantMessage = { role: 'assistant', content: response };
+      setChatMessages(prev => [...prev, assistantMessage]);
+    }, 800);
+
+    setChatInput('');
+  };
+
   return (
     <div>
       {/* Headline */}
@@ -84,13 +131,13 @@ const CostAnalysisTab = () => {
       <div className="subtab-container">
         <div className="subtab-nav">
           <button onClick={() => switchSubtab('cost', 1)} className={`subtab-btn ${activeSubtabs.cost === 1 ? 'active-subtab' : ''}`}>
-            📊 Summary & MasterFormat
+            📊 Summary
           </button>
           <button onClick={() => switchSubtab('cost', 2)} className={`subtab-btn ${activeSubtabs.cost === 2 ? 'active-subtab' : ''}`}>
-            🔀 Scenario Comparison
+            🔀 Scenarios
           </button>
           <button onClick={() => switchSubtab('cost', 3)} className={`subtab-btn ${activeSubtabs.cost === 3 ? 'active-subtab' : ''}`}>
-            🔍 Assembly Explorer
+            🔍 Assemblies
           </button>
         </div>
       </div>
@@ -370,57 +417,68 @@ const CostAnalysisTab = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.entries(groupedDivisions).map(([groupName, divisions]) => (
-                      <>
-                        {/* Group Header */}
-                        <tr key={`group-${groupName}`} style={{ background: '#e5e7eb', borderTop: '2px solid #9ca3af' }}>
-                          <td colSpan="5" style={{ padding: '8px', fontWeight: 700, fontSize: '13px', color: '#374151' }}>
-                            {groupName}
-                          </td>
-                        </tr>
+                    {Object.entries(groupedDivisions).map(([groupName, divisions]) => {
+                      const groupSiteCost = divisions.reduce((sum, d) => sum + d.siteCost, 0);
+                      const groupGCCost = divisions.reduce((sum, d) => sum + d.gcCost, 0);
+                      const groupFabCost = divisions.reduce((sum, d) => sum + d.fabCost, 0);
+                      const groupModularTotal = divisions.reduce((sum, d) => sum + d.modularTotal, 0);
+                      const isCollapsed = collapsedGroups[groupName];
 
-                        {/* Division Rows */}
-                        {divisions.map((div, i) => (
-                          <tr key={`${groupName}-${i}`} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                            <td style={{ padding: '8px', paddingLeft: '20px' }}>
-                              <span style={{ fontWeight: 600, color: '#6b7280', marginRight: '6px' }}>{div.code}</span>
-                              {div.name}
+                      return (
+                        <>
+                          {/* Group Header with Subtotals */}
+                          <tr
+                            key={`group-${groupName}`}
+                            style={{
+                              background: '#e5e7eb',
+                              borderTop: '2px solid #9ca3af',
+                              cursor: 'pointer',
+                              userSelect: 'none'
+                            }}
+                            onClick={() => toggleGroup(groupName)}
+                          >
+                            <td style={{ padding: '10px', fontWeight: 700, fontSize: '14px', color: '#111827' }}>
+                              <span style={{ marginRight: '8px' }}>{isCollapsed ? '▶' : '▼'}</span>
+                              {groupName}
                             </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#DC2626' }}>
-                              {formatCurrency(div.siteCost)}
+                            <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>
+                              {formatCurrency(groupSiteCost)}
                             </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#2563eb' }}>
-                              {formatCurrency(div.gcCost)}
+                            <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>
+                              {formatCurrency(groupGCCost)}
                             </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#16a34a' }}>
-                              {formatCurrency(div.fabCost)}
+                            <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>
+                              {formatCurrency(groupFabCost)}
                             </td>
-                            <td style={{ padding: '8px', textAlign: 'right', fontWeight: 600 }}>
-                              {formatCurrency(div.modularTotal)}
+                            <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#111827' }}>
+                              {formatCurrency(groupModularTotal)}
                             </td>
                           </tr>
-                        ))}
 
-                        {/* Group Subtotal */}
-                        <tr key={`subtotal-${groupName}`} style={{ background: '#f9fafb', borderBottom: '1px solid #d1d5db' }}>
-                          <td style={{ padding: '8px', paddingLeft: '20px', fontWeight: 600, fontStyle: 'italic', color: '#374151' }}>
-                            {groupName} Subtotal
-                          </td>
-                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>
-                            {formatCurrency(divisions.reduce((sum, d) => sum + d.siteCost, 0))}
-                          </td>
-                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>
-                            {formatCurrency(divisions.reduce((sum, d) => sum + d.gcCost, 0))}
-                          </td>
-                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>
-                            {formatCurrency(divisions.reduce((sum, d) => sum + d.fabCost, 0))}
-                          </td>
-                          <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>
-                            {formatCurrency(divisions.reduce((sum, d) => sum + d.modularTotal, 0))}
-                          </td>
-                        </tr>
-                      </>
-                    ))}
+                          {/* Division Rows (only show if not collapsed) */}
+                          {!isCollapsed && divisions.map((div, i) => (
+                            <tr key={`${groupName}-${i}`} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                              <td style={{ padding: '8px', paddingLeft: '32px' }}>
+                                <span style={{ fontWeight: 600, color: '#6b7280', marginRight: '6px' }}>{div.code}</span>
+                                {div.name}
+                              </td>
+                              <td style={{ padding: '8px', textAlign: 'right', color: '#DC2626' }}>
+                                {formatCurrency(div.siteCost)}
+                              </td>
+                              <td style={{ padding: '8px', textAlign: 'right', color: '#2563eb' }}>
+                                {formatCurrency(div.gcCost)}
+                              </td>
+                              <td style={{ padding: '8px', textAlign: 'right', color: '#16a34a' }}>
+                                {formatCurrency(div.fabCost)}
+                              </td>
+                              <td style={{ padding: '8px', textAlign: 'right', fontWeight: 600 }}>
+                                {formatCurrency(div.modularTotal)}
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      );
+                    })}
 
                     {/* TOTAL ROW */}
                     <tr style={{ background: '#374151', color: 'white', borderTop: '3px solid #111827' }}>
@@ -641,19 +699,74 @@ const CostAnalysisTab = () => {
             </div>
           </div>
 
-          {/* Chat Function Placeholder */}
-          <div style={{ marginTop: '16px', padding: '16px', background: '#f0f9ff', borderRadius: '8px', border: '1px solid #7dd3fc' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0369a1', marginBottom: '8px' }}>💬 Assembly Chat (Coming Soon)</h3>
-            <p style={{ fontSize: '13px', color: '#374151' }}>
-              Ask questions about specific assemblies, get recommendations for substitutions, and explore cost-saving alternatives.
-            </p>
-            <textarea
-              className="form-input"
-              rows="3"
-              placeholder="Example: 'What's a cost-effective alternative to B1010-105 for exterior walls?'"
-              style={{ marginTop: '8px', resize: 'none' }}
-              disabled
-            />
+          {/* Interactive Chat Interface */}
+          <div style={{ marginTop: '16px', background: '#ffffff', borderRadius: '8px', border: '2px solid #7dd3fc', overflow: 'hidden' }}>
+            <div style={{ padding: '12px', background: '#0369a1', color: 'white' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>💬 Ask About Costs</h3>
+              <p style={{ fontSize: '12px', margin: '4px 0 0 0', opacity: 0.9 }}>
+                Get detailed explanations about construction costs and assemblies using natural language
+              </p>
+            </div>
+
+            {/* Chat Messages */}
+            <div style={{
+              padding: '16px',
+              maxHeight: '400px',
+              overflowY: 'auto',
+              background: '#f9fafb',
+              minHeight: '300px'
+            }}>
+              {chatMessages.map((msg, i) => (
+                <div key={i} style={{
+                  marginBottom: '12px',
+                  display: 'flex',
+                  justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start'
+                }}>
+                  <div style={{
+                    maxWidth: '80%',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    background: msg.role === 'user' ? '#0369a1' : '#ffffff',
+                    color: msg.role === 'user' ? '#ffffff' : '#111827',
+                    border: msg.role === 'assistant' ? '1px solid #e5e7eb' : 'none',
+                    fontSize: '14px',
+                    lineHeight: '1.5'
+                  }}>
+                    {msg.role === 'assistant' && (
+                      <div style={{ fontWeight: 600, color: '#0369a1', marginBottom: '4px', fontSize: '12px' }}>
+                        🤖 Assistant
+                      </div>
+                    )}
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Chat Input */}
+            <div style={{ padding: '12px', background: '#ffffff', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="Ask about assemblies, costs, alternatives..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  style={{ flex: 1, margin: 0 }}
+                />
+                <button
+                  className="btn btn-primary"
+                  onClick={handleSendMessage}
+                  style={{ padding: '8px 20px', margin: 0 }}
+                >
+                  Send
+                </button>
+              </div>
+              <div style={{ marginTop: '8px', fontSize: '11px', color: '#6b7280' }}>
+                <strong>Quick questions to try:</strong> "Tell me about foundation costs" • "What are cost-effective wall alternatives?" • "How can I save money on this project?"
+              </div>
+            </div>
           </div>
         </div>
       )}
