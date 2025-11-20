@@ -201,36 +201,40 @@ const CostAnalysisTab = () => {
             </div>
           </div>
 
-          {/* 2ND SUMMARY METRICS BOX */}
-          <div style={{ background: 'white', padding: '12px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: '12px', border: '1px solid #e5e7eb' }}>
-            <div className="grid-4" style={{ gap: '12px' }}>
-              {/* Unit Mix 4 Boxes */}
-              {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
-                const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
-                const actual = calculations.optimized[key];
-                return (
-                  <div key={key} style={{ textAlign: 'center', padding: '10px', background: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb' }}>
-                    <div style={{ fontSize: '11px', color: '#6b7280', fontWeight: 600, marginBottom: '2px' }}>{label}</div>
-                    <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{actual}</div>
-                  </div>
-                );
-              })}
+          {/* CONSOLIDATED SUMMARY METRICS BOX */}
+          <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: '12px', border: '1px solid #e5e7eb' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>📋 Project Summary</h3>
+
+            {/* Unit Mix Row */}
+            <div style={{ marginBottom: '12px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', marginBottom: '6px' }}>Unit Mix</div>
+              <div className="grid-4" style={{ gap: '8px' }}>
+                {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                  const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                  const actual = calculations.optimized[key];
+                  return (
+                    <div key={key} style={{ textAlign: 'center', padding: '8px', background: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb' }}>
+                      <div style={{ fontSize: '10px', color: '#6b7280', fontWeight: 600, marginBottom: '2px' }}>{label}</div>
+                      <div style={{ fontSize: '18px', fontWeight: 700, color: '#111827' }}>{actual}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="grid-3" style={{ gap: '12px', marginTop: '12px' }}>
-              {/* Building Length */}
+
+            {/* Bottom Row: Building Length, # Floors, Total GSF */}
+            <div className="grid-3" style={{ gap: '12px' }}>
               <div style={{ textAlign: 'center', padding: '10px', background: '#eff6ff', borderRadius: '6px', border: '1px solid #93c5fd' }}>
                 <div style={{ fontSize: '11px', color: '#1e40af', fontWeight: 600, marginBottom: '2px' }}>Building Length</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
               </div>
-              {/* # Floors */}
               <div style={{ textAlign: 'center', padding: '10px', background: '#fef3c7', borderRadius: '6px', border: '1px solid #fde047' }}>
                 <div style={{ fontSize: '11px', color: '#854d0e', fontWeight: 600, marginBottom: '2px' }}># Floors</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
               </div>
-              {/* Total GSF */}
               <div style={{ textAlign: 'center', padding: '10px', background: '#f0fdf4', borderRadius: '6px', border: '1px solid #86efac' }}>
                 <div style={{ fontSize: '11px', color: '#15803D', fontWeight: 600, marginBottom: '2px' }}>Total GSF</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{Math.round(calculations.totalGSF).toLocaleString()}</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{Math.round(calculations.totalGSF).toLocaleString()}</div>
               </div>
             </div>
           </div>
@@ -256,7 +260,17 @@ const CostAnalysisTab = () => {
 
                 {/* Building Length Slider */}
                 <div className="form-group">
-                  <label className="form-label">Building Length: {projectData.targetLength} ft</label>
+                  <label className="form-label">
+                    Building Length: {projectData.targetLength} ft
+                    <span style={{
+                      marginLeft: '8px',
+                      fontSize: '11px',
+                      color: projectData.targetLength >= calculations.requiredLength ? '#16a34a' : '#dc2626',
+                      fontWeight: 600
+                    }}>
+                      {projectData.targetLength >= calculations.requiredLength ? '✓ Adequate' : '⚠ Too Short'}
+                    </span>
+                  </label>
                   <input
                     type="range"
                     min="100"
@@ -264,10 +278,14 @@ const CostAnalysisTab = () => {
                     step="10"
                     value={projectData.targetLength}
                     onChange={(e) => updateProjectData({ targetLength: parseInt(e.target.value) })}
-                    style={{ width: '100%' }}
+                    style={{
+                      width: '100%',
+                      accentColor: projectData.targetLength >= calculations.requiredLength ? '#16a34a' : '#dc2626'
+                    }}
                   />
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
                     <span>100 ft</span>
+                    <span>Required: {calculations.requiredLength.toFixed(1)} ft</span>
                     <span>500 ft</span>
                   </div>
                 </div>
@@ -323,6 +341,15 @@ const CostAnalysisTab = () => {
                       );
                     })}
                   </div>
+
+                  {/* Save Project Button */}
+                  <button
+                    className="btn btn-success"
+                    style={{ width: '100%', marginTop: '12px', padding: '10px', fontSize: '14px', fontWeight: 700 }}
+                    onClick={() => alert('Project saved successfully!')}
+                  >
+                    💾 Save Project
+                  </button>
                 </div>
               </div>
 
@@ -556,16 +583,6 @@ const CostAnalysisTab = () => {
                         {formatMega(divisionCosts.totals.modularTotal)}
                       </td>
                     </tr>
-
-                    {/* SAVINGS ROW */}
-                    <tr style={{ background: divisionCosts.totals.savings > 0 ? '#f0fdf4' : '#fef2f2', border: `2px solid ${divisionCosts.totals.savings > 0 ? '#86efac' : '#fca5a5'}` }}>
-                      <td style={{ padding: '12px', fontWeight: 700, fontSize: '16px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
-                        {divisionCosts.totals.savings > 0 ? '✅ SAVINGS' : '⚠️ PREMIUM'}
-                      </td>
-                      <td colSpan="4" style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '18px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
-                        {formatMega(divisionCosts.totals.savings)} ({divisionCosts.totals.savingsPercent.toFixed(1)}%)
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -576,229 +593,268 @@ const CostAnalysisTab = () => {
 
       {/* SCENARIO COMPARISON SUB TAB */}
       {activeSubtabs.cost === 2 && (
-        <div className="card">
-          <h2>🔀 Scenario Comparison</h2>
-          <p className="small-text" style={{ marginBottom: '12px' }}>
-            Compare different scenarios to understand cost sensitivity to location, mix, and other factors
-          </p>
-
-          <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
-            {/* Scenario A Inputs */}
-            <div style={{ background: '#eff6ff', padding: '12px', borderRadius: '6px', border: '1px solid #93c5fd' }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1e40af', marginBottom: '8px' }}>Scenario A</h3>
-              <div className="form-group">
-                <label className="form-label">Scenario Name</label>
-                <input type="text" className="form-input" value={scenarioA.name} onChange={(e) => setScenarioA({...scenarioA, name: e.target.value})} />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Entity Type</label>
-                <select className="form-select" value={scenarioA.entityType} onChange={(e) => setScenarioA({...scenarioA, entityType: e.target.value})}>
-                  <option value="siteBuild">Site GC</option>
-                  <option value="modularGC">Modular GC</option>
-                  <option value="fabricator">Fabricator</option>
-                  <option value="totalModular">Total Modular</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Property Location</label>
-                <select className="form-select" value={scenarioA.propertyLocation} onChange={(e) => setScenarioA({...scenarioA, propertyLocation: e.target.value})}>
-                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Factory Location</label>
-                <select className="form-select" value={scenarioA.factoryLocation} onChange={(e) => setScenarioA({...scenarioA, factoryLocation: e.target.value})}>
-                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Floors</label>
-                <input type="number" className="form-input" value={scenarioA.floors} min="1" max="20" onChange={(e) => setScenarioA({...scenarioA, floors: parseInt(e.target.value)})} />
-              </div>
-            </div>
-
-            {/* Scenario B Inputs */}
-            <div style={{ background: '#f0fdf4', padding: '12px', borderRadius: '6px', border: '1px solid #86efac' }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#15803D', marginBottom: '8px' }}>Scenario B</h3>
-              <div className="form-group">
-                <label className="form-label">Scenario Name</label>
-                <input type="text" className="form-input" value={scenarioB.name} onChange={(e) => setScenarioB({...scenarioB, name: e.target.value})} />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Entity Type</label>
-                <select className="form-select" value={scenarioB.entityType} onChange={(e) => setScenarioB({...scenarioB, entityType: e.target.value})}>
-                  <option value="siteBuild">Site GC</option>
-                  <option value="modularGC">Modular GC</option>
-                  <option value="fabricator">Fabricator</option>
-                  <option value="totalModular">Total Modular</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Property Location</label>
-                <select className="form-select" value={scenarioB.propertyLocation} onChange={(e) => setScenarioB({...scenarioB, propertyLocation: e.target.value})}>
-                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Factory Location</label>
-                <select className="form-select" value={scenarioB.factoryLocation} onChange={(e) => setScenarioB({...scenarioB, factoryLocation: e.target.value})}>
-                  {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                    <option key={loc} value={loc}>{loc}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Floors</label>
-                <input type="number" className="form-input" value={scenarioB.floors} min="1" max="20" onChange={(e) => setScenarioB({...scenarioB, floors: parseInt(e.target.value)})} />
-              </div>
-            </div>
-          </div>
-
-          {/* Results Summary */}
-          <div style={{ marginTop: '16px', padding: '16px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>📈 Comparison Results</h3>
-            <div className="grid-3" style={{ gap: '12px', textAlign: 'center' }}>
-              <div style={{ padding: '12px', background: '#eff6ff', borderRadius: '6px', border: '1px solid #93c5fd' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '4px' }}>Scenario A</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>
-                  {formatMega(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
-                </div>
-              </div>
-              <div style={{ padding: '12px', background: 'white', borderRadius: '6px', border: '2px solid #f59e0b', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#ea580c', marginBottom: '4px' }}>Difference</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#f59e0b' }}>
-                  Calculate
-                </div>
-              </div>
-              <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '6px', border: '1px solid #86efac' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '4px' }}>Scenario B</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>
-                  {formatMega(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
-                </div>
-              </div>
-            </div>
-
-            <p className="small-text" style={{ marginTop: '12px', textAlign: 'center', color: '#6b7280', fontStyle: 'italic' }}>
-              Full scenario comparison coming soon with detailed breakdown by division
-            </p>
-          </div>
-
-          {/* DIVISION BREAKDOWN (same as Summary tab) */}
-          <div className="card" style={{ marginTop: '12px' }}>
-            <h2>📊 Cost Breakdown by Division (MasterFormat)</h2>
+        <div>
+          <div className="card">
+            <h2>🔀 Scenario Comparison</h2>
             <p className="small-text" style={{ marginBottom: '12px' }}>
-              Click on any group to expand/collapse division details
+              Compare different scenarios to understand cost sensitivity to location, mix, and other factors
             </p>
 
-            <div style={{ marginTop: '12px', overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
-                <thead>
-                  <tr style={{ background: '#f3f4f6', borderBottom: '2px solid #d1d5db' }}>
-                    <th style={{ padding: '10px', textAlign: 'left', fontWeight: 700 }}>Division</th>
-                    <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>Site Built</th>
-                    <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>Modular GC</th>
-                    <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>Fabricator</th>
-                    <th style={{ padding: '10px', textAlign: 'right', fontWeight: 700 }}>Total Modular</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(groupedDivisions).map(([groupName, divisions]) => {
-                    const groupSiteCost = divisions.reduce((sum, d) => sum + d.siteCost, 0);
-                    const groupGCCost = divisions.reduce((sum, d) => sum + d.gcCost, 0);
-                    const groupFabCost = divisions.reduce((sum, d) => sum + d.fabCost, 0);
-                    const groupModularTotal = divisions.reduce((sum, d) => sum + d.modularTotal, 0);
-                    const isCollapsed = collapsedGroups[groupName];
+            <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
+              {/* Scenario A Inputs */}
+              <div style={{ background: '#eff6ff', padding: '12px', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1e40af', marginBottom: '8px' }}>Scenario A</h3>
 
-                    return (
-                      <>
-                        {/* Group Header with Subtotals */}
-                        <tr
-                          key={`group-${groupName}`}
-                          style={{
-                            background: '#e5e7eb',
-                            borderTop: '2px solid #9ca3af',
-                            cursor: 'pointer',
-                            userSelect: 'none'
-                          }}
-                          onClick={() => toggleGroup(groupName)}
-                        >
-                          <td style={{ padding: '10px', fontWeight: 700, fontSize: '14px', color: '#111827' }}>
-                            <span style={{ marginRight: '8px' }}>{isCollapsed ? '▶' : '▼'}</span>
-                            {groupName}
-                          </td>
-                          <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#DC2626' }}>
-                            {formatCurrency(groupSiteCost)}
-                          </td>
-                          <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#2563eb' }}>
-                            {formatCurrency(groupGCCost)}
-                          </td>
-                          <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#16a34a' }}>
-                            {formatCurrency(groupFabCost)}
-                          </td>
-                          <td style={{ padding: '10px', textAlign: 'right', fontWeight: 700, color: '#111827' }}>
-                            {formatCurrency(groupModularTotal)}
-                          </td>
+                <div className="form-group">
+                  <label className="form-label">Entity Type</label>
+                  <select className="form-select" value={scenarioA.entityType} onChange={(e) => setScenarioA({...scenarioA, entityType: e.target.value})}>
+                    <option value="siteBuild">Site GC</option>
+                    <option value="modularGC">Modular GC</option>
+                    <option value="fabricator">Fabricator</option>
+                    <option value="totalModular">Total Modular</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Location</label>
+                  <select
+                    className="form-select"
+                    value={(scenarioA.entityType === 'siteBuild' || scenarioA.entityType === 'modularGC') ? projectData.propertyLocation : scenarioA.factoryLocation}
+                    onChange={(e) => setScenarioA({...scenarioA, factoryLocation: e.target.value})}
+                    disabled={scenarioA.entityType === 'siteBuild' || scenarioA.entityType === 'modularGC'}
+                  >
+                    {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Floors</label>
+                  <select className="form-select" value={scenarioA.floors} onChange={(e) => setScenarioA({...scenarioA, floors: parseInt(e.target.value)})}>
+                    {[2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                </div>
+
+                {/* Target Unit Mix */}
+                <div>
+                  <label className="form-label">Target Unit Mix</label>
+                  <div className="grid-4" style={{ gap: '6px' }}>
+                    {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                      const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                      return (
+                        <div key={key} className="form-group" style={{ marginBottom: 0 }}>
+                          <label className="form-label" style={{ fontSize: '10px' }}>{label}</label>
+                          <input
+                            type="number"
+                            className="form-input"
+                            value={projectData.targets[key]}
+                            min="0"
+                            style={{ padding: '4px', textAlign: 'center', fontWeight: 600, fontSize: '12px' }}
+                            readOnly
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Scenario B Inputs */}
+              <div style={{ background: '#f0fdf4', padding: '12px', borderRadius: '6px', border: '1px solid #86efac' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#15803D', marginBottom: '8px' }}>Scenario B</h3>
+
+                <div className="form-group">
+                  <label className="form-label">Entity Type</label>
+                  <select className="form-select" value={scenarioB.entityType} onChange={(e) => setScenarioB({...scenarioB, entityType: e.target.value})}>
+                    <option value="siteBuild">Site GC</option>
+                    <option value="modularGC">Modular GC</option>
+                    <option value="fabricator">Fabricator</option>
+                    <option value="totalModular">Total Modular</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Location</label>
+                  <select
+                    className="form-select"
+                    value={(scenarioB.entityType === 'siteBuild' || scenarioB.entityType === 'modularGC') ? projectData.propertyLocation : scenarioB.factoryLocation}
+                    onChange={(e) => setScenarioB({...scenarioB, factoryLocation: e.target.value})}
+                    disabled={scenarioB.entityType === 'siteBuild' || scenarioB.entityType === 'modularGC'}
+                  >
+                    {Object.keys(COST_LOCATION_FACTORS).map(loc => (
+                      <option key={loc} value={loc}>{loc}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Floors</label>
+                  <select className="form-select" value={scenarioB.floors} onChange={(e) => setScenarioB({...scenarioB, floors: parseInt(e.target.value)})}>
+                    {[2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                </div>
+
+                {/* Target Unit Mix */}
+                <div>
+                  <label className="form-label">Target Unit Mix</label>
+                  <div className="grid-4" style={{ gap: '6px' }}>
+                    {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                      const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                      return (
+                        <div key={key} className="form-group" style={{ marginBottom: 0 }}>
+                          <label className="form-label" style={{ fontSize: '10px' }}>{label}</label>
+                          <input
+                            type="number"
+                            className="form-input"
+                            value={projectData.targets[key]}
+                            min="0"
+                            style={{ padding: '4px', textAlign: 'center', fontWeight: 600, fontSize: '12px' }}
+                            readOnly
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Results Summary */}
+            <div style={{ marginTop: '16px', padding: '16px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>📈 Comparison Results</h3>
+
+              <div className="grid-2" style={{ gap: '16px' }}>
+                {/* Scenario A Results */}
+                <div style={{ padding: '12px', background: '#eff6ff', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+                  <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#1e40af', marginBottom: '10px', textAlign: 'center' }}>Scenario A</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #dbeafe' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Total Cost</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        {formatMega(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #dbeafe' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Cost/SF</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        {formatCurrency(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'] / calculations.totalGSF)}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Cost/Unit</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        ${Math.round(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'] / calculations.totalOptimized / 1000)}K
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Scenario B Results */}
+                <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '6px', border: '1px solid #86efac' }}>
+                  <h4 style={{ fontSize: '13px', fontWeight: 600, color: '#15803D', marginBottom: '10px', textAlign: 'center' }}>Scenario B</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #d1fae5' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Total Cost</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        {formatMega(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #d1fae5' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Cost/SF</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        {formatCurrency(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'] / calculations.totalGSF)}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0' }}>
+                      <span style={{ fontSize: '13px', color: '#6b7280' }}>Cost/Unit</span>
+                      <span style={{ fontSize: '15px', fontWeight: 700, color: '#111827' }}>
+                        ${Math.round(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'] / calculations.totalOptimized / 1000)}K
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* DIVISION BREAKDOWN - Side by Side Comparison */}
+          <div className="card" style={{ marginTop: '12px' }}>
+            <h2>📊 Cost Breakdown by Division</h2>
+            <p className="small-text" style={{ marginBottom: '12px' }}>
+              Division-level cost comparison between scenarios
+            </p>
+
+            <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
+              {/* Scenario A Division Breakdown */}
+              <div style={{ background: '#eff6ff', padding: '12px', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+                <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#1e40af', marginBottom: '10px', textAlign: 'center' }}>Scenario A</h4>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '2px solid #dbeafe' }}>
+                      <th style={{ padding: '8px', textAlign: 'left', fontWeight: 700 }}>Division</th>
+                      <th style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>Cost</th>
+                      <th style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>% Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(groupedDivisions).map(([groupName, divisions]) => {
+                      const costKey = scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal';
+                      const groupCost = divisions.reduce((sum, d) => sum + d[costKey], 0);
+                      const totalCost = divisionCosts.totals[costKey];
+                      const pct = (groupCost / totalCost * 100).toFixed(1);
+
+                      return (
+                        <tr key={`scenario-a-${groupName}`} style={{ borderBottom: '1px solid #dbeafe' }}>
+                          <td style={{ padding: '6px', fontWeight: 600 }}>{groupName}</td>
+                          <td style={{ padding: '6px', textAlign: 'right' }}>{formatCurrency(groupCost)}</td>
+                          <td style={{ padding: '6px', textAlign: 'right', color: '#1e40af', fontWeight: 600 }}>{pct}%</td>
                         </tr>
+                      );
+                    })}
+                    <tr style={{ background: '#dbeafe', borderTop: '2px solid #1e40af' }}>
+                      <td style={{ padding: '8px', fontWeight: 700 }}>TOTAL</td>
+                      <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>{formatMega(divisionCosts.totals[scenarioA.entityType === 'siteBuild' ? 'siteCost' : scenarioA.entityType === 'modularGC' ? 'gcCost' : scenarioA.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}</td>
+                      <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>100%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                        {/* Division Rows (only show if not collapsed) */}
-                        {!isCollapsed && divisions.map((div, i) => (
-                          <tr key={`${groupName}-${i}`} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                            <td style={{ padding: '8px', paddingLeft: '32px' }}>
-                              <span style={{ fontWeight: 600, color: '#6b7280', marginRight: '6px' }}>{div.code}</span>
-                              {div.name}
-                            </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#DC2626' }}>
-                              {formatCurrency(div.siteCost)}
-                            </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#2563eb' }}>
-                              {formatCurrency(div.gcCost)}
-                            </td>
-                            <td style={{ padding: '8px', textAlign: 'right', color: '#16a34a' }}>
-                              {formatCurrency(div.fabCost)}
-                            </td>
-                            <td style={{ padding: '8px', textAlign: 'right', fontWeight: 600 }}>
-                              {formatCurrency(div.modularTotal)}
-                            </td>
-                          </tr>
-                        ))}
-                      </>
-                    );
-                  })}
+              {/* Scenario B Division Breakdown */}
+              <div style={{ background: '#f0fdf4', padding: '12px', borderRadius: '6px', border: '1px solid #86efac' }}>
+                <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#15803D', marginBottom: '10px', textAlign: 'center' }}>Scenario B</h4>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '2px solid #d1fae5' }}>
+                      <th style={{ padding: '8px', textAlign: 'left', fontWeight: 700 }}>Division</th>
+                      <th style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>Cost</th>
+                      <th style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>% Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(groupedDivisions).map(([groupName, divisions]) => {
+                      const costKey = scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal';
+                      const groupCost = divisions.reduce((sum, d) => sum + d[costKey], 0);
+                      const totalCost = divisionCosts.totals[costKey];
+                      const pct = (groupCost / totalCost * 100).toFixed(1);
 
-                  {/* TOTAL ROW */}
-                  <tr style={{ background: '#374151', color: 'white', borderTop: '3px solid #111827' }}>
-                    <td style={{ padding: '12px', fontWeight: 700, fontSize: '16px' }}>TOTAL COST</td>
-                    <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
-                      {formatMega(divisionCosts.totals.siteCost)}
-                    </td>
-                    <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
-                      {formatMega(divisionCosts.totals.gcCost)}
-                    </td>
-                    <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
-                      {formatMega(divisionCosts.totals.fabCost)}
-                    </td>
-                    <td style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '16px' }}>
-                      {formatMega(divisionCosts.totals.modularTotal)}
-                    </td>
-                  </tr>
-
-                  {/* SAVINGS ROW */}
-                  <tr style={{ background: divisionCosts.totals.savings > 0 ? '#f0fdf4' : '#fef2f2', border: `2px solid ${divisionCosts.totals.savings > 0 ? '#86efac' : '#fca5a5'}` }}>
-                    <td style={{ padding: '12px', fontWeight: 700, fontSize: '16px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
-                      {divisionCosts.totals.savings > 0 ? '✅ SAVINGS' : '⚠️ PREMIUM'}
-                    </td>
-                    <td colSpan="4" style={{ padding: '12px', textAlign: 'right', fontWeight: 700, fontSize: '18px', color: divisionCosts.totals.savings > 0 ? '#15803D' : '#DC2626' }}>
-                      {formatMega(divisionCosts.totals.savings)} ({divisionCosts.totals.savingsPercent.toFixed(1)}%)
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      return (
+                        <tr key={`scenario-b-${groupName}`} style={{ borderBottom: '1px solid #d1fae5' }}>
+                          <td style={{ padding: '6px', fontWeight: 600 }}>{groupName}</td>
+                          <td style={{ padding: '6px', textAlign: 'right' }}>{formatCurrency(groupCost)}</td>
+                          <td style={{ padding: '6px', textAlign: 'right', color: '#15803D', fontWeight: 600 }}>{pct}%</td>
+                        </tr>
+                      );
+                    })}
+                    <tr style={{ background: '#d1fae5', borderTop: '2px solid #15803D' }}>
+                      <td style={{ padding: '8px', fontWeight: 700 }}>TOTAL</td>
+                      <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>{formatMega(divisionCosts.totals[scenarioB.entityType === 'siteBuild' ? 'siteCost' : scenarioB.entityType === 'modularGC' ? 'gcCost' : scenarioB.entityType === 'fabricator' ? 'fabCost' : 'modularTotal'])}</td>
+                      <td style={{ padding: '8px', textAlign: 'right', fontWeight: 700 }}>100%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
