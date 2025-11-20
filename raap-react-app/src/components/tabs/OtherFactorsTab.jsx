@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
-import { DUMMY_PARTNERS } from '../../data/constants';
+import { DUMMY_PARTNERS, ASSET_PATHS } from '../../data/constants';
 
 const OtherFactorsTab = () => {
   const { switchTab, activeSubtabs, switchSubtab } = useProject();
@@ -179,10 +179,18 @@ const OtherFactorsTab = () => {
 
         {/* Logistics Tab */}
         {activeSubtabs.factors === 4 && (
-          <div className="card" style={{ padding: '16px' }}>
-            <h2 style={{ fontSize: '20px', color: '#2563EB', marginBottom: '4px' }}>
-              Zero Surprises on Delivery Day.
-            </h2>
+          <div>
+            {/* Hero Video */}
+            <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
+              <video controls loop muted autoPlay style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '8px' }}>
+                <source src={ASSET_PATHS.HERO_VIDEO} type="video/mp4" />
+              </video>
+            </div>
+
+            <div className="card" style={{ padding: '16px' }}>
+              <h2 style={{ fontSize: '20px', color: '#2563EB', marginBottom: '4px' }}>
+                Zero Surprises on Delivery Day.
+              </h2>
             <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '15px' }}>
               We assess transportation, staging, and installation requirements upfront, guaranteeing minimal site constraints.
             </p>
@@ -210,6 +218,7 @@ const OtherFactorsTab = () => {
                   <li style={{ marginBottom: '4px' }}>• Final setting schedule provided.</li>
                 </ul>
               </div>
+            </div>
             </div>
           </div>
         )}

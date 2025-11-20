@@ -463,14 +463,66 @@ const DesignTab = () => {
       )}
 
       {activeSubtabs.design === 4 && (
-        <div className="card">
-          <h2>🏗️ Building Massing Options (Calculated Length: {calculations.requiredLength.toFixed(1)} ft)</h2>
-          <p className="small-text" style={{ marginBottom: '12px' }}>Based on your current required length, select a building massing option.</p>
-          <div className="grid-3" style={{ gap: '15px' }}>
-            <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '6px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              <img src={ASSET_PATHS.LAYOUT_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-              <div style={{ padding: '8px', fontWeight: 700, fontSize: '14px', color: '#16a34a' }}>
-                {projectData.floors}-Story Medium Layout (Recommended)
+        <div>
+          {/* Hero Video */}
+          <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
+            <video controls loop muted autoPlay style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '8px' }}>
+              <source src={ASSET_PATHS.TRANSFORMING_PREFAB} type="video/mp4" />
+            </video>
+          </div>
+
+          <div className="card">
+            <h2>🏗️ Building Visualization ({calculations.totalOptimized} units/floor, {projectData.floors} floors)</h2>
+            <p className="small-text" style={{ marginBottom: '12px' }}>3D rendering based on your design configuration.</p>
+
+            {/* 3D Building Image */}
+            <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', marginBottom: '16px' }}>
+              <img
+                src={(() => {
+                  const unitsPerFloor = calculations.totalOptimized;
+                  const floors = projectData.floors;
+
+                  // Determine size category based on units per floor
+                  const size = unitsPerFloor >= 25 ? 'LONG' : unitsPerFloor >= 15 ? 'MEDIUM' : 'SHORT';
+
+                  // Select image based on floors and size
+                  if (floors === 3) {
+                    return size === 'LONG' ? ASSET_PATHS.BUILDING_3_LONG :
+                           size === 'MEDIUM' ? ASSET_PATHS.BUILDING_3_MEDIUM :
+                           ASSET_PATHS.BUILDING_3_SHORT;
+                  } else if (floors === 4) {
+                    return size === 'LONG' ? ASSET_PATHS.BUILDING_4_LONG :
+                           size === 'MEDIUM' ? ASSET_PATHS.BUILDING_4_MEDIUM :
+                           ASSET_PATHS.BUILDING_4_SHORT;
+                  } else { // 5 floors
+                    return size === 'LONG' ? ASSET_PATHS.BUILDING_5_LARGE :
+                           size === 'MEDIUM' ? ASSET_PATHS.BUILDING_5_MEDIUM :
+                           ASSET_PATHS.BUILDING_5_SMALL;
+                  }
+                })()}
+                alt="Building Visualization"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+
+            {/* Floor Plan Image */}
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>
+                Typical Floor Plan
+              </h3>
+              <p className="small-text" style={{ marginBottom: '12px' }}>Floor layout showing unit arrangement.</p>
+              <div style={{ background: '#f9fafb', border: '1px solid #d1d5db', borderRadius: '8px', overflow: 'hidden' }}>
+                <img
+                  src={(() => {
+                    const unitsPerFloor = calculations.totalOptimized;
+                    // Note: inverted logic as per user specification (long.png is ~10 units, short.png is ~30 units)
+                    return unitsPerFloor >= 25 ? ASSET_PATHS.LAYOUT_SHORT :
+                           unitsPerFloor >= 15 ? ASSET_PATHS.LAYOUT_MEDIUM :
+                           ASSET_PATHS.LAYOUT_LONG;
+                  })()}
+                  alt="Floor Plan"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
               </div>
             </div>
           </div>

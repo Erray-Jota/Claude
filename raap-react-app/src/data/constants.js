@@ -63,18 +63,44 @@ export const DUMMY_PARTNERS = [
  * Asset paths for graphics and media
  */
 export const ASSET_PATHS = {
-  INTRO_GRAPHIC_URL: "https://via.placeholder.com/600x250/BCE9B3/15803D?text=RaaP+Modular+Building+Design",
-  PROJECT_GRAPHIC_URL: "https://via.placeholder.com/1200x180/15803D/ECFDF5?text=Project+Graphic+Placeholder",
-  VIDEO_3_FLOORS: "https://drive.google.com/uc?export=download&id=1oRu-PA0DFqN8pKSVygOfFk1IV99xFg2Y",
-  VIDEO_4_FLOORS: "https://drive.google.com/uc?export=download&id=1RLYh4FrAEwsDcPoMWeBWUaT9N0YRHnyp",
-  VIDEO_5_FLOORS: "https://drive.google.com/uc?export=download&id=18EZJmtQPuX7Z6_3zHbObyQQwDl59wwTd",
-  UNIT_STUDIO: "https://drive.google.com/uc?export=download&id=1kZCNTi8XrVhyJaUUAnPf6Vn0vT_6L2AR",
-  UNIT_1BR_CORNER: "https://drive.google.com/uc?export=download&id=1f6mkGJAMV__qb0hh4yUG_rl86rKLHm34",
-  UNIT_1BR_INLINE: "https://drive.google.com/uc?export=download&id=1Nm4vX_6b0Dlby3ArvWPzIUQZ_MhKLR9b",
-  UNIT_2BR_CORNER: "https://drive.google.com/uc?export=download&id=1GBwsnLoTIZrPF3D-2aSCpPMJzZIl4n5b",
-  UNIT_2BR_INLINE: "https://drive.google.com/uc?export=download&id=1XcsqjBMuK666RbMNA8Ul1kT7HgVOKErO",
-  UNIT_3BR_CORNER: "https://via.placeholder.com/300x150/9333ea/ffffff?text=3BR+Corner+Unit",
-  LAYOUT_SHORT: "https://via.placeholder.com/300x150/4ade80/064e3b?text=Short+Layout",
-  LAYOUT_MEDIUM: "https://via.placeholder.com/300x150/10b981/064e3b?text=Medium+Layout",
-  LAYOUT_LONG: "https://via.placeholder.com/300x150/059669/064e3b?text=Long+Layout",
+  // Hero Images
+  INTRO_GRAPHIC_URL: "/images/Introduction_hero.png",
+  PROJECT_GRAPHIC_URL: "/images/Project_hero.png",
+
+  // Summary Videos (by floor count)
+  VIDEO_3_FLOORS: "/images/3 Story.mp4",
+  VIDEO_4_FLOORS: "/images/4 Story.mp4",
+  VIDEO_5_FLOORS: "/images/5 Story.mp4",
+
+  // Unit Floor Plans
+  UNIT_STUDIO: "/images/STUDIO.png",
+  UNIT_1BR_CORNER: "/images/1BD Corner.png",
+  UNIT_1BR_INLINE: "/images/1 Bed inline.png",
+  UNIT_2BR_CORNER: "/images/2 Bed Corner.png",
+  UNIT_2BR_INLINE: "/images/2 Bed In Line.png",
+  UNIT_3BR_CORNER: "/images/3BD Corner.png",
+
+  // Building Floorplans (by units per floor)
+  LAYOUT_SHORT: "/images/short.png",     // ~30 units/floor
+  LAYOUT_MEDIUM: "/images/medium.png",   // ~20 units/floor
+  LAYOUT_LONG: "/images/long.png",       // ~10 units/floor
+
+  // Building 3D Images - 3 Floors
+  BUILDING_3_SHORT: "/images/3 Short-3D.png",   // ~10 units/floor
+  BUILDING_3_MEDIUM: "/images/3 Medium-3D.png", // ~20 units/floor
+  BUILDING_3_LONG: "/images/3 Long-3D.png",     // ~30 units/floor
+
+  // Building 3D Images - 4 Floors
+  BUILDING_4_SHORT: "/images/4 short-3D.png",   // ~10 units/floor
+  BUILDING_4_MEDIUM: "/images/4 medium-3D.png", // ~20 units/floor
+  BUILDING_4_LONG: "/images/4 long-3D.png",     // ~30 units/floor
+
+  // Building 3D Images - 5 Floors
+  BUILDING_5_SMALL: "/images/5_Stories_Small.png",   // ~10 units/floor
+  BUILDING_5_MEDIUM: "/images/5_Stories_Medium.png", // ~20 units/floor
+  BUILDING_5_LARGE: "/images/5_Stories_Large.png",   // ~30 units/floor
+
+  // Other Videos
+  HERO_VIDEO: "/images/Hero Video.mp4",
+  TRANSFORMING_PREFAB: "/images/Transforming Prefab.mp4",
 };

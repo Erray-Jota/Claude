@@ -33,6 +33,15 @@ const ProjectTab = () => {
       {/* Project Info Banner */}
       <ProjectInfoBanner calculations={calculations} />
 
+      {/* Hero Image */}
+      <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
+        <img
+          src="/images/Project_hero.png"
+          alt="Project Design"
+          style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '8px' }}
+        />
+      </div>
+
       {/* Main Content */}
       <div className="grid-2" style={{ gap: '12px' }}>
         {/* Building Configuration */}

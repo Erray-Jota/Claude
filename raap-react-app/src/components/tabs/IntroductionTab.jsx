@@ -16,11 +16,11 @@ const IntroductionTab = () => {
 
       {/* Hero Image Card */}
       <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
-        <div style={{ height: '14rem', background: 'linear-gradient(to bottom right, #e0f2fe, #ffffff, #fff7ed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ padding: '40px', textAlign: 'center', color: '#15803D', fontSize: '24px', fontWeight: 700 }}>
-            RaaP Modular Building Design
-          </div>
-        </div>
+        <img
+          src="/images/Introduction_hero.png"
+          alt="RaaP Modular Building Design"
+          style={{ width: '100%', height: 'auto', display: 'block', borderRadius: '8px 8px 0 0' }}
+        />
         <div style={{ background: '#15803D', color: 'white', padding: '6px', textAlign: 'center' }}>
           <p style={{ fontWeight: 600, fontSize: '12px', margin: 0 }}>
             Your project, factory-ready — before you spend months on design.
