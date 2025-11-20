@@ -146,7 +146,7 @@ const CostAnalysisTab = () => {
       {/* SUMMARY SUB TAB */}
       {activeSubtabs.cost === 1 && (
         <div>
-          {/* HERO + METRICS BOX (3-column format) */}
+          {/* COST SUMMARY BOX (3-column format) */}
           <div className="project-info-banner" style={{ marginBottom: '12px' }}>
             {/* Column 1: Site Build Cost */}
             <div className="cost-column">
@@ -201,176 +201,235 @@ const CostAnalysisTab = () => {
             </div>
           </div>
 
-          {/* INPUTS (Collapsible Panel) */}
-          <div className="card" style={{ marginBottom: '12px' }}>
-            <h2 style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={() => setInputsCollapsed(!inputsCollapsed)}>
-              <span>⚙️ Cost Inputs</span>
-              <span style={{ fontSize: '18px' }}>{inputsCollapsed ? '▶' : '▼'}</span>
-            </h2>
-
-            {!inputsCollapsed && (
-              <div className="grid-2" style={{ gap: '16px', marginTop: '12px' }}>
-                {/* LEFT: Building Inputs & Cost Drivers */}
-                <div>
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
-                    🏗️ Building (from Design & Project)
-                  </h3>
-                  <div style={{ fontSize: '14px', marginBottom: '12px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Project Name:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.projectName}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Floors:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.floors}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Building Length:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.targetLength} ft</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Lobby Type:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>
-                        {projectData.lobbyType === 1 ? 'Single-Loaded' : projectData.lobbyType === 3 ? 'Wrap' : 'Double-Loaded'}
-                      </span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Podium Count:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.podiumCount}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f3f4f6' }}>
-                      <span style={{ color: '#374151' }}>Common Area %:</span>
-                      <span style={{ fontWeight: 600, color: '#111827' }}>{projectData.commonAreaPct}%</span>
-                    </div>
+          {/* 2ND SUMMARY METRICS BOX */}
+          <div style={{ background: 'white', padding: '12px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: '12px', border: '1px solid #e5e7eb' }}>
+            <div className="grid-4" style={{ gap: '12px' }}>
+              {/* Unit Mix 4 Boxes */}
+              {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                const actual = calculations.optimized[key];
+                return (
+                  <div key={key} style={{ textAlign: 'center', padding: '10px', background: '#f9fafb', borderRadius: '6px', border: '1px solid #e5e7eb' }}>
+                    <div style={{ fontSize: '11px', color: '#6b7280', fontWeight: 600, marginBottom: '2px' }}>{label}</div>
+                    <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{actual}</div>
                   </div>
+                );
+              })}
+            </div>
+            <div className="grid-3" style={{ gap: '12px', marginTop: '12px' }}>
+              {/* Building Length */}
+              <div style={{ textAlign: 'center', padding: '10px', background: '#eff6ff', borderRadius: '6px', border: '1px solid #93c5fd' }}>
+                <div style={{ fontSize: '11px', color: '#1e40af', fontWeight: 600, marginBottom: '2px' }}>Building Length</div>
+                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
+              </div>
+              {/* # Floors */}
+              <div style={{ textAlign: 'center', padding: '10px', background: '#fef3c7', borderRadius: '6px', border: '1px solid #fde047' }}>
+                <div style={{ fontSize: '11px', color: '#854d0e', fontWeight: 600, marginBottom: '2px' }}># Floors</div>
+                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
+              </div>
+              {/* Total GSF */}
+              <div style={{ textAlign: 'center', padding: '10px', background: '#f0fdf4', borderRadius: '6px', border: '1px solid #86efac' }}>
+                <div style={{ fontSize: '11px', color: '#15803D', fontWeight: 600, marginBottom: '2px' }}>Total GSF</div>
+                <div style={{ fontSize: '22px', fontWeight: 700, color: '#111827' }}>{Math.round(calculations.totalGSF).toLocaleString()}</div>
+              </div>
+            </div>
+          </div>
 
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
-                    💰 Cost Drivers
-                  </h3>
+          {/* COST INPUTS (Redesigned) */}
+          <div className="card">
+            <h2>⚙️ Cost Inputs</h2>
+
+            <div className="grid-2" style={{ gap: '20px', marginTop: '12px' }}>
+              {/* LEFT SIDE */}
+              <div>
+                {/* Project Name */}
+                <div className="form-group">
+                  <label className="form-label">Project Name</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={projectData.projectName}
+                    onChange={(e) => updateProjectData({ projectName: e.target.value })}
+                    placeholder="Enter project name..."
+                  />
+                </div>
+
+                {/* Building Length Slider */}
+                <div className="form-group">
+                  <label className="form-label">Building Length: {projectData.targetLength} ft</label>
+                  <input
+                    type="range"
+                    min="100"
+                    max="500"
+                    step="10"
+                    value={projectData.targetLength}
+                    onChange={(e) => updateProjectData({ targetLength: parseInt(e.target.value) })}
+                    style={{ width: '100%' }}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>
+                    <span>100 ft</span>
+                    <span>500 ft</span>
+                  </div>
+                </div>
+
+                {/* 4 Horizontal Boxes: Floors, Lobby, Podium, Common Area % */}
+                <div className="grid-4" style={{ gap: '8px', marginBottom: '12px' }}>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" style={{ fontSize: '11px' }}>Floors</label>
+                    <select className="form-select" value={projectData.floors} onChange={(e) => updateProjectData({ floors: parseInt(e.target.value) })} style={{ padding: '6px' }}>
+                      {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(n => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" style={{ fontSize: '11px' }}>Lobby</label>
+                    <select className="form-select" value={projectData.lobbyType} onChange={(e) => updateProjectData({ lobbyType: parseInt(e.target.value) })} style={{ padding: '6px' }}>
+                      <option value={1}>1-Bay</option>
+                      <option value={2}>2-Bay</option>
+                      <option value={4}>4-Bay</option>
+                    </select>
+                  </div>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" style={{ fontSize: '11px' }}>Podium</label>
+                    <select className="form-select" value={projectData.podiumCount} onChange={(e) => updateProjectData({ podiumCount: parseInt(e.target.value) })} style={{ padding: '6px' }}>
+                      {[0,1,2,3].map(n => <option key={n} value={n}>{n}</option>)}
+                    </select>
+                  </div>
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" style={{ fontSize: '11px' }}>% Common</label>
+                    <input type="number" className="form-input" value={projectData.commonAreaPct} min="0" max="20" onChange={(e) => updateProjectData({ commonAreaPct: parseInt(e.target.value) })} style={{ padding: '6px' }} />
+                  </div>
+                </div>
+
+                {/* Target Unit Mix (4 Editable Boxes) */}
+                <div>
+                  <label className="form-label">Target Unit Mix</label>
+                  <div className="grid-4" style={{ gap: '8px' }}>
+                    {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
+                      const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
+                      return (
+                        <div key={key} className="form-group" style={{ marginBottom: 0 }}>
+                          <label className="form-label" style={{ fontSize: '11px' }}>{label}</label>
+                          <input
+                            type="number"
+                            className="form-input"
+                            value={projectData.targets[key]}
+                            min="0"
+                            onChange={(e) => updateProjectData({
+                              targets: { ...projectData.targets, [key]: parseInt(e.target.value) || 0 }
+                            })}
+                            style={{ padding: '6px', textAlign: 'center', fontWeight: 700 }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT SIDE */}
+              <div>
+                {/* Site & Factory Location (side by side, NO location factors) */}
+                <div className="grid-2" style={{ gap: '8px', marginBottom: '12px' }}>
                   <div className="form-group">
-                    <label className="form-label">Site Location (Property Factor: {projectData.propertyFactor})</label>
+                    <label className="form-label">Site Location</label>
                     <select className="form-select" value={projectData.propertyLocation || 'Boise, ID'} onChange={(e) => {
                       const location = e.target.value;
                       updateProjectData({ propertyLocation: location, propertyFactor: COST_LOCATION_FACTORS[location] || 0.87 });
                     }}>
                       {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                        <option key={loc} value={loc}>{loc} ({COST_LOCATION_FACTORS[loc]})</option>
+                        <option key={loc} value={loc}>{loc}</option>
                       ))}
                     </select>
                   </div>
-
                   <div className="form-group">
-                    <label className="form-label">Fabricator Location (Factory Factor: {projectData.factoryFactor})</label>
+                    <label className="form-label">Factory Location</label>
                     <select className="form-select" value={projectData.factoryLocation || 'Boise, ID'} onChange={(e) => {
                       const location = e.target.value;
                       updateProjectData({ factoryLocation: location, factoryFactor: COST_LOCATION_FACTORS[location] || 0.87 });
                     }}>
                       {Object.keys(COST_LOCATION_FACTORS).map(loc => (
-                        <option key={loc} value={loc}>{loc} ({COST_LOCATION_FACTORS[loc]})</option>
+                        <option key={loc} value={loc}>{loc}</option>
                       ))}
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Prevailing Wages</label>
-                    <select className="form-select">
-                      <option>Yes (Union rates apply)</option>
-                      <option>No (Open shop rates)</option>
                     </select>
                   </div>
                 </div>
 
-                {/* RIGHT: Unit Mix, Site Conditions, Amenities */}
-                <div>
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
-                    🏠 Unit Mix
-                  </h3>
-                  <div className="grid-4" style={{ gap: '8px', marginBottom: '12px' }}>
-                    {['Studio', '1BR', '2BR', '3BR'].map((label, i) => {
-                      const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][i];
-                      const target = projectData.targets[key];
-                      const actual = calculations.optimized[key];
-                      return (
-                        <div key={key} style={{ textAlign: 'center', padding: '8px', background: '#f9fafb', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
-                          <div style={{ fontSize: '12px', color: '#374151', fontWeight: 600 }}>{label}</div>
-                          <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>Target: {target}</div>
-                          <div style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginTop: '2px' }}>{actual}</div>
-                        </div>
-                      );
-                    })}
+                {/* Prevailing Wages & ADA Compliance (side by side) */}
+                <div className="grid-2" style={{ gap: '8px', marginBottom: '12px' }}>
+                  <div className="form-group">
+                    <label className="form-label">Prevailing Wages</label>
+                    <select className="form-select">
+                      <option>Yes (Union rates)</option>
+                      <option>No (Open shop)</option>
+                    </select>
                   </div>
-                  <div style={{ fontSize: '14px', padding: '8px', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '4px', textAlign: 'center' }}>
-                    <span style={{ fontWeight: 600, color: '#15803D' }}>Total GSF:</span>{' '}
-                    <span style={{ fontWeight: 700, color: '#111827' }}>{Math.round(calculations.totalGSF).toLocaleString()} SF</span>
+                  <div className="form-group">
+                    <label className="form-label">ADA Compliance %</label>
+                    <input type="number" className="form-input" value={costAdjustments.adaPct} min="0" max="100" onChange={(e) => setCostAdjustments({...costAdjustments, adaPct: parseInt(e.target.value)})} />
                   </div>
+                </div>
 
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginTop: '12px', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
-                    🌍 Site Conditions
-                  </h3>
-                  <div className="grid-2" style={{ gap: '8px' }}>
-                    <div className="form-group">
-                      <label className="form-label">Soil</label>
-                      <select className="form-select" value={costAdjustments.soil} onChange={(e) => setCostAdjustments({...costAdjustments, soil: e.target.value})}>
+                {/* Site Conditions (4 boxes in 2x2 grid) */}
+                <div>
+                  <label className="form-label">Site Conditions</label>
+                  <div className="grid-2" style={{ gap: '8px', marginBottom: '12px' }}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>Soil</label>
+                      <select className="form-select" value={costAdjustments.soil} onChange={(e) => setCostAdjustments({...costAdjustments, soil: e.target.value})} style={{ padding: '6px' }}>
                         <option value="good">Good</option>
                         <option value="poor">Poor</option>
                         <option value="expansive">Expansive</option>
                       </select>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">Seismic</label>
-                      <select className="form-select" value={costAdjustments.seismic} onChange={(e) => setCostAdjustments({...costAdjustments, seismic: e.target.value})}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>Seismic</label>
+                      <select className="form-select" value={costAdjustments.seismic} onChange={(e) => setCostAdjustments({...costAdjustments, seismic: e.target.value})} style={{ padding: '6px' }}>
                         <option value="low">Low (A/B)</option>
                         <option value="moderate">Moderate (C)</option>
                         <option value="high">High (D/E)</option>
                       </select>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">Snow Load</label>
-                      <select className="form-select" value={costAdjustments.snow} onChange={(e) => setCostAdjustments({...costAdjustments, snow: e.target.value})}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>Snow Load</label>
+                      <select className="form-select" value={costAdjustments.snow} onChange={(e) => setCostAdjustments({...costAdjustments, snow: e.target.value})} style={{ padding: '6px' }}>
                         <option value="no">No</option>
                         <option value="yes">Yes (High)</option>
                       </select>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">High Wind</label>
-                      <select className="form-select" value={costAdjustments.wind} onChange={(e) => setCostAdjustments({...costAdjustments, wind: e.target.value})}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>High Wind</label>
+                      <select className="form-select" value={costAdjustments.wind} onChange={(e) => setCostAdjustments({...costAdjustments, wind: e.target.value})} style={{ padding: '6px' }}>
                         <option value="no">No</option>
                         <option value="yes">Yes</option>
                       </select>
                     </div>
                   </div>
+                </div>
 
-                  <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', marginTop: '12px', marginBottom: '8px', borderBottom: '1px solid #e5e7eb', paddingBottom: '4px' }}>
-                    ✨ Amenities
-                  </h3>
+                {/* Amenities (under Site Conditions) */}
+                <div>
+                  <label className="form-label">Amenities</label>
                   <div className="grid-2" style={{ gap: '8px' }}>
-                    <div className="form-group">
-                      <label className="form-label">Finish Level</label>
-                      <select className="form-select" value={costAdjustments.finishLevel} onChange={(e) => setCostAdjustments({...costAdjustments, finishLevel: e.target.value})}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>Finish Level</label>
+                      <select className="form-select" value={costAdjustments.finishLevel} onChange={(e) => setCostAdjustments({...costAdjustments, finishLevel: e.target.value})} style={{ padding: '6px' }}>
                         <option value="basic">Basic</option>
                         <option value="standard">Standard</option>
                         <option value="premium">Premium</option>
                       </select>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">Appliances</label>
-                      <select className="form-select" value={costAdjustments.appliances} onChange={(e) => setCostAdjustments({...costAdjustments, appliances: e.target.value})}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" style={{ fontSize: '11px' }}>Appliances</label>
+                      <select className="form-select" value={costAdjustments.appliances} onChange={(e) => setCostAdjustments({...costAdjustments, appliances: e.target.value})} style={{ padding: '6px' }}>
                         <option value="none">None</option>
                         <option value="basic">Basic</option>
                         <option value="premium">Premium</option>
                       </select>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">ADA Compliance %</label>
-                      <input type="number" className="form-input" value={costAdjustments.adaPct} min="0" max="100" onChange={(e) => setCostAdjustments({...costAdjustments, adaPct: parseInt(e.target.value)})} />
-                      <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
-                        {divisionCosts.adaUnits} of {calculations.totalOptimized} units ({costAdjustments.adaPct}%)
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Additional Modular Benefits */}
