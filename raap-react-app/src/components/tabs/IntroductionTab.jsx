@@ -1,4 +1,5 @@
 import { useProject } from '../../contexts/ProjectContext';
+import { ASSET_PATHS } from '../../data/constants';
 
 const IntroductionTab = () => {
   const { switchTab } = useProject();
@@ -16,10 +17,12 @@ const IntroductionTab = () => {
 
       {/* Hero Image Card */}
       <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
-        <div style={{ height: '14rem', background: 'linear-gradient(to bottom right, #e0f2fe, #ffffff, #fff7ed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ padding: '40px', textAlign: 'center', color: '#15803D', fontSize: '24px', fontWeight: 700 }}>
-            RaaP Modular Building Design
-          </div>
+        <div style={{ height: '14rem', overflow: 'hidden', position: 'relative' }}>
+          <img
+            src={ASSET_PATHS.INTRO_GRAPHIC_URL}
+            alt="RaaP Modular Building Design"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
         </div>
         <div style={{ background: '#15803D', color: 'white', padding: '6px', textAlign: 'center' }}>
           <p style={{ fontWeight: 600, fontSize: '12px', margin: 0 }}>
