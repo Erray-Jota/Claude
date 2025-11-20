@@ -4,6 +4,8 @@ import { ASSET_PATHS } from '../../data/constants';
 const IntroductionTab = () => {
   const { switchTab } = useProject();
 
+  console.log('ASSET_PATHS.INTRO_GRAPHIC_URL:', ASSET_PATHS.INTRO_GRAPHIC_URL);
+
   return (
     <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
