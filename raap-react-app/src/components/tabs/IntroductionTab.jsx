@@ -27,7 +27,7 @@ const IntroductionTab = () => {
 
       {/* Problems Section */}
       <div className="card" style={{ marginBottom: '12px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-start' }}>
           <span style={{ color: '#ea580c' }}>⚠️</span> Why modular hasn't worked (yet)
         </h2>
         <div className="grid-3" style={{ gap: '12px' }}>
@@ -47,10 +47,13 @@ const IntroductionTab = () => {
       </div>
 
       {/* Solution Section */}
-      <div className="card" style={{ background: '#E0F2FE', border: '1px solid #93C5FD' }}>
-        <p style={{ fontSize: '14px', fontWeight: 600, marginBottom: 0, display: 'flex', alignItems: 'center', gap: '6px', color: '#1D4ED8' }}>
-          <span style={{ color: '#16a34a', fontSize: '16px' }}>✓</span>
-          RaaP flips this: We start with a **factory-optimized design** and a **detailed cost model** — giving you feasibility, savings, and confidence.
+      <div className="card" style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #DBEAFE 100%)', border: '2px solid #2D5A3D', padding: '20px', borderRadius: '12px', boxShadow: '0 6px 20px rgba(45, 90, 61, 0.15)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+          <span style={{ fontSize: '28px' }}>🎯</span>
+          <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#2D5A3D', margin: 0 }}>How RaaP Changes the Game</h3>
+        </div>
+        <p style={{ fontSize: '15px', fontWeight: 600, marginBottom: 0, color: '#1F2937', lineHeight: '1.6' }}>
+          We start with a factory-optimized design and a detailed cost model — giving you feasibility, savings, and confidence before you commit capital to entitlement.
         </p>
       </div>
     </div>
