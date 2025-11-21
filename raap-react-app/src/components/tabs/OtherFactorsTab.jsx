@@ -572,26 +572,6 @@ const OtherFactorsTab = () => {
               </p>
             </div>
 
-            {/* Sustainability Score */}
-            <div style={{ background: 'linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%)', padding: '22px', borderRadius: '12px', border: '4px solid #D97706', marginBottom: '28px', boxShadow: '0 6px 18px rgba(217, 119, 6, 0.15)' }}>
-              <p style={{ fontSize: '16px', fontWeight: 900, color: '#92400E', marginBottom: '12px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Project Sustainability Assessment Score:</p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px', fontSize: '18px', fontWeight: 900, color: '#92400E', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                <div style={{ fontSize: '56px', fontWeight: 900, color: '#065F46', letterSpacing: '-2px' }}>5.0 / 5.0</div>
-                <div style={{ fontSize: '16px', fontWeight: 700, color: '#92400E' }}>Your project already meets most NZE prerequisites</div>
-              </div>
-            </div>
-
-            {/* Key Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px', marginBottom: '28px' }}>
-              <div style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #ffffff 100%)', padding: '22px', borderRadius: '12px', border: '4px solid #16A34A', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.15)' }}>
-                <div style={{ fontSize: '28px', fontWeight: 900, color: '#065F46', marginBottom: '8px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>50%</div>
-                <div style={{ fontSize: '16px', fontWeight: 700, color: '#047857', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Less Construction Waste</div>
-              </div>
-              <div style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #ffffff 100%)', padding: '22px', borderRadius: '12px', border: '4px solid #16A34A', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.15)' }}>
-                <div style={{ fontSize: '28px', fontWeight: 900, color: '#065F46', marginBottom: '8px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>2 Upgrades</div>
-                <div style={{ fontSize: '16px', fontWeight: 700, color: '#047857', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Needed for Full NZE</div>
-              </div>
-            </div>
 
             {/* What Modular Gives You For Free */}
             <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #065F46', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
@@ -646,7 +626,7 @@ const OtherFactorsTab = () => {
 
             {/* Costed Upgrades for NZE/PHIUS */}
             <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #D97706', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
-              <h3 style={{ fontSize: '24px', marginBottom: '18px', fontWeight: 900, color: '#92400E', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Targeted Upgrades for Full NZE/PHIUS Certification</h3>
+              <h3 style={{ fontSize: '24px', marginBottom: '18px', fontWeight: 900, color: '#92400E', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Types of Upgrades for Full NZE/PHIUS Certification</h3>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '16px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
                 <thead>
                   <tr style={{ background: '#D97706', borderBottom: '4px solid #EA580C' }}>
@@ -706,18 +686,14 @@ const OtherFactorsTab = () => {
                   </div>
                 </div>
 
-                {/* Middle: Upgrades Needed */}
+                {/* Middle: Recommended Upgrades */}
                 <div style={{ background: '#FFFBEB', padding: '22px', borderRadius: '10px', border: '4px solid #D97706', textAlign: 'center', boxShadow: '0 4px 12px rgba(217, 119, 6, 0.15)' }}>
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#92400E', marginBottom: '14px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>🎯 Upgrades Needed</div>
-                  <div style={{ fontSize: '16px', color: '#78350F', lineHeight: '2', fontWeight: 700, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#92400E', marginBottom: '14px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>🎯 Recommended Upgrades</div>
+                  <div style={{ fontSize: '16px', color: '#78350F', lineHeight: '2.2', fontWeight: 700, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
                     <div>🧱 R-24+ Walls</div>
-                    <div>($8K)</div>
-                    <div>🪟 Triple-Glazed</div>
-                    <div>($25K)</div>
-                    <div>❄️ High-Eff HP</div>
-                    <div>($35K)</div>
+                    <div>🪟 Triple-Glazed Windows</div>
+                    <div>❄️ High-Efficiency HVAC</div>
                     <div>⚡ Solar + Battery</div>
-                    <div>($180K)</div>
                   </div>
                 </div>
 
@@ -733,11 +709,6 @@ const OtherFactorsTab = () => {
                     <div>🔒 Verified Performance</div>
                   </div>
                 </div>
-              </div>
-
-              {/* Closing Statement */}
-              <div style={{ marginTop: '22px', padding: '16px', background: '#065F46', borderRadius: '8px', textAlign: 'center', fontSize: '16px', fontWeight: 900, color: '#FFFFFF', border: '2px solid #047857', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                Modular gets you 90% of the way to Net Zero—only 4 targeted, costed upgrades remain.
               </div>
             </div>
           </div>
