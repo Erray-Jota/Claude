@@ -199,11 +199,6 @@ const ProjectsPage = () => {
   return (
     <div style={{ padding: '40px', minHeight: 'calc(100vh - 140px)', background: '#f9fafb' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Hero Image */}
-        <div style={{ marginBottom: '32px', borderRadius: '12px', overflow: 'hidden', height: '200px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-          <img src={ASSET_PATHS.PROJECT_GRAPHIC_URL} alt="Projects" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-        </div>
-
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <div>
