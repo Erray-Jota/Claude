@@ -4,6 +4,7 @@ import { useCalculations } from '../../hooks/useCalculations';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
 import { generateFloorPlan, generateSVGElements } from '../../engines/floorplanPlacementEngine';
+import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
 
 const DesignTab = () => {
   const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
@@ -34,9 +35,14 @@ const DesignTab = () => {
 
   return (
     <div>
-      <h1 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '8px', textAlign: 'center' }}>
-        Design Analysis
-      </h1>
+      <div style={{ background: `linear-gradient(135deg, ${COLORS.gold.bg} 0%, #ffffff 100%)`, padding: SPACING['2xl'], borderRadius: '12px', border: `3px solid ${COLORS.gold.main}`, marginBottom: SPACING['3xl'], boxShadow: '0 4px 12px rgba(217, 119, 6, 0.1)', textAlign: 'center' }}>
+        <h1 style={{ fontSize: FONTS.sizes['2xl'], fontWeight: FONTS.weight.black, color: COLORS.gold.dark, margin: 0, marginBottom: SPACING.sm }}>
+          🎨 Design Analysis & Optimization
+        </h1>
+        <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gray.medium, margin: 0, fontWeight: FONTS.weight.bold }}>
+          Visualize unit mix, floor plans, and building constraints
+        </p>
+      </div>
 
       {/* Design Metrics Banner */}
       <div className="project-info-banner design-metrics-banner">

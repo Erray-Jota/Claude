@@ -5,6 +5,7 @@ import { useMobile } from '../../hooks/useMobile';
 import { MASTER_DIVISIONS } from '../../data/constants';
 import { calculateDivisionCosts, LOCATION_FACTORS as COST_LOCATION_FACTORS, compareScenarios } from '../../engines/costEngine';
 import LocationInput from '../LocationInput';
+import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
 
 const CostAnalysisTab = () => {
   const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
@@ -127,12 +128,12 @@ const CostAnalysisTab = () => {
 
   return (
     <div>
-      {/* Headline */}
-      <div style={{ textAlign: 'center', marginBottom: '12px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', marginBottom: '4px' }}>
-          Optimize your hard costs
+      {/* Hero Section */}
+      <div style={{ background: `linear-gradient(135deg, ${COLORS.red.bg} 0%, #ffffff 100%)`, padding: SPACING['2xl'], borderRadius: '12px', border: `3px solid ${COLORS.red.main}`, marginBottom: SPACING['3xl'], boxShadow: '0 4px 12px rgba(220, 38, 38, 0.1)', textAlign: 'center' }}>
+        <h1 style={{ fontSize: FONTS.sizes['2xl'], fontWeight: FONTS.weight.black, color: COLORS.red.dark, margin: 0, marginBottom: SPACING.sm }}>
+          💰 Cost Analysis & Scenarios
         </h1>
-        <p style={{ fontSize: '16px', color: '#374151', fontWeight: 500 }}>
+        <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gray.medium, margin: 0, fontWeight: FONTS.weight.bold }}>
           A scoped, defensible, negotiation-ready cost model—built from real assemblies and factory logic
         </p>
       </div>

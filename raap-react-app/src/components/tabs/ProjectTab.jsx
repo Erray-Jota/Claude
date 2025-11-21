@@ -4,6 +4,7 @@ import { useMobile } from '../../hooks/useMobile';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
 import LocationInput from '../LocationInput';
+import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
 
 const ProjectTab = () => {
   const { projectData, updateProjectData, switchTab } = useProject();
@@ -53,8 +54,18 @@ const ProjectTab = () => {
 
   return (
     <div>
+      {/* Hero Section */}
+      <div style={{ background: `linear-gradient(135deg, ${COLORS.blue.bg} 0%, #ffffff 100%)`, padding: SPACING['2xl'], borderRadius: '12px', border: `3px solid ${COLORS.blue.main}`, marginBottom: SPACING['3xl'], boxShadow: '0 4px 12px rgba(14, 165, 233, 0.1)', textAlign: 'center' }}>
+        <h1 style={{ fontSize: FONTS.sizes['2xl'], fontWeight: FONTS.weight.black, color: COLORS.blue.dark, margin: 0, marginBottom: SPACING.sm }}>
+          📐 Define Your Project
+        </h1>
+        <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gray.medium, margin: 0, fontWeight: FONTS.weight.bold }}>
+          Set location, unit mix, and design constraints
+        </p>
+      </div>
+
       {/* Hero Image - Changes based on number of floors */}
-      <div style={{ marginBottom: '20px', borderRadius: '12px', overflow: 'hidden', height: '200px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+      <div style={{ marginBottom: SPACING['2xl'], borderRadius: '12px', overflow: 'hidden', height: '200px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
         <video key={projectData.floors} autoPlay muted loop style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
           <source src={projectImageSrc} type="video/mp4" />
         </video>

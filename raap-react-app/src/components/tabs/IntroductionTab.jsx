@@ -1,6 +1,7 @@
 import { useProject } from '../../contexts/ProjectContext';
 import { useMobile } from '../../hooks/useMobile';
 import { ASSET_PATHS } from '../../data/constants';
+import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
 
 const IntroductionTab = () => {
   const { switchTab } = useProject();
@@ -8,11 +9,11 @@ const IntroductionTab = () => {
 
   return (
     <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: isEffectivelyMobile ? '12px' : '20px' }}>
-        <h1 style={{ fontSize: isEffectivelyMobile ? '18px' : '20px', fontWeight: 700, color: '#111827', marginBottom: '6px' }}>
+      <div style={{ background: `linear-gradient(135deg, ${COLORS.green.bg} 0%, #ffffff 100%)`, padding: SPACING['2xl'], borderRadius: '12px', border: `3px solid ${COLORS.green.light}`, textAlign: 'center', marginBottom: SPACING['3xl'], boxShadow: '0 4px 12px rgba(6, 95, 70, 0.1)' }}>
+        <h1 style={{ fontSize: isEffectivelyMobile ? FONTS.sizes['2xl'] : FONTS.sizes['3xl'], fontWeight: FONTS.weight.black, color: COLORS.green.dark, marginBottom: SPACING.md }}>
           Make Modular Predictable
         </h1>
-        <p style={{ fontSize: isEffectivelyMobile ? '14px' : '16px', color: '#4b5563', marginBottom: '0px' }}>
+        <p style={{ fontSize: isEffectivelyMobile ? FONTS.sizes.base : FONTS.sizes.md, color: COLORS.gray.medium, marginBottom: '0px', fontWeight: FONTS.weight.bold }}>
           Skip months of uncertainty and thousands of $$ in wasted pre-con costs!
         </p>
       </div>
@@ -31,9 +32,9 @@ const IntroductionTab = () => {
       </div>
 
       {/* Problems Section */}
-      <div className="card" style={{ marginBottom: '10px' }}>
-        <h2 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px', fontWeight: 700, color: '#111827', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-start' }}>
-          <span style={{ color: '#ea580c' }}>⚠️</span> Why modular hasn't worked (yet)
+      <div className="card" style={{ marginBottom: SPACING.lg, background: COLORS.white }}>
+        <h2 style={{ fontSize: isEffectivelyMobile ? FONTS.sizes.md : FONTS.sizes.xl, fontWeight: FONTS.weight.black, color: COLORS.red.dark, marginBottom: SPACING.md, display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
+          <span>⚠️</span> Why modular hasn't worked (yet)
         </h2>
         <div className="grid-3" style={{ gap: isEffectivelyMobile ? '8px' : '12px' }}>
           {[
@@ -52,12 +53,12 @@ const IntroductionTab = () => {
       </div>
 
       {/* Solution Section */}
-      <div className="card" style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #DBEAFE 100%)', border: '2px solid #2D5A3D', padding: isEffectivelyMobile ? '12px' : '20px', borderRadius: '12px', boxShadow: '0 6px 20px rgba(45, 90, 61, 0.15)' }}>
-        <div style={{ display: 'flex', alignItems: isEffectivelyMobile ? 'flex-start' : 'center', gap: isEffectivelyMobile ? '6px' : '12px', marginBottom: '8px' }}>
-          <span style={{ fontSize: isEffectivelyMobile ? '20px' : '28px', flexShrink: 0 }}>🎯</span>
-          <h3 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px', fontWeight: 800, color: '#2D5A3D', margin: 0 }}>How RaaP Changes the Game</h3>
+      <div className="card" style={{ ...STYLE_PRESETS.heroGreenGradient, background: `linear-gradient(135deg, ${COLORS.green.bg} 0%, #ffffff 100%)`, padding: isEffectivelyMobile ? SPACING.lg : SPACING['2xl'], marginBottom: '0px' }}>
+        <div style={{ display: 'flex', alignItems: isEffectivelyMobile ? 'flex-start' : 'center', gap: isEffectivelyMobile ? SPACING.sm : SPACING.lg, marginBottom: SPACING.md }}>
+          <span style={{ fontSize: isEffectivelyMobile ? FONTS.sizes['3xl'] : FONTS.sizes['4xl'], flexShrink: 0 }}>🎯</span>
+          <h3 style={{ fontSize: isEffectivelyMobile ? FONTS.sizes.md : FONTS.sizes.xl, fontWeight: FONTS.weight.black, color: COLORS.green.dark, margin: 0 }}>How RaaP Changes the Game</h3>
         </div>
-        <p style={{ fontSize: isEffectivelyMobile ? '12px' : '15px', fontWeight: 600, marginBottom: 0, color: '#1F2937', lineHeight: '1.5' }}>
+        <p style={{ fontSize: isEffectivelyMobile ? FONTS.sizes.sm : FONTS.sizes.base, fontWeight: FONTS.weight.bold, marginBottom: 0, color: COLORS.gray.dark, lineHeight: '1.6' }}>
           {isEffectivelyMobile ? 'Factory-optimized design & cost model — feasibility, savings & confidence before entitlement.' : 'We start with a factory-optimized design and a detailed cost model — giving you feasibility, savings, and confidence before you commit capital to entitlement.'}
         </p>
       </div>
