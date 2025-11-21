@@ -37,6 +37,10 @@ externalPort = 80
 localPort = 43761
 externalPort = 3000
 
+[[ports]]
+localPort = 44323
+externalPort = 3001
+
 [deployment]
 deploymentTarget = "static"
 build = ["npm", "run", "build", "--prefix", "raap-react-app"]

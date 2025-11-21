@@ -303,14 +303,14 @@ const DesignTab = () => {
                 >
                   {/* Image Section */}
                   <a href={unit.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
-                    <div style={{ position: 'relative', overflow: 'hidden', height: '220px', background: '#f3f4f6' }}>
+                    <div style={{ position: 'relative', padding: '12px', height: '280px', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <img
                         src={unit.link}
                         alt={unit.name}
                         style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          objectFit: 'contain',
                           display: 'block',
                           transition: 'transform 0.3s ease'
                         }}
