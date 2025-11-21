@@ -508,3 +508,139 @@
   margin-bottom: 10px;
 }
 
+
+/* ==================== MOBILE RESPONSIVE STYLES ==================== */
+
+/* Mobile-first: Stack grids vertically on small screens */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 8px 12px 10px;
+  }
+
+  .header {
+    padding: 8px 6px;
+    margin-bottom: 6px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 16px;
+  }
+
+  .card {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 3px solid #2D5A3D;
+  }
+
+  .card h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .form-input,
+  .form-select {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .btn {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-height: 44px;
+    border-radius: 6px;
+  }
+
+  .tab-btn {
+    font-size: 12px;
+    padding: 12px 10px;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  .project-info-banner {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .cost-column {
+    padding: 8px;
+  }
+
+  .small-text {
+    font-size: 12px;
+  }
+
+  /* Ensure videos and images are responsive */
+  video, img {
+    max-width: 100% !important;
+    height: auto;
+  }
+
+  /* Reduce padding on subtabs */
+  .subtab-container {
+    margin-top: 8px;
+  }
+
+  .subtab-nav {
+    gap: 4px;
+  }
+
+  .subtab-btn {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+}
+
+/* Extra small devices (phones in portrait) */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .card h2 {
+    font-size: 14px;
+  }
+
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group {
+    margin-bottom: 3px;
+  }
+
+  .metric-main-value {
+    font-size: 24px !important;
+  }
+
+  .metric-label {
+    font-size: 10px !important;
+  }
+}
+

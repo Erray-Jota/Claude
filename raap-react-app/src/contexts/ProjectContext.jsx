@@ -34,11 +34,35 @@ const createDefaultProject = (name = 'New Project') => ({
 });
 
 export const ProjectProvider = ({ children }) => {
-  // Initialize with one default project
+  // Initialize with demo projects for sales presentations
   const [projects, setProjects] = useState([
     {
       ...createDefaultProject('Alpine Vista Apartments'),
       id: '1',
+      targets: { studio: 40, oneBed: 30, twoBed: 30, threeBed: 0 },
+    },
+    {
+      ...createDefaultProject('Cascade Heights Mixed-Use'),
+      id: '2',
+      floors: 4,
+      targetLength: 250,
+      targets: { studio: 30, oneBed: 40, twoBed: 40, threeBed: 0 },
+      propertyLocation: 'Denver, CO',
+      propertyFactor: 0.92,
+      factoryLocation: 'Denver, CO',
+      factoryFactor: 0.92,
+    },
+    {
+      ...createDefaultProject('Riverside Commons'),
+      id: '3',
+      floors: 3,
+      targetLength: 300,
+      lobbyType: 1,
+      targets: { studio: 50, oneBed: 20, twoBed: 20, threeBed: 0 },
+      propertyLocation: 'Portland, OR',
+      propertyFactor: 0.95,
+      factoryLocation: 'Portland, OR',
+      factoryFactor: 0.95,
     },
   ]);
 

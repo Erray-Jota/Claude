@@ -1,6 +1,7 @@
 import { ProjectProvider, useProject } from './contexts/ProjectContext';
+import { useMobile } from './hooks/useMobile';
 import Header from './components/Header';
-import TabNavigation from './components/TabNavigation';
+import ResponsiveTabNavigation from './components/ResponsiveTabNavigation';
 import ProjectsPage from './components/ProjectsPage';
 import IntroductionTab from './components/tabs/IntroductionTab';
 import ProjectTab from './components/tabs/ProjectTab';
@@ -13,27 +14,48 @@ import './App.css';
 
 function AppContent() {
   const { activeTab, showingProjectsPage } = useProject();
+  const { isEffectivelyMobile, mobilePreviewMode } = useMobile();
+
+  // Apply mobile preview styling on desktop if preview mode is enabled
+  const appStyle = mobilePreviewMode ? {
+    maxWidth: '412px',
+    margin: '0 auto',
+    border: '2px solid #2D5A3D',
+    borderRadius: '12px',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    boxShadow: '0 0 20px rgba(0,0,0,0.3)',
+    background: '#f9fafb',
+  } : {};
 
   return (
-    <div className="container">
-      <Header />
+    <div style={appStyle}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ overflowY: 'auto', flex: 1, paddingBottom: isEffectivelyMobile ? '80px' : '0' }}>
+          <div className="container">
+            <Header />
 
-      {showingProjectsPage ? (
-        <ProjectsPage />
-      ) : (
-        <>
-          <TabNavigation />
-          <div style={{ marginTop: '20px' }}>
-            {activeTab === 1 && <IntroductionTab />}
-            {activeTab === 2 && <ProjectTab />}
-            {activeTab === 3 && <DesignTab />}
-            {activeTab === 4 && <CostAnalysisTab />}
-            {activeTab === 5 && <OtherFactorsTab />}
-            {activeTab === 6 && <PortfolioTab />}
-            {activeTab === 7 && <SmartStartTab />}
+            {showingProjectsPage ? (
+              <ProjectsPage />
+            ) : (
+              <>
+                <ResponsiveTabNavigation />
+                <div style={{ marginTop: isEffectivelyMobile ? '10px' : '20px', marginBottom: '20px' }}>
+                  {activeTab === 1 && <IntroductionTab />}
+                  {activeTab === 2 && <ProjectTab />}
+                  {activeTab === 3 && <DesignTab />}
+                  {activeTab === 4 && <CostAnalysisTab />}
+                  {activeTab === 5 && <OtherFactorsTab />}
+                  {activeTab === 6 && <PortfolioTab />}
+                  {activeTab === 7 && <SmartStartTab />}
+                </div>
+              </>
+            )}
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 }
