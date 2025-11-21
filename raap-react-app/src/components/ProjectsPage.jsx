@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useProject } from '../contexts/ProjectContext';
 import { useCalculations, formatMega } from '../hooks/useCalculations';
+import { ASSET_PATHS } from '../data/constants';
 
 const ProjectCard = ({ project, onOpen, onEdit, onDuplicate, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
