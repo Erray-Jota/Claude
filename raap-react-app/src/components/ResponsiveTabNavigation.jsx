@@ -1,9 +1,27 @@
+import { useState, useEffect } from 'react';
 import { useProject } from '../contexts/ProjectContext';
 import { useMobile } from '../hooks/useMobile';
 
 const ResponsiveTabNavigation = () => {
   const { activeTab, switchTab, activeSubtabs, switchSubtab } = useProject();
   const { isEffectivelyMobile, mobilePreviewMode, setMobilePreviewMode } = useMobile();
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const tabs = [
     { id: 1, label: '🎯 Intro', shortLabel: 'Intro' },
@@ -86,6 +104,8 @@ const ResponsiveTabNavigation = () => {
         background: 'white',
         zIndex: 100,
         boxShadow: '0 -2px 8px rgba(0,0,0,0.1)',
+        transform: isHidden ? 'translateY(100%)' : 'translateY(0)',
+        transition: 'transform 0.3s ease',
       }}
     >
       {/* Design sub-tabs - show only when Design tab (3) is active */}

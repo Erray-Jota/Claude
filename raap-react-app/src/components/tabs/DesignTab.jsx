@@ -630,19 +630,11 @@ const DesignTab = () => {
 
       {activeSubtabs.design === 4 && (
         <div>
-          {/* Transforming Prefab Video */}
-          <div style={{ marginBottom: '20px', borderRadius: '12px', overflow: 'hidden', height: '300px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
-            <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
-              <source src={ASSET_PATHS.VIDEO_TRANSFORMING} type="video/mp4" />
-            </video>
-          </div>
-
           {/* Building Visualization */}
-          <div className="card" style={{ marginBottom: '20px' }}>
-            <h2>🏗️ Building Massing - {projectData.floors} Stories ({calculations.totalOptimized} Units)</h2>
-            <p className="small-text" style={{ marginBottom: '16px' }}>3D visualization of your modular building design</p>
+          <div className="card" style={{ marginBottom: '12px' }}>
+            <h2 style={{ fontSize: isEffectivelyMobile ? '16px' : '22px' }}>🏗️ Building Massing</h2>
             
-            <div style={{ display: 'flex', justifyContent: 'center', background: '#f9fafb', padding: '20px', borderRadius: '8px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', background: '#f9fafb', padding: '12px', borderRadius: '8px', marginBottom: '12px' }}>
               <img
                 src={
                   projectData.floors === 3
@@ -664,54 +656,48 @@ const DesignTab = () => {
                     : ASSET_PATHS.BUILDING_5_LARGE
                 }
                 alt={`${projectData.floors}-Story Building`}
-                style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain', display: 'block' }}
+                style={{ maxWidth: '100%', maxHeight: isEffectivelyMobile ? '250px' : '400px', objectFit: 'contain', display: 'block' }}
               />
             </div>
 
-            {/* Building Stats */}
-            <div className="grid-4" style={{ gap: '12px', textAlign: 'center' }}>
-              <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '6px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '4px' }}>STORIES</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
+            {/* Building Stats - Reduced size on mobile */}
+            <div className="grid-4" style={{ gap: isEffectivelyMobile ? '6px' : '12px', textAlign: 'center' }}>
+              <div style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#f0fdf4', borderRadius: '6px' }}>
+                <div style={{ fontSize: isEffectivelyMobile ? '10px' : '12px', fontWeight: 600, color: '#15803D', marginBottom: '2px' }}>STORIES</div>
+                <div style={{ fontSize: isEffectivelyMobile ? '16px' : '20px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
               </div>
-              <div style={{ padding: '12px', background: '#eff6ff', borderRadius: '6px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '4px' }}>TOTAL UNITS</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{calculations.totalOptimized}</div>
+              <div style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#eff6ff', borderRadius: '6px' }}>
+                <div style={{ fontSize: isEffectivelyMobile ? '10px' : '12px', fontWeight: 600, color: '#1e40af', marginBottom: '2px' }}>UNITS</div>
+                <div style={{ fontSize: isEffectivelyMobile ? '16px' : '20px', fontWeight: 700, color: '#111827' }}>{calculations.totalOptimized}</div>
               </div>
-              <div style={{ padding: '12px', background: '#fef3c7', borderRadius: '6px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#d97706', marginBottom: '4px' }}>LENGTH</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
+              <div style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#fef3c7', borderRadius: '6px' }}>
+                <div style={{ fontSize: isEffectivelyMobile ? '10px' : '12px', fontWeight: 600, color: '#d97706', marginBottom: '2px' }}>LENGTH</div>
+                <div style={{ fontSize: isEffectivelyMobile ? '16px' : '20px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
               </div>
-              <div style={{ padding: '12px', background: '#f5f3ff', borderRadius: '6px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#7e22ce', marginBottom: '4px' }}>REQUIRED</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{calculations.requiredLength.toFixed(0)} ft</div>
+              <div style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#f5f3ff', borderRadius: '6px' }}>
+                <div style={{ fontSize: isEffectivelyMobile ? '10px' : '12px', fontWeight: 600, color: '#7e22ce', marginBottom: '2px' }}>REQUIRED</div>
+                <div style={{ fontSize: isEffectivelyMobile ? '16px' : '20px', fontWeight: 700, color: '#111827' }}>{calculations.requiredLength.toFixed(0)} ft</div>
               </div>
             </div>
           </div>
 
           {/* Floor Plan Image - Based on Units Per Floor */}
           <div className="card">
-            <h2>📐 Floor Plan Layout - {calculations.totalOptimized} Units Per Floor</h2>
-            <p className="small-text" style={{ marginBottom: '16px' }}>Building footprint showing modular unit placement</p>
+            <h2 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px' }}>📐 Floor Plan Layout</h2>
             
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f9fafb', padding: '12px', borderRadius: '8px', minHeight: '320px' }}>
-              <img
-                src={
-                  calculations.totalOptimized <= 12
-                    ? ASSET_PATHS.LAYOUT_SHORT
-                    : calculations.totalOptimized <= 25
-                    ? ASSET_PATHS.LAYOUT_MEDIUM
-                    : ASSET_PATHS.LAYOUT_LONG
-                }
-                alt="Floor Layout"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            </div>
-            
-            <div style={{ marginTop: '16px', padding: '12px', background: '#eff6ff', borderRadius: '6px', textAlign: 'center', border: '1px solid #0ea5e9' }}>
-              <div style={{ fontSize: '12px', fontWeight: 600, color: '#0e7490', marginBottom: '4px' }}>FLOORPLAN TYPE</div>
-              <div style={{ fontSize: '16px', fontWeight: 700, color: '#111827' }}>
-                {calculations.totalOptimized <= 12 ? 'Short Footprint (~10 units)' : calculations.totalOptimized <= 25 ? 'Medium Footprint (~20 units)' : 'Long Footprint (~30 units)'}
+            <div style={{ overflowX: 'auto', background: '#f9fafb', padding: isEffectivelyMobile ? '8px' : '12px', borderRadius: '8px', marginBottom: '0' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', minWidth: '100%' }}>
+                <img
+                  src={
+                    calculations.totalOptimized <= 12
+                      ? ASSET_PATHS.LAYOUT_SHORT
+                      : calculations.totalOptimized <= 25
+                      ? ASSET_PATHS.LAYOUT_MEDIUM
+                      : ASSET_PATHS.LAYOUT_LONG
+                  }
+                  alt="Floor Layout"
+                  style={{ width: isEffectivelyMobile ? '500px' : '600px', height: 'auto', objectFit: 'contain', display: 'block' }}
+                />
               </div>
             </div>
           </div>
