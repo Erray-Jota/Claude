@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
-import { DUMMY_PARTNERS, DEFAULT_SITE_LOCATION, FACTORY_LOCATIONS } from '../../data/constants';
+import { DUMMY_PARTNERS, DEFAULT_SITE_LOCATION } from '../../data/constants';
 import MarketplaceMap from '../maps/MarketplaceMap';
 import LogisticsMap from '../maps/LogisticsMap';
 
@@ -8,7 +8,6 @@ const OtherFactorsTab = () => {
   const { switchTab, activeSubtabs, switchSubtab, projectData } = useProject();
   const [filterCategory, setFilterCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFactory, setSelectedFactory] = useState('');
   
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
@@ -118,7 +117,11 @@ const OtherFactorsTab = () => {
             {apiKey ? (
               <div style={{ marginBottom: '20px' }}>
                 <MarketplaceMap
-                  siteLocation={DEFAULT_SITE_LOCATION}
+                  siteLocation={{
+                    lat: projectData.propertyCoordinates?.lat || DEFAULT_SITE_LOCATION.lat,
+                    lng: projectData.propertyCoordinates?.lng || DEFAULT_SITE_LOCATION.lng,
+                    name: projectData.propertyLocation || DEFAULT_SITE_LOCATION.name
+                  }}
                   providers={filteredPartners}
                   apiKey={apiKey}
                 />
@@ -222,36 +225,30 @@ const OtherFactorsTab = () => {
               Transportation clearance, crane staging, site access—we solve these upfront so your setting team executes flawlessly and on schedule.
             </p>
             
-            {/* Factory Selection for Route */}
-            <div style={{ marginBottom: '15px' }}>
-              <label style={{ fontSize: '14px', fontWeight: 600, color: '#111827', marginBottom: '8px', display: 'block' }}>
-                Select Factory for Route Analysis:
-              </label>
-              <select
-                value={selectedFactory}
-                onChange={(e) => setSelectedFactory(e.target.value)}
-                style={{
-                  width: '100%',
-                  maxWidth: '300px',
-                  padding: '8px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '14px'
-                }}
-              >
-                <option value="">-- Select Factory --</option>
-                {Object.keys(FACTORY_LOCATIONS).map((factoryName) => (
-                  <option key={factoryName} value={factoryName}>{factoryName}</option>
-                ))}
-              </select>
+            {/* Factory Location Info */}
+            <div style={{ marginBottom: '15px', padding: '12px', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: '8px' }}>
+              <p style={{ fontSize: '14px', color: '#065F46', margin: 0 }}>
+                <strong>Factory Location:</strong> {projectData.factoryLocation || 'Not set'}
+              </p>
+              <p style={{ fontSize: '12px', color: '#047857', margin: '4px 0 0 0' }}>
+                Set factory location in the Project tab to see route analysis
+              </p>
             </div>
             
             {/* Google Maps - Route */}
             {apiKey ? (
               <div style={{ marginBottom: '20px' }}>
                 <LogisticsMap
-                  factoryLocation={selectedFactory ? FACTORY_LOCATIONS[selectedFactory] : null}
-                  siteLocation={DEFAULT_SITE_LOCATION}
+                  factoryLocation={projectData.factoryCoordinates ? {
+                    lat: projectData.factoryCoordinates.lat,
+                    lng: projectData.factoryCoordinates.lng,
+                    name: projectData.factoryLocation
+                  } : null}
+                  siteLocation={{
+                    lat: projectData.propertyCoordinates?.lat || DEFAULT_SITE_LOCATION.lat,
+                    lng: projectData.propertyCoordinates?.lng || DEFAULT_SITE_LOCATION.lng,
+                    name: projectData.propertyLocation || DEFAULT_SITE_LOCATION.name
+                  }}
                   apiKey={apiKey}
                 />
               </div>

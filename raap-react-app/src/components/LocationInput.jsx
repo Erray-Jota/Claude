@@ -13,7 +13,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const wrapperRef = useRef(null);
-  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
   const debounceTimer = useRef(null);
 
   // Close suggestions when clicking outside
