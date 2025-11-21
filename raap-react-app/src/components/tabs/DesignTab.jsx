@@ -41,19 +41,13 @@ const DesignTab = () => {
         <div className="cost-column">
           <div className="metric-label">BUILDING LENGTH REQUIRED</div>
           <div className="metric-main-value" style={{ color: '#111827' }}>
-            {calculations.requiredLength.toFixed(1)} ft
-          </div>
-          <div className="cost-details-inline">
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">FLOORS:</span>
-              <span className="cost-sub-value">{projectData.floors}</span>
-            </div>
+            {Math.ceil(calculations.requiredLength)} ft
           </div>
         </div>
 
         <div className="cost-column">
           <div className="metric-label">BUILDING LENGTH TARGET</div>
-          <div className="metric-main-value" style={{ color: '#111827' }}>
+          <div className="metric-main-value" style={{ color: isConstraintMet ? '#16A34A' : '#DC2626' }}>
             {projectData.targetLength} ft
           </div>
         </div>
@@ -69,16 +63,6 @@ const DesignTab = () => {
           <div className="metric-label">MODULES (COUNT)</div>
           <div className="metric-main-value" style={{ color: '#111827' }}>
             {calculations.totalOptimized * 2}
-          </div>
-          <div className="cost-details-inline">
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Floors:</span>
-              <span className="cost-sub-value">{projectData.floors}</span>
-            </div>
-            <div className="cost-sub-group">
-              <span className="cost-sub-label">Efficiency:</span>
-              <span className="cost-sub-value">{((Object.values(calculations.optimized).filter(c => c > 0).length / 4) * 100).toFixed(1)}%</span>
-            </div>
           </div>
         </div>
       </div>
