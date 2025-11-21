@@ -117,7 +117,7 @@ const DesignTab = () => {
       {activeSubtabs.design === 1 && (
         <div>
           {/* Hero Video */}
-          <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', height: '250px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+          <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', height: '380px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
             <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
               <source src={videoSrc} type="video/mp4" />
             </video>
@@ -575,14 +575,115 @@ const DesignTab = () => {
       )}
 
       {activeSubtabs.design === 4 && (
-        <div className="card">
-          <h2>🏗️ Building Massing Options (Calculated Length: {calculations.requiredLength.toFixed(1)} ft)</h2>
-          <p className="small-text" style={{ marginBottom: '12px' }}>Based on your current required length, select a building massing option.</p>
-          <div className="grid-3" style={{ gap: '15px' }}>
-            <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '6px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              <img src={ASSET_PATHS.LAYOUT_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-              <div style={{ padding: '8px', fontWeight: 700, fontSize: '14px', color: '#16a34a' }}>
-                {projectData.floors}-Story Medium Layout (Recommended)
+        <div>
+          {/* Transforming Prefab Video */}
+          <div style={{ marginBottom: '20px', borderRadius: '12px', overflow: 'hidden', height: '300px', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+            <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
+              <source src={ASSET_PATHS.VIDEO_TRANSFORMING} type="video/mp4" />
+            </video>
+          </div>
+
+          {/* Building Visualization */}
+          <div className="card" style={{ marginBottom: '20px' }}>
+            <h2>🏗️ Building Massing - {projectData.floors} Stories ({calculations.totalOptimized * projectData.floors} Units)</h2>
+            <p className="small-text" style={{ marginBottom: '16px' }}>3D visualization of your modular building design</p>
+            
+            <div style={{ display: 'flex', justifyContent: 'center', background: '#f9fafb', padding: '20px', borderRadius: '8px', marginBottom: '16px' }}>
+              <img
+                src={
+                  projectData.floors === 3
+                    ? calculations.requiredLength < 150
+                      ? ASSET_PATHS.BUILDING_3_SHORT
+                      : calculations.requiredLength < 250
+                      ? ASSET_PATHS.BUILDING_3_MEDIUM
+                      : ASSET_PATHS.BUILDING_3_LONG
+                    : projectData.floors === 4
+                    ? calculations.requiredLength < 150
+                      ? ASSET_PATHS.BUILDING_4_SHORT
+                      : calculations.requiredLength < 250
+                      ? ASSET_PATHS.BUILDING_4_MEDIUM
+                      : ASSET_PATHS.BUILDING_4_LONG
+                    : calculations.requiredLength < 150
+                    ? ASSET_PATHS.BUILDING_5_SMALL
+                    : calculations.requiredLength < 250
+                    ? ASSET_PATHS.BUILDING_5_MEDIUM
+                    : ASSET_PATHS.BUILDING_5_LARGE
+                }
+                alt={`${projectData.floors}-Story Building`}
+                style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+
+            {/* Building Stats */}
+            <div className="grid-4" style={{ gap: '12px', textAlign: 'center' }}>
+              <div style={{ padding: '12px', background: '#f0fdf4', borderRadius: '6px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '4px' }}>STORIES</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.floors}</div>
+              </div>
+              <div style={{ padding: '12px', background: '#eff6ff', borderRadius: '6px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '4px' }}>TOTAL UNITS</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{calculations.totalOptimized * projectData.floors}</div>
+              </div>
+              <div style={{ padding: '12px', background: '#fef3c7', borderRadius: '6px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#d97706', marginBottom: '4px' }}>LENGTH</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{projectData.targetLength} ft</div>
+              </div>
+              <div style={{ padding: '12px', background: '#f5f3ff', borderRadius: '6px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#7e22ce', marginBottom: '4px' }}>REQUIRED</div>
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827' }}>{calculations.requiredLength.toFixed(0)} ft</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Layout Options */}
+          <div className="card">
+            <h2>📐 Layout Options - Based on {calculations.totalOptimized * projectData.floors} Units</h2>
+            <p className="small-text" style={{ marginBottom: '16px' }}>Floor layout visualization for your building footprint</p>
+            
+            <div className="grid-3" style={{ gap: '16px' }}>
+              {/* Short Layout */}
+              <div style={{ background: 'white', border: '2px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#15803D';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <img src={ASSET_PATHS.LAYOUT_SHORT} alt="Short Layout" style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+                <div style={{ padding: '12px', textAlign: 'center', background: '#f9fafb' }}>
+                  <div style={{ fontWeight: 700, color: '#111827', fontSize: '14px' }}>Short Footprint</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>Compact site layout</div>
+                </div>
+              </div>
+
+              {/* Medium Layout */}
+              <div style={{ background: 'white', border: '2px solid #16a34a', borderRadius: '8px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s', boxShadow: '0 4px 12px rgba(22,163,74,0.15)' }}>
+                <img src={ASSET_PATHS.LAYOUT_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+                <div style={{ padding: '12px', textAlign: 'center', background: '#f0fdf4' }}>
+                  <div style={{ fontWeight: 700, color: '#15803D', fontSize: '14px' }}>Medium Footprint ✓</div>
+                  <div style={{ fontSize: '12px', color: '#15803D', marginTop: '4px', fontWeight: 600 }}>Recommended</div>
+                </div>
+              </div>
+
+              {/* Long Layout */}
+              <div style={{ background: 'white', border: '2px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#15803D';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e5e7eb';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <img src={ASSET_PATHS.LAYOUT_LONG} alt="Long Layout" style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+                <div style={{ padding: '12px', textAlign: 'center', background: '#f9fafb' }}>
+                  <div style={{ fontWeight: 700, color: '#111827', fontSize: '14px' }}>Long Footprint</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>Extended site layout</div>
+                </div>
               </div>
             </div>
           </div>
