@@ -82,41 +82,79 @@ const OtherFactorsTab = () => {
         {/* Build Time Tab */}
         {activeSubtabs.factors === 1 && (
           <div className="card" style={{ padding: '16px' }}>
-            <h2 style={{ fontSize: '24px', color: '#F59E0B', fontWeight: 800, marginBottom: '8px' }}>
-              ⚡ SPEED: 6 Months Faster to Revenue
+            <h2 style={{ fontSize: '24px', color: '#16A34A', fontWeight: 800, marginBottom: '8px' }}>
+              ⚡ PARALLEL PROCESSES: 10 Months to Market vs. 22 Months
             </h2>
             <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '15px' }}>
-              RaaP SmartStart collapses traditional timelines by eliminating design rework, speculative bidding, and coordination delays. You're groundbreaking while competitors are still in design.
+              Traditional construction follows a linear path: design → permits → construction. RaaP innovates through parallel workflows. While design documentation is being finalized, fabrication and construction begin simultaneously—groundbreaking 4 months before design is complete.
             </p>
 
-            {/* Summary Metrics */}
-            <div className="grid-2" style={{ maxWidth: '600px', marginBottom: '20px', marginTop: '10px' }}>
-              <div style={{ textAlign: 'center', padding: '10px', borderRadius: '6px', background: '#FEF3C7', border: '1px solid #FCD34D' }}>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#92400E' }}>~6 Months Saved</div>
-                <div style={{ fontSize: '12px', color: '#4b5563' }}>Time saved vs. Traditional Path</div>
+            {/* Key Metrics */}
+            <div className="grid-3" style={{ marginBottom: '20px', gap: '12px' }}>
+              <div style={{ textAlign: 'center', padding: '12px', borderRadius: '6px', background: '#D1FAE5', border: '2px solid #16A34A' }}>
+                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#065F46', marginBottom: '4px' }}>10 Months</div>
+                <div style={{ fontSize: '11px', color: '#065F46', fontWeight: 600 }}>RaaP Total Timeline</div>
               </div>
-              <div style={{ textAlign: 'center', padding: '10px', borderRadius: '6px', background: '#FEF3C7', border: '1px solid #FCD34D' }}>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#92400E' }}>$50K–$80K</div>
-                <div style={{ fontSize: '12px', color: '#4b5563' }}>Soft Cost Savings</div>
+              <div style={{ textAlign: 'center', padding: '12px', borderRadius: '6px', background: '#FEE2E2', border: '2px solid #DC2626' }}>
+                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#7F1D1D', marginBottom: '4px' }}>22 Months</div>
+                <div style={{ fontSize: '11px', color: '#7F1D1D', fontWeight: 600 }}>Traditional Timeline</div>
+              </div>
+              <div style={{ textAlign: 'center', padding: '12px', borderRadius: '6px', background: '#FEF3C7', border: '2px solid #F59E0B' }}>
+                <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#92400E', marginBottom: '4px' }}>12 Months</div>
+                <div style={{ fontSize: '11px', color: '#92400E', fontWeight: 600 }}>Time Saved to Revenue</div>
               </div>
             </div>
 
-            <div style={{ background: '#f9fafb', padding: '20px', borderRadius: '8px', border: '1px solid #e5e7eb', marginTop: '15px' }}>
-              <h3 style={{ fontSize: '16px', marginBottom: '15px', textAlign: 'center', color: '#111827' }}>
-                Estimated Time-to-Construction (Months)
-              </h3>
-              <div style={{ marginBottom: '20px' }}>
-                <div style={{ fontWeight: 600, marginBottom: '10px', color: '#DC2626' }}>Traditional Path (16 mo)</div>
-                <div style={{ background: 'linear-gradient(90deg, #FEE2E2 0%, #FCA5A5 100%)', height: '30px', borderRadius: '4px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '10px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 600 }}>Hiring → Design → Costing → Entitlement → Financing → Start</span>
-                </div>
-              </div>
-              <div>
-                <div style={{ fontWeight: 600, marginBottom: '10px', color: '#16A34A' }}>RaaP SmartStart (10 mo)</div>
-                <div style={{ background: 'linear-gradient(90deg, #D1FAE5 0%, #86EFAC 100%)', height: '30px', borderRadius: '4px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '10px', width: '62.5%' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#065F46' }}>SmartStart → Entitlement → Financing → Start</span>
-                </div>
-              </div>
+            {/* Timeline Breakdown Table */}
+            <div style={{ background: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #e5e7eb', marginTop: '15px', overflowX: 'auto' }}>
+              <h3 style={{ fontSize: '14px', marginBottom: '12px', fontWeight: 700, color: '#111827' }}>Detailed Process Comparison</h3>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                <thead>
+                  <tr style={{ background: '#e5e7eb', borderBottom: '2px solid #d1d5db' }}>
+                    <th style={{ padding: '10px', textAlign: 'left', fontWeight: 700 }}>Phase</th>
+                    <th style={{ padding: '10px', textAlign: 'center', fontWeight: 700 }}>RaaP (Parallel)</th>
+                    <th style={{ padding: '10px', textAlign: 'center', fontWeight: 700 }}>Traditional (Sequential)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '10px', fontWeight: 600, color: '#111827' }}>Design & Documentation</td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#065F46', fontWeight: 600 }}>2 months</td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#374151' }}>3 months</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '10px', fontWeight: 600, color: '#111827' }}>Entitlements & Permits</td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#065F46', fontWeight: 600 }}>6 months</td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#374151' }}>12 months</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '10px', fontWeight: 600, color: '#111827' }}>Construction (Fabrication + On-Site)</td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#065F46', fontWeight: 600 }}>8 months<br/><span style={{ fontSize: '11px', color: '#059669' }}>(Overlaps with permits)</span></td>
+                    <td style={{ padding: '10px', textAlign: 'center', color: '#374151' }}>8 months</td>
+                  </tr>
+                  <tr style={{ background: '#f0fdf4', borderTop: '2px solid #16A34A' }}>
+                    <td style={{ padding: '12px', fontWeight: 700, color: '#065F46' }}>TOTAL TIMELINE</td>
+                    <td style={{ padding: '12px', textAlign: 'center', fontWeight: 700, color: '#065F46', fontSize: '14px' }}>10 months</td>
+                    <td style={{ padding: '12px', textAlign: 'center', fontWeight: 700, color: '#7F1D1D', fontSize: '14px' }}>22 months</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Process Flow Visual */}
+            <div style={{ marginTop: '16px', padding: '12px', background: '#F0FDF4', borderRadius: '6px', border: '1px solid #86EFAC' }}>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#065F46', marginBottom: '8px' }}>🔄 The RaaP Parallel Advantage:</p>
+              <p style={{ fontSize: '13px', color: '#047857', lineHeight: '1.6', margin: 0 }}>
+                While entitlements are finalized, RaaP mobilizes your fabricator and GC simultaneously. Modules are fabricated on a factory schedule (not waiting for permit clearance). Ground-breaking occurs 4 months before design sign-off—converting timeline risk into market advantage.
+              </p>
+            </div>
+
+            {/* Key Takeaway */}
+            <div style={{ marginTop: '12px', padding: '12px', background: '#FEF3C7', borderRadius: '6px', border: '1px solid #FCD34D' }}>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#92400E', marginBottom: '4px' }}>💡 What This Means for Your Project:</p>
+              <p style={{ fontSize: '13px', color: '#78350F', margin: 0 }}>
+                Revenue from operations starts 12 months earlier than traditional development. At $5K–$8K annual rent per unit, a 100-unit project generates $600K–$800K in incremental annual rent.
+              </p>
             </div>
           </div>
         )}
