@@ -41,11 +41,11 @@ const IntroductionTab = () => {
             "GCs can't scope modular correctly",
             'Coordination breaks down'
           ].map((problem, index) => (
-            <div key={index} style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#FEE2E2', borderRadius: '6px', border: '1px solid #FCA5A5', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', minHeight: 'auto' }}>
+            <div key={index} style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#FEE2E2', borderRadius: '6px', border: '1px solid #FCA5A5', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', minHeight: 'auto' }}>
               <div style={{ flexShrink: 0, width: '22px', height: '22px', background: '#DC2626', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: 'white', fontWeight: 'bold' }}>
                 {index + 1}
               </div>
-              <div style={{ fontSize: isEffectivelyMobile ? '12px' : '14px', color: '#374151', fontWeight: 600, wordWrap: 'break-word', overflowWrap: 'break-word' }}>{problem}</div>
+              <div style={{ fontSize: isEffectivelyMobile ? '12px' : '14px', color: '#374151', fontWeight: 600, whiteSpace: 'nowrap' }}>{problem}</div>
             </div>
           ))}
         </div>
