@@ -357,7 +357,60 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
       sku_3_corner,
     },
     perSideTypeCounts: finalTypeCountsSide,
+    // Ideal required length based on ORIGINAL targets (before space constraints)
+    idealRequiredLength: calculateIdealRequiredLength(targets, lobbyType, floors),
   };
+};
+
+/**
+ * Calculates the ideal required building length based ONLY on target unit mix
+ * This is independent of any space constraints and represents the length needed
+ * to accommodate the requested unit mix without modifications.
+ */
+export const calculateIdealRequiredLength = (targets, lobbyType, floors = 5) => {
+  const lobbyWidth = LOBBY_WIDTHS[lobbyType] || LOBBY_WIDTHS[2];
+  const stairWidth = STAIR_WIDTH;
+
+  // Convert building-wide targets to per-side targets
+  const perSideFromTotal = (totalUnits) => {
+    if (!floors || floors <= 0) return 0;
+    const perFloor = totalUnits / floors;
+    return Math.ceil(perFloor / 2);
+  };
+
+  const perSideTargets = {
+    studio: perSideFromTotal(targets.studio || 0),
+    oneBed: perSideFromTotal(targets.oneBed || 0),
+    twoBed: perSideFromTotal(targets.twoBed || 0),
+    threeBed: perSideFromTotal(targets.threeBed || 0),
+  };
+
+  // Map to SKUs (no space constraints, just pure mapping)
+  let remainingCornerSlots = CORNER_SLOTS_PER_SIDE;
+
+  let sku_3_corner = perSideTargets.threeBed || 0;
+  const used3ForCorners = Math.min(sku_3_corner, remainingCornerSlots);
+  remainingCornerSlots -= used3ForCorners;
+
+  let sku_2_corner = Math.min(perSideTargets.twoBed || 0, remainingCornerSlots);
+  let sku_2_inline = Math.max(0, (perSideTargets.twoBed || 0) - sku_2_corner);
+  remainingCornerSlots -= sku_2_corner;
+
+  let sku_1_corner = Math.min(perSideTargets.oneBed || 0, remainingCornerSlots);
+  let sku_1_inline = Math.max(0, (perSideTargets.oneBed || 0) - sku_1_corner);
+
+  let sku_studio = perSideTargets.studio || 0;
+
+  // Calculate required side without any space constraints
+  const requiredSide =
+    sku_studio * SKU_WIDTHS.studio +
+    sku_1_corner * SKU_WIDTHS.oneCorner +
+    sku_1_inline * SKU_WIDTHS.oneInline +
+    sku_2_corner * SKU_WIDTHS.twoCorner +
+    sku_2_inline * SKU_WIDTHS.twoInline +
+    sku_3_corner * SKU_WIDTHS.threeCorner;
+
+  return requiredSide + lobbyWidth + stairWidth;
 };
 
 /**

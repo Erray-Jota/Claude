@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { optimizeUnits, calculateBuildingGSF, calculateUnitRatio, calculateFloorMultiplier } from '../engines/unitOptimizationEngine';
+import { optimizeUnits, calculateBuildingGSF, calculateUnitRatio, calculateFloorMultiplier, calculateIdealRequiredLength } from '../engines/unitOptimizationEngine';
 import { calculateBaseCosts, calculateCostMetrics, calculateTimeSavings } from '../engines/costEngine';
 
 export const useCalculations = (projectData) => {
@@ -65,8 +65,8 @@ export const useCalculations = (projectData) => {
       timeSavings: timeMetrics.timeSavings,
       timeSavingsPercent: timeMetrics.timeSavingsPercent,
 
-      // Required length (from optimization engine - based on optimized unit mix)
-      requiredLength: optimization.requiredWidth,
+      // Required length based ONLY on target unit mix (independent of slider)
+      requiredLength: calculateIdealRequiredLength(targets, lobbyType || 2, floors),
 
       // Scale factors
       unitRatio,
