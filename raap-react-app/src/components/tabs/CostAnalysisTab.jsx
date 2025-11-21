@@ -137,7 +137,25 @@ const CostAnalysisTab = () => {
         </p>
       </div>
 
-      {/* Sub-tabs */}
+      {/* Sub-tabs - Show on Mobile, Hide on Desktop */}
+      {isEffectivelyMobile && (
+      <div className="subtab-container" style={{ marginBottom: '12px' }}>
+        <div className="subtab-nav" style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button onClick={() => switchSubtab('cost', 1)} className={`subtab-btn ${activeSubtabs.cost === 1 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
+            📊 Summary
+          </button>
+          <button onClick={() => switchSubtab('cost', 2)} className={`subtab-btn ${activeSubtabs.cost === 2 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
+            🔀 Scenarios
+          </button>
+          <button onClick={() => switchSubtab('cost', 3)} className={`subtab-btn ${activeSubtabs.cost === 3 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
+            🔍 Assemblies
+          </button>
+        </div>
+      </div>
+      )}
+      
+      {/* Sub-tabs - Hide on Mobile, Show on Desktop */}
+      {!isEffectivelyMobile && (
       <div className="subtab-container">
         <div className="subtab-nav">
           <button onClick={() => switchSubtab('cost', 1)} className={`subtab-btn ${activeSubtabs.cost === 1 ? 'active-subtab' : ''}`}>
@@ -151,6 +169,7 @@ const CostAnalysisTab = () => {
           </button>
         </div>
       </div>
+      )}
 
       {/* SUMMARY SUB TAB */}
       {activeSubtabs.cost === 1 && (
