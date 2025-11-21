@@ -35,7 +35,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
     }
   }, [value]);
 
-  // Search using Google Places/Geocoding API
+  // Search using Google Geocoding API directly
   const searchLocations = async (query) => {
     if (!apiKey || query.length < 2) {
       setSuggestions([]);
@@ -43,50 +43,32 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
     }
 
     try {
-      // Use Google Places API for better city/zip suggestions
+      // Use Geocoding API to find locations
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(query)}&country=us&key=${apiKey}`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&country=us&key=${apiKey}`
       );
-      
-      if (!response.ok) throw new Error('API error');
       
       const data = await response.json();
       
-      if (data.predictions && data.predictions.length > 0) {
-        // Convert predictions to location objects
-        const locationPromises = data.predictions.slice(0, 8).map(async (pred) => {
-          try {
-            // Get coordinates for each prediction
-            const geocodeResponse = await fetch(
-              `https://maps.googleapis.com/maps/api/geocode/json?place_id=${pred.place_id}&key=${apiKey}`
-            );
-            const geocodeData = await geocodeResponse.json();
-            
-            if (geocodeData.results && geocodeData.results[0]) {
-              const result = geocodeData.results[0];
-              const location = result.geometry.location;
-              const formatted = result.formatted_address;
-              
-              // Extract zip code and city info
-              const zipMatch = formatted.match(/(\d{5})/);
-              const zipCode = zipMatch ? zipMatch[1] : '';
-              
-              return {
-                display: formatted.split(',').slice(0, 2).join(',').trim(),
-                fullDisplay: formatted,
-                lat: location.lat,
-                lng: location.lng,
-                zip: zipCode
-              };
-            }
-          } catch (err) {
-            console.error('Geocode error:', err);
-            return null;
-          }
+      if (data.status === 'OK' && data.results && data.results.length > 0) {
+        const results = data.results.slice(0, 8).map((result) => {
+          const location = result.geometry.location;
+          const formatted = result.formatted_address;
+          
+          // Extract zip code and city info
+          const zipMatch = formatted.match(/(\d{5})/);
+          const zipCode = zipMatch ? zipMatch[1] : '';
+          
+          return {
+            display: formatted.split(',').slice(0, 2).join(',').trim(),
+            fullDisplay: formatted,
+            lat: location.lat,
+            lng: location.lng,
+            zip: zipCode
+          };
         });
         
-        const results = await Promise.all(locationPromises);
-        setSuggestions(results.filter(r => r !== null));
+        setSuggestions(results);
         setShowSuggestions(true);
       } else {
         setSuggestions([]);
@@ -160,14 +142,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
   const handleBlur = () => {
     // Delay to allow click on suggestion to register
     setTimeout(() => {
-      if (inputValue && suggestions.length === 0) {
-        // User typed something but didn't select from suggestions
-        // Try to find a match or keep the raw input
-        const results = searchCities(inputValue);
-        if (results.length > 0) {
-          handleSelectSuggestion(results[0]);
-        }
-      }
+      setShowSuggestions(false);
     }, 200);
   };
 

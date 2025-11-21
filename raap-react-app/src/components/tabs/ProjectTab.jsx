@@ -66,8 +66,8 @@ const ProjectTab = () => {
         {/* Building Configuration */}
         <div className="card">
           <h2>🏢 Building Configuration</h2>
-          <div className="grid-2">
-            <div className="form-group">
+          <div className="grid-2" style={{ alignItems: 'flex-end', gap: '12px' }}>
+            <div className="form-group" style={{ marginBottom: 0 }}>
               <LocationInput
                 label="📍 Property Location"
                 value={projectData.propertyLocation}
@@ -75,12 +75,13 @@ const ProjectTab = () => {
                 onChange={handlePropertyLocationChange}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label">Number of Floors</label>
               <select
                 className="form-select"
                 value={projectData.floors}
                 onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
+                style={{ display: 'block', width: '100%' }}
               >
                 <option value="3">3 Floors</option>
                 <option value="4">4 Floors</option>
