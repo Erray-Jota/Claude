@@ -11,7 +11,7 @@ const SmartStartTab = () => {
           ⚡ SmartStart: The $10K Decision That Saves You $50K–$150K
         </h1>
         <p style={{ fontSize: '22px', color: '#92400E', marginBottom: '0px', lineHeight: '1.6', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-          Know everything in 2 weeks. Avoid 6 months of guesswork. Build from strength.
+          Know everything in 4-6 weeks. Avoid 6 months of guesswork. Build from strength.
         </p>
       </div>
 
@@ -39,11 +39,11 @@ const SmartStartTab = () => {
 
       {/* Three-Panel Layout */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '28px' }}>
-        {/* Panel 1: Know in 2 Weeks */}
+        {/* Panel 1: Know in 4-6 Weeks */}
         <div style={{ background: 'linear-gradient(135deg, #E0F2FE 0%, #ffffff 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #0EA5E9', boxShadow: '0 6px 18px rgba(14, 165, 233, 0.15)' }}>
           <div style={{ fontSize: '36px', marginBottom: '12px', textAlign: 'center' }}>⏱️</div>
           <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#0369A1', marginBottom: '14px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-            Know in 2 Weeks
+            Know in 4-6 Weeks
           </h3>
           <p style={{ fontSize: '16px', fontWeight: 700, color: '#0c4a6e', marginBottom: '14px', textAlign: 'center', lineHeight: '1.6', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
             Certainty Before Capital
@@ -54,7 +54,7 @@ const SmartStartTab = () => {
             <li>✓ Entitlement-ready package</li>
           </ul>
           <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '2px solid #0EA5E9', textAlign: 'center', fontSize: '13px', fontWeight: 700, color: '#0369A1' }}>
-            2 weeks → answers you normally wait 4–6 months for
+            4-6 weeks → answers you normally wait 4–6 months for
           </div>
         </div>
 
@@ -129,7 +129,7 @@ const SmartStartTab = () => {
       {/* Final CTA */}
       <div style={{ background: '#065F46', padding: '32px', borderRadius: '12px', border: '4px solid #047857', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)', textAlign: 'center' }}>
         <p style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', margin: '0 0 14px 0', lineHeight: '1.3', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-          Ready to Know Everything in 2 Weeks?
+          Ready to Know Everything in 4-6 Weeks?
         </p>
         <p style={{ fontSize: '18px', fontWeight: 700, color: '#D1FAE5', margin: '0px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
           Your cost savings will exceed what you pay us. Guaranteed.
