@@ -8,18 +8,18 @@ const IntroductionTab = () => {
 
   return (
     <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-        <h1 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '6px' }}>
+      <div style={{ textAlign: 'center', marginBottom: isEffectivelyMobile ? '12px' : '20px' }}>
+        <h1 style={{ fontSize: isEffectivelyMobile ? '18px' : '20px', fontWeight: 700, color: '#111827', marginBottom: '6px' }}>
           Make Modular Predictable
         </h1>
-        <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '10px' }}>
+        <p style={{ fontSize: isEffectivelyMobile ? '14px' : '16px', color: '#4b5563', marginBottom: '0px' }}>
           Skip months of uncertainty and thousands of $$ in wasted pre-con costs!
         </p>
       </div>
 
       {/* Hero Video Card */}
-      <div className="card" style={{ padding: '0', marginBottom: '12px', borderRadius: '8px', overflow: 'hidden' }}>
-        <video autoPlay muted loop style={{ width: '100%', height: '14rem', objectFit: 'cover', display: 'block' }}>
+      <div className="card" style={{ padding: '0', marginBottom: '10px', borderRadius: '8px', overflow: 'hidden' }}>
+        <video autoPlay muted loop style={{ width: '100%', height: isEffectivelyMobile ? '100px' : '14rem', objectFit: 'cover', display: 'block' }}>
           <source src={ASSET_PATHS.INTRO_VIDEO_URL} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -31,33 +31,33 @@ const IntroductionTab = () => {
       </div>
 
       {/* Problems Section */}
-      <div className="card" style={{ marginBottom: '12px' }}>
-        <h2 style={{ fontSize: isEffectivelyMobile ? '16px' : '18px', fontWeight: 700, color: '#111827', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-start' }}>
+      <div className="card" style={{ marginBottom: '10px' }}>
+        <h2 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px', fontWeight: 700, color: '#111827', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-start' }}>
           <span style={{ color: '#ea580c' }}>⚠️</span> Why modular hasn't worked (yet)
         </h2>
-        <div className="grid-3" style={{ gap: '12px' }}>
+        <div className="grid-3" style={{ gap: isEffectivelyMobile ? '8px' : '12px' }}>
           {[
             'Designs not factory optimized',
             "GCs can't scope modular correctly",
             'Coordination breaks down'
           ].map((problem, index) => (
-            <div key={index} style={{ padding: isEffectivelyMobile ? '10px' : '12px', background: '#FEE2E2', borderRadius: '6px', border: '1px solid #FCA5A5', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-              <div style={{ flexShrink: 0, width: '24px', height: '24px', background: '#DC2626', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: 'white', fontWeight: 'bold' }}>
+            <div key={index} style={{ padding: isEffectivelyMobile ? '8px' : '12px', background: '#FEE2E2', borderRadius: '6px', border: '1px solid #FCA5A5', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', minHeight: 'auto' }}>
+              <div style={{ flexShrink: 0, width: '22px', height: '22px', background: '#DC2626', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', color: 'white', fontWeight: 'bold' }}>
                 {index + 1}
               </div>
-              <div style={{ fontSize: isEffectivelyMobile ? '13px' : '14px', color: '#374151', fontWeight: 600, wordWrap: 'break-word', overflowWrap: 'break-word' }}>{problem}</div>
+              <div style={{ fontSize: isEffectivelyMobile ? '12px' : '14px', color: '#374151', fontWeight: 600, wordWrap: 'break-word', overflowWrap: 'break-word' }}>{problem}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Solution Section */}
-      <div className="card" style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #DBEAFE 100%)', border: '2px solid #2D5A3D', padding: isEffectivelyMobile ? '14px' : '20px', borderRadius: '12px', boxShadow: '0 6px 20px rgba(45, 90, 61, 0.15)' }}>
-        <div style={{ display: 'flex', alignItems: isEffectivelyMobile ? 'flex-start' : 'center', gap: isEffectivelyMobile ? '8px' : '12px', marginBottom: '12px' }}>
-          <span style={{ fontSize: isEffectivelyMobile ? '24px' : '28px', flexShrink: 0 }}>🎯</span>
-          <h3 style={{ fontSize: isEffectivelyMobile ? '16px' : '18px', fontWeight: 800, color: '#2D5A3D', margin: 0, wordWrap: 'break-word', overflowWrap: 'break-word' }}>How RaaP Changes the Game</h3>
+      <div className="card" style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #DBEAFE 100%)', border: '2px solid #2D5A3D', padding: isEffectivelyMobile ? '12px' : '20px', borderRadius: '12px', boxShadow: '0 6px 20px rgba(45, 90, 61, 0.15)' }}>
+        <div style={{ display: 'flex', alignItems: isEffectivelyMobile ? 'flex-start' : 'center', gap: isEffectivelyMobile ? '6px' : '12px', marginBottom: '8px' }}>
+          <span style={{ fontSize: isEffectivelyMobile ? '20px' : '28px', flexShrink: 0 }}>🎯</span>
+          <h3 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px', fontWeight: 800, color: '#2D5A3D', margin: 0 }}>How RaaP Changes the Game</h3>
         </div>
-        <p style={{ fontSize: isEffectivelyMobile ? '13px' : '15px', fontWeight: 600, marginBottom: 0, color: '#1F2937', lineHeight: '1.6', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+        <p style={{ fontSize: isEffectivelyMobile ? '12px' : '15px', fontWeight: 600, marginBottom: 0, color: '#1F2937', lineHeight: '1.5' }}>
           {isEffectivelyMobile ? 'Factory-optimized design & cost model — feasibility, savings & confidence before entitlement.' : 'We start with a factory-optimized design and a detailed cost model — giving you feasibility, savings, and confidence before you commit capital to entitlement.'}
         </p>
       </div>
