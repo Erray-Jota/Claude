@@ -19,9 +19,9 @@ const createDefaultProject = (name = 'New Project') => ({
   podiumCount: 0,
   commonAreaPct: 5,
   // Unified location system with autocomplete support
-  propertyLocation: 'Boise, ID',
-  propertyFactor: 0.87,
-  propertyCoordinates: { lat: 43.6150, lng: -116.2023 },
+  propertyLocation: 'San Francisco, CA',
+  propertyFactor: 1.15,
+  propertyCoordinates: { lat: 37.7749, lng: -122.4194 },
   factoryLocation: 'Boise, ID',
   factoryFactor: 0.87,
   factoryCoordinates: { lat: 43.6150, lng: -116.2023 },

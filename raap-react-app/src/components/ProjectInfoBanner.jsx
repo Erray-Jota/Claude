@@ -6,7 +6,10 @@ const ProjectInfoBanner = ({ calculations }) => {
   const {
     siteCost,
     modularCost,
+    siteCostPerSF,
+    siteCostPerUnit,
     modularCostPerUnit,
+    siteBuildTimeMonths,
     modularBuildTimeMonths,
     timeSavings,
     isSavings,
@@ -14,7 +17,7 @@ const ProjectInfoBanner = ({ calculations }) => {
 
   const formatUnitsK = (amount) => formatCurrency(amount / 1000) + 'K';
 
-  // Mobile: Simple 2x2 key metrics grid
+  // Mobile: 2x2 key metrics grid with detailed layout
   if (isEffectivelyMobile) {
     return (
       <div style={{
@@ -23,55 +26,69 @@ const ProjectInfoBanner = ({ calculations }) => {
         gap: '10px',
         marginBottom: '12px',
       }}>
+        {/* Site Cost Box */}
         <div style={{
           background: isSavings ? '#fef2f2' : '#fff7ed',
           border: '2px solid ' + (isSavings ? '#fca5a5' : '#fed7aa'),
           borderRadius: '8px',
-          padding: '12px',
+          padding: '10px',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '4px' }}>SITE COST</div>
-          <div style={{ fontSize: '20px', fontWeight: 900, color: isSavings ? '#dc2626' : '#111827' }}>
+          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '2px' }}>SITE COST</div>
+          <div style={{ fontSize: '18px', fontWeight: 900, color: isSavings ? '#dc2626' : '#111827', marginBottom: '4px' }}>
             {formatMega(siteCost)}
+          </div>
+          <div style={{ fontSize: '9px', color: '#6b7280', lineHeight: 1.2 }}>
+            <div>{formatCurrency(siteCostPerSF)}/SF</div>
+            <div>{formatUnitsK(siteCostPerUnit)}/unit</div>
           </div>
         </div>
 
+        {/* Modular Cost Box */}
         <div style={{
           background: isSavings ? '#f0fdf4' : '#fef2f2',
           border: '2px solid ' + (isSavings ? '#86efac' : '#fca5a5'),
           borderRadius: '8px',
-          padding: '12px',
+          padding: '10px',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '4px' }}>MODULAR COST</div>
-          <div style={{ fontSize: '20px', fontWeight: 900, color: isSavings ? '#16a34a' : '#dc2626' }}>
+          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '2px' }}>MODULAR COST</div>
+          <div style={{ fontSize: '18px', fontWeight: 900, color: isSavings ? '#16a34a' : '#dc2626', marginBottom: '4px' }}>
             {formatMega(modularCost)}
           </div>
-        </div>
-
-        <div style={{
-          background: '#eff6ff',
-          border: '2px solid #0ea5e9',
-          borderRadius: '8px',
-          padding: '12px',
-          textAlign: 'center',
-        }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '4px' }}>COST/UNIT</div>
-          <div style={{ fontSize: '18px', fontWeight: 900, color: '#111827' }}>
-            {formatUnitsK(modularCostPerUnit)}
+          <div style={{ fontSize: '9px', color: '#6b7280', lineHeight: 1.2 }}>
+            {formatUnitsK(modularCostPerUnit)}/unit
           </div>
         </div>
 
+        {/* Site Build Time Box */}
         <div style={{
-          background: '#f0fdf4',
-          border: '2px solid #16a34a',
+          background: '#fef3c7',
+          border: '2px solid #fcd34d',
           borderRadius: '8px',
-          padding: '12px',
+          padding: '10px',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '4px' }}>TIME SAVED</div>
-          <div style={{ fontSize: '18px', fontWeight: 900, color: '#16a34a' }}>
-            {formatTime(timeSavings)}
+          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '2px' }}>SITE BUILD TIME</div>
+          <div style={{ fontSize: '18px', fontWeight: 900, color: '#111827' }}>
+            {formatTime(siteBuildTimeMonths)}
+          </div>
+        </div>
+
+        {/* Modular Build Time + Savings Box */}
+        <div style={{
+          background: '#f0fdf4',
+          border: '2px solid #86efac',
+          borderRadius: '8px',
+          padding: '10px',
+          textAlign: 'center',
+        }}>
+          <div style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', marginBottom: '2px' }}>MODULAR BUILD TIME</div>
+          <div style={{ fontSize: '18px', fontWeight: 900, color: '#111827', marginBottom: '4px' }}>
+            {formatTime(modularBuildTimeMonths)}
+          </div>
+          <div style={{ fontSize: '9px', color: '#16a34a', fontWeight: 600, lineHeight: 1.2 }}>
+            Save {formatTime(timeSavings)}
           </div>
         </div>
       </div>
