@@ -1,11 +1,13 @@
 import { useProject } from '../../contexts/ProjectContext';
 import { useCalculations, formatMega, formatCurrency, formatTime } from '../../hooks/useCalculations';
+import { useMobile } from '../../hooks/useMobile';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
 import LocationInput from '../LocationInput';
 
 const ProjectTab = () => {
   const { projectData, updateProjectData, switchTab } = useProject();
+  const { isEffectivelyMobile } = useMobile();
   const calculations = useCalculations(projectData);
 
   const handleInputChange = (field, value) => {
@@ -63,41 +65,81 @@ const ProjectTab = () => {
 
       {/* Main Content */}
       <div className="grid-2" style={{ gap: '12px' }}>
+        {!isEffectivelyMobile && (
+          /* Desktop: Building Configuration */
+          <div className="card">
+            <h2>🏢 Building Configuration</h2>
+            <div className="grid-2" style={{ alignItems: 'flex-end', gap: '12px' }}>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <LocationInput
+                  label="📍 Property Location"
+                  value={projectData.propertyLocation}
+                  placeholder="Enter city or zip code"
+                  onChange={handlePropertyLocationChange}
+                />
+              </div>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Number of Floors</label>
+                <select
+                  className="form-select"
+                  value={projectData.floors}
+                  onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
+                  style={{ display: 'block', width: '100%' }}
+                >
+                  <option value="3">3 Floors</option>
+                  <option value="4">4 Floors</option>
+                  <option value="5">5 Floors</option>
+                </select>
+              </div>
+            </div>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '10px', borderTop: '1px solid #f3f4f6', paddingTop: '8px' }}>
+              *RaaP applies real regional cost factors and factory GC/fab scope split.
+            </div>
+          </div>
+        )}
+
         {/* Target Unit Mix */}
         <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end' }}>
-                <div style={{ flex: 1 }}>
-                  <LocationInput
-                    label="📍 Site Location"
-                    value={projectData.propertyLocation}
-                    placeholder="Enter city or zip code"
-                    onChange={handlePropertyLocationChange}
-                  />
-                </div>
-                <div style={{ flex: 0.6 }}>
-                  <label className="form-label" style={{ fontSize: '10px' }}>Floors</label>
-                  <select
-                    className="form-select"
-                    value={projectData.floors}
-                    onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
-                    style={{ display: 'block', width: '100%', fontSize: '12px', padding: '4px' }}
-                  >
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
+          {isEffectivelyMobile && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 1 }}>
+                    <LocationInput
+                      label="📍 Site Location"
+                      value={projectData.propertyLocation}
+                      placeholder="Enter city or zip code"
+                      onChange={handlePropertyLocationChange}
+                    />
+                  </div>
+                  <div style={{ flex: 0.6 }}>
+                    <label className="form-label" style={{ fontSize: '10px' }}>Floors</label>
+                    <select
+                      className="form-select"
+                      value={projectData.floors}
+                      onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
+                      style={{ display: 'block', width: '100%', fontSize: '12px', padding: '4px' }}
+                    >
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           <h2>
             🎯 Target Unit Mix
-            <span style={{ fontSize: '12px', fontWeight: 400, color: '#6b7280' }}>
-              (Units: <strong style={{ color: '#111827' }}>{totalUnits}</strong>)
+            <span style={{ fontSize: isEffectivelyMobile ? '12px' : '14px', fontWeight: 400, color: '#6b7280' }}>
+              ({isEffectivelyMobile ? 'Units' : 'Total Units'}: <strong style={{ color: '#111827' }}>{totalUnits}</strong>)
             </span>
           </h2>
+          {!isEffectivelyMobile && (
+            <p className="small-text" style={{ marginBottom: '12px' }}>
+              Enter target units. Final mix is calculated on the Design tab.
+            </p>
+          )}
 
           <div className="grid-4" style={{ gap: '8px' }}>
             <div className="unit-input-container">
@@ -149,23 +191,49 @@ const ProjectTab = () => {
       </div>
 
       {/* RaaP Benefits */}
-      <div className="card" style={{ marginTop: '12px' }}>
-        <h2>💡 RaaP Benefits</h2>
-        <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0, fontSize: '13px', color: '#374151' }}>
-          <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
-            <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
-            <span>2X factory throughput & millions in savings</span>
-          </li>
-          <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
-            <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
-            <span>Clear scope, pricing & fewer change orders</span>
-          </li>
-          <li style={{ marginBottom: 0, display: 'flex', alignItems: 'flex-start' }}>
-            <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
-            <span>De-risked construction & reduced RFIs</span>
-          </li>
-        </ul>
-      </div>
+      {isEffectivelyMobile ? (
+        <div className="card" style={{ marginTop: '12px' }}>
+          <h2>💡 RaaP Benefits</h2>
+          <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0, fontSize: '13px', color: '#374151' }}>
+            <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
+              <span>2X factory throughput & millions in savings</span>
+            </li>
+            <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
+              <span>Clear scope, pricing & fewer change orders</span>
+            </li>
+            <li style={{ marginBottom: 0, display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '6px', fontSize: '16px', flexShrink: 0 }}>✓</span>
+              <span>De-risked construction & reduced RFIs</span>
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div className="card" style={{ marginTop: '12px' }}>
+          <h2>💡 RaaP Benefits</h2>
+          <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0, fontSize: '16px', color: '#374151' }}>
+            <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+              <span className="raap-benefit-text">
+                Our DfMA-optimized designs can increase factory throughput by as much as 2X ($$ millions in factory savings).
+              </span>
+            </li>
+            <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+              <span className="raap-benefit-text">
+                Our Pre-con process clarifies GC—Fab scope & pricing at the outset, resulting in greater pricing clarity, lower bids & fewer change orders.
+              </span>
+            </li>
+            <li style={{ marginBottom: 0, display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+              <span className="raap-benefit-text">
+                Our design-centric fabricator co-ordination process de-risks modular construction and reduces RFIs & change orders.
+              </span>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
