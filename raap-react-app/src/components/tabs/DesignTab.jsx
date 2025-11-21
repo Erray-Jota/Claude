@@ -174,8 +174,8 @@ const DesignTab = () => {
                 {['Studio', '1 Bed', '2 Bed', '3 Bed'].map((label, index) => {
                   const key = ['studio', 'oneBed', 'twoBed', 'threeBed'][index];
                   let count = calculations.optimized[key];
-                  // Add bonus units to 1-bed count
-                  if (key === 'oneBed' && calculations.bonusUnits) {
+                  // Add bonus units to the appropriate unit type
+                  if (calculations.bonusUnits && calculations.bonusUnitType === key) {
                     count += calculations.bonusUnits;
                   }
                   return (

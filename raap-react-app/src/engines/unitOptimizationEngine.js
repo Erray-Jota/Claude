@@ -325,18 +325,20 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
   // ------------- Finalize optimized mix (convert back to building-wide unit counts) -------------
   const finalTypeCountsSide = computePerSideTypeCounts();
 
-  // Calculate bonus 1-bed inline units across from lobby
-  // 2-Bay lobby (24.5 ft) can fit a 1-bed inline (24.5 ft) = 5 bonus units (1 per floor)
-  // 1-Bay lobby (13.5 ft) can fit a studio (13.5 ft) = 5 bonus units
-  // 4-Bay lobby (49.0 ft) can fit two 1-bed inlines (24.5 ft each) = 10 bonus units
+  // Calculate bonus units across from lobby
+  // 1-Bay lobby (13.5 ft) can fit a studio (13.5 ft) = floors bonus studios
+  // 2-Bay lobby (24.5 ft) can fit a 1-bed inline (24.5 ft) = floors bonus 1-beds
+  // 4-Bay lobby (49.0 ft) can fit units on both sides = no bonus units
   let bonusUnits = 0;
-  if (lobbyType === 2) {
-    bonusUnits = floors; // 5 bonus 1-bed inline units (one per floor)
-  } else if (lobbyType === 1) {
-    bonusUnits = floors; // 5 bonus studio units
-  } else if (lobbyType === 4) {
-    bonusUnits = floors * 2; // 10 bonus 1-bed inline units
+  let bonusUnitType = null; // 'studio' or 'oneBed' or null
+  if (lobbyType === 1) {
+    bonusUnits = floors; // floors bonus studio units (one per floor)
+    bonusUnitType = 'studio';
+  } else if (lobbyType === 2) {
+    bonusUnits = floors; // floors bonus 1-bed inline units (one per floor)
+    bonusUnitType = 'oneBed';
   }
+  // 4-Bay: no bonus units
 
   const optimizedTotals = {
     studio: finalTypeCountsSide.studios * 2 * floors,
@@ -374,6 +376,7 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
     lobbyWidth,
     stairWidth,
     bonusUnits,
+    bonusUnitType,
     // SKU breakdown for advanced use
     skus: {
       sku_studio,
