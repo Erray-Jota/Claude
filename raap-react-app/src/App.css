@@ -138,13 +138,14 @@
 /* PROJECT INFO BANNER */
 .project-info-banner {
   background: white;
-  padding: 12px 16px;
+  padding: 16px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 12px;
   border: 2px solid #2D5A3D;
   display: grid;
-  grid-template-columns: 1fr 1fr 1.2fr;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
 .cost-column {
@@ -152,12 +153,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border-right: 1px solid #e5e7eb;
-  padding: 0 8px;
-}
-
-.cost-column:nth-child(3) {
-  border-right: none;
+  padding: 8px;
 }
 
 .metric-label {
@@ -177,21 +173,36 @@
 }
 
 .cost-details-inline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  margin-top: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 6px;
+  width: 100%;
+  font-size: 12px;
 }
 
 .cost-sub-group {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 1.1;
-  font-size: 14px;
+  gap: 2px;
+  line-height: 1.2;
+  font-size: 12px;
   color: #111827;
   font-weight: 600;
+}
+
+.cost-sub-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.cost-sub-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .time-column {
