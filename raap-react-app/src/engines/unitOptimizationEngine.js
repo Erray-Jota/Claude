@@ -339,8 +339,8 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
   }
 
   const optimizedTotals = {
-    studio: finalTypeCountsSide.studios * 2 * floors + (lobbyType === 1 ? bonusUnits : 0),
-    oneBed: finalTypeCountsSide.oneBeds * 2 * floors + (lobbyType === 2 || lobbyType === 4 ? bonusUnits : 0),
+    studio: finalTypeCountsSide.studios * 2 * floors,
+    oneBed: finalTypeCountsSide.oneBeds * 2 * floors,
     twoBed: finalTypeCountsSide.twoBeds * 2 * floors,
     threeBed: finalTypeCountsSide.threeBeds * 2 * floors,
   };
