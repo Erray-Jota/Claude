@@ -58,7 +58,7 @@ const ProjectInfoBanner = ({ calculations }) => {
             {formatMega(modularCost)}
           </div>
           <div style={{ fontSize: '9px', color: '#6b7280', lineHeight: 1.2 }}>
-            {formatUnitsK(modularCostPerUnit)}/unit
+            <div>${formatUnitsK(modularCostPerUnit)}/unit</div>
           </div>
         </div>
 

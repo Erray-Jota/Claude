@@ -5,7 +5,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="60"
@@ -38,7 +38,8 @@ const Header = () => {
           fontWeight: 600,
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '8px',
+          flexShrink: 0
         }}
       >
         📁 Projects
