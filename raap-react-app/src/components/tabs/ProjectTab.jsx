@@ -13,6 +13,7 @@ const ProjectTab = () => {
   };
 
   const handlePropertyLocationChange = (locationData) => {
+    console.log('ProjectTab - Property location changed:', locationData);
     updateProjectData({
       propertyLocation: locationData.displayLocation,
       propertyFactor: locationData.factor,
@@ -21,6 +22,7 @@ const ProjectTab = () => {
   };
 
   const handleFactoryLocationChange = (locationData) => {
+    console.log('ProjectTab - Factory location changed:', locationData);
     updateProjectData({
       factoryLocation: locationData.displayLocation,
       factoryFactor: locationData.factor,
