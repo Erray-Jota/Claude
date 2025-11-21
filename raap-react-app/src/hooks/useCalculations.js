@@ -18,8 +18,8 @@ export const useCalculations = (projectData) => {
     const optimized = optimization.optimized;
     const totalOptimized = optimization.totalOptimized;
 
-    // Calculate building GSF with exact dimensions and SKU breakdown
-    const gsfCalc = calculateBuildingGSF(optimized, floors, lobbyType || 2, optimization.skus, podiumCount || 0);
+    // Calculate building GSF with exact dimensions and SKU breakdown (including bonus units)
+    const gsfCalc = calculateBuildingGSF(optimized, floors, lobbyType || 2, optimization.skus, optimization.bonusUnits || 0, podiumCount || 0);
     const totalGSF = gsfCalc.totalGSF;
 
     // Calculate scale factors
