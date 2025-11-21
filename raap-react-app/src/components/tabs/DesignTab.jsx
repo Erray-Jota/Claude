@@ -1,4 +1,5 @@
 import { useProject } from '../../contexts/ProjectContext';
+import { useMobile } from '../../hooks/useMobile';
 import { useCalculations } from '../../hooks/useCalculations';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
@@ -6,6 +7,7 @@ import { generateFloorPlan, generateSVGElements } from '../../engines/floorplanP
 
 const DesignTab = () => {
   const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
+  const { isEffectivelyMobile } = useMobile();
   const calculations = useCalculations(projectData);
 
   const handleInputChange = (field, value) => {
@@ -67,35 +69,39 @@ const DesignTab = () => {
         </div>
       </div>
 
-      {/* Sub-tabs */}
-      <div className="subtab-container">
-        <div className="subtab-nav">
-          <button onClick={() => switchSubtab('design', 1)} className={`subtab-btn ${activeSubtabs.design === 1 ? 'active-subtab' : ''}`}>
-            📋 Summary
-          </button>
-          <button onClick={() => switchSubtab('design', 2)} className={`subtab-btn ${activeSubtabs.design === 2 ? 'active-subtab' : ''}`}>
-            🏠 Units
-          </button>
-          <button onClick={() => switchSubtab('design', 3)} className={`subtab-btn ${activeSubtabs.design === 3 ? 'active-subtab' : ''}`}>
-            🗺️ Floorplan
-          </button>
-          <button onClick={() => switchSubtab('design', 4)} className={`subtab-btn ${activeSubtabs.design === 4 ? 'active-subtab' : ''}`}>
-            🏗️ Building
-          </button>
+      {/* Sub-tabs - Hide on mobile to save space */}
+      {!isEffectivelyMobile && (
+        <div className="subtab-container">
+          <div className="subtab-nav">
+            <button onClick={() => switchSubtab('design', 1)} className={`subtab-btn ${activeSubtabs.design === 1 ? 'active-subtab' : ''}`}>
+              📋 Summary
+            </button>
+            <button onClick={() => switchSubtab('design', 2)} className={`subtab-btn ${activeSubtabs.design === 2 ? 'active-subtab' : ''}`}>
+              🏠 Units
+            </button>
+            <button onClick={() => switchSubtab('design', 3)} className={`subtab-btn ${activeSubtabs.design === 3 ? 'active-subtab' : ''}`}>
+              🗺️ Floorplan
+            </button>
+            <button onClick={() => switchSubtab('design', 4)} className={`subtab-btn ${activeSubtabs.design === 4 ? 'active-subtab' : ''}`}>
+              🏗️ Building
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Subtab Content */}
       {activeSubtabs.design === 1 && (
         <div>
-          {/* Hero Video */}
-          <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', height: '380px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
-            <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-          </div>
+          {/* Hero Video - Hide on mobile */}
+          {!isEffectivelyMobile && (
+            <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', height: '380px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+              <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            </div>
+          )}
 
-          <div className="grid-2" style={{ gap: '12px' }}>
+          <div className="grid-2" style={{ gap: isEffectivelyMobile ? '8px' : '12px' }}>
             {/* Design Configuration */}
             <div className="card">
               <h2>
@@ -205,24 +211,26 @@ const DesignTab = () => {
             </div>
           </div>
 
-          {/* RaaP DfMA Benefits */}
-          <div className="card" style={{ marginTop: '12px' }}>
-            <h2>💡 RaaP DfMA Benefits</h2>
-            <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0, fontSize: '16px', color: '#374151' }}>
-              <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
-                <span>Reduced factory costs: RaaP's designs can increase factory throughput by as much as 2X ($$ millions in factory savings).</span>
-              </li>
-              <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
-                <span>Reduce design & engineering fees: Our conceptual designs and factory permit sets can reduce AoR scope & effort by as much as 1/3.</span>
-              </li>
-              <li style={{ marginBottom: 0, display: 'flex', alignItems: 'flex-start' }}>
-                <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
-                <span>Productized designs increase the efficiency of coordination minimize RFIs & Submittals.</span>
-              </li>
-            </ul>
-          </div>
+          {/* RaaP DfMA Benefits - Hide on mobile */}
+          {!isEffectivelyMobile && (
+            <div className="card" style={{ marginTop: '12px' }}>
+              <h2>💡 RaaP DfMA Benefits</h2>
+              <ul style={{ listStyle: 'none', paddingLeft: 0, margin: 0, fontSize: '16px', color: '#374151' }}>
+                <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+                  <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+                  <span>Reduced factory costs: RaaP's designs can increase factory throughput by as much as 2X ($$ millions in factory savings).</span>
+                </li>
+                <li style={{ marginBottom: '6px', display: 'flex', alignItems: 'flex-start' }}>
+                  <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+                  <span>Reduce design & engineering fees: Our conceptual designs and factory permit sets can reduce AoR scope & effort by as much as 1/3.</span>
+                </li>
+                <li style={{ marginBottom: 0, display: 'flex', alignItems: 'flex-start' }}>
+                  <span style={{ color: '#16a34a', fontWeight: 'bold', marginRight: '8px', fontSize: '18px' }}>✓</span>
+                  <span>Productized designs increase the efficiency of coordination minimize RFIs & Submittals.</span>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
