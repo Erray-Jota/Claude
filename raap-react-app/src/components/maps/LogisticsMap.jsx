@@ -137,7 +137,7 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
           <Map
             key={mapKey}
             defaultZoom={6}
-            defaultCenter={center}
+            center={center}
             mapId="logistics-map"
             gestureHandling="greedy"
             disableDefaultUI={false}
