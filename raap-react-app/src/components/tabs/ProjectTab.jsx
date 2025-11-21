@@ -2,6 +2,7 @@ import { useProject } from '../../contexts/ProjectContext';
 import { useCalculations, formatMega, formatCurrency, formatTime } from '../../hooks/useCalculations';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { raapCities } from '../../data/raapCities';
+import { ASSET_PATHS } from '../../data/constants';
 
 const ProjectTab = () => {
   // Sort cities by cost factor (descending) for better UX
@@ -32,6 +33,17 @@ const ProjectTab = () => {
     <div>
       {/* Project Info Banner */}
       <ProjectInfoBanner calculations={calculations} />
+
+      {/* Project Hero Image */}
+      <div className="card" style={{ padding: '0', marginBottom: '12px', marginTop: '12px' }}>
+        <div style={{ height: '14rem', overflow: 'hidden', position: 'relative' }}>
+          <img
+            src={ASSET_PATHS.PROJECT_GRAPHIC_URL}
+            alt="Project View"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="grid-2" style={{ gap: '12px' }}>

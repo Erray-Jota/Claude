@@ -30,6 +30,18 @@ const DesignTab = () => {
   const remainingLength = projectData.targetLength - calculations.requiredLength;
   const isConstraintMet = remainingLength >= 0;
 
+  // Helper to get 3D image based on floors and length
+  const get3DImage = () => {
+    const floors = projectData.floors;
+    const length = projectData.targetLength;
+    let size = 'MEDIUM';
+    if (length < 180) size = 'SHORT';
+    else if (length > 280) size = 'LONG';
+
+    const key = `BUILDING_${floors}_${size}`;
+    return ASSET_PATHS[key] || ASSET_PATHS.BUILDING_3_MEDIUM; // Fallback
+  };
+
   return (
     <div>
       <h1 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '8px', textAlign: 'center' }}>
@@ -460,23 +472,147 @@ const DesignTab = () => {
             );
           })()}
         </div>
-      )}
+      )
+      }
 
-      {activeSubtabs.design === 4 && (
-        <div className="card">
-          <h2>🏗️ Building Massing Options (Calculated Length: {calculations.requiredLength.toFixed(1)} ft)</h2>
-          <p className="small-text" style={{ marginBottom: '12px' }}>Based on your current required length, select a building massing option.</p>
-          <div className="grid-3" style={{ gap: '15px' }}>
-            <div style={{ background: '#f0fdf4', border: '2px solid #16a34a', borderRadius: '6px', overflow: 'hidden', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              <img src={ASSET_PATHS.LAYOUT_MEDIUM} alt="Medium Layout" style={{ width: '100%', height: '100px', objectFit: 'cover' }} />
-              <div style={{ padding: '8px', fontWeight: 700, fontSize: '14px', color: '#16a34a' }}>
-                {projectData.floors}-Story Medium Layout (Recommended)
+      {
+        activeSubtabs.design === 4 && (
+          <div>
+            {/* Hero Video */}
+            <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', height: '250px', boxShadow: '0 4px 8px rgba(0,0,0,0.15)' }}>
+              <video controls loop muted autoPlay style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', background: '#e5e7eb' }}>
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            </div>
+
+            {/* 3D Building Image */}
+            <div className="card" style={{ padding: '0', marginBottom: '12px', overflow: 'hidden' }}>
+              <img
+                src={get3DImage()}
+                alt="3D Building View"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+              <div style={{ padding: '8px', background: '#f9fafb', borderTop: '1px solid #e5e7eb', textAlign: 'center', fontSize: '14px', fontWeight: 600, color: '#374151' }}>
+                {projectData.floors}-Story Building ({projectData.targetLength} ft)
               </div>
             </div>
+
+            {/* Floorplan Visualization (Full Width) */}
+            <div className="card" style={{ marginBottom: '12px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>🗺️ Floor Plan Preview</h3>
+              {(() => {
+                const stairWidth = calculations.optimized.threeBed > 0 ? 11.0 : 13.5;
+                const floorPlan = generateFloorPlan(calculations.skus, projectData.lobbyType, stairWidth);
+                const svgElements = generateSVGElements(floorPlan);
+
+                return (
+                  <div style={{ overflowX: 'auto' }}>
+                    <svg
+                      id="floor-plan-svg-building"
+                      viewBox={`0 0 ${svgElements.svgWidth} ${svgElements.svgHeight}`}
+                      style={{ width: '100%', height: 'auto', border: '1px solid #d1d5db', borderRadius: '4px', background: 'white' }}
+                    >
+                      {/* Left Side Units */}
+                      {svgElements.leftUnits.map((unit) => (
+                        <g key={unit.id}>
+                          <rect
+                            x={unit.x}
+                            y={unit.y}
+                            width={unit.width}
+                            height={unit.height}
+                            fill={unit.fill}
+                            stroke={unit.stroke}
+                            strokeWidth={unit.strokeWidth}
+                            rx={unit.rx}
+                          />
+                          <text
+                            x={unit.x + unit.width / 2}
+                            y={unit.y + unit.height / 2 - 4}
+                            textAnchor="middle"
+                            fontSize={11}
+                            fontWeight={600}
+                            fill="#1e293b"
+                          >
+                            {unit.label}
+                          </text>
+                          <text
+                            x={unit.x + unit.width / 2}
+                            y={unit.y + unit.height / 2 + 10}
+                            textAnchor="middle"
+                            fontSize={9}
+                            fill="#475569"
+                          >
+                            {unit.subLabel}
+                          </text>
+                        </g>
+                      ))}
+
+                      {/* Corridor */}
+                      <rect
+                        x={svgElements.corridor.x}
+                        y={svgElements.corridor.y}
+                        width={svgElements.corridor.width}
+                        height={svgElements.corridor.height}
+                        fill={svgElements.corridor.fill}
+                        stroke={svgElements.corridor.stroke}
+                        strokeWidth={svgElements.corridor.strokeWidth}
+                        rx={svgElements.corridor.rx}
+                      />
+                      <text
+                        x={svgElements.corridor.x + svgElements.corridor.width / 2}
+                        y={svgElements.corridor.y + svgElements.corridor.height / 2 + 10}
+                        textAnchor="middle"
+                        fontSize={12}
+                        fontWeight={700}
+                        fill="#374151"
+                        transform={`rotate(-90 ${svgElements.corridor.x + svgElements.corridor.width / 2} ${svgElements.corridor.y + svgElements.corridor.height / 2 + 10})`}
+                      >
+                        {svgElements.corridor.label}
+                      </text>
+
+                      {/* Right Side Units */}
+                      {svgElements.rightUnits.map((unit) => (
+                        <g key={unit.id}>
+                          <rect
+                            x={unit.x}
+                            y={unit.y}
+                            width={unit.width}
+                            height={unit.height}
+                            fill={unit.fill}
+                            stroke={unit.stroke}
+                            strokeWidth={unit.strokeWidth}
+                            rx={unit.rx}
+                          />
+                          <text
+                            x={unit.x + unit.width / 2}
+                            y={unit.y + unit.height / 2 - 4}
+                            textAnchor="middle"
+                            fontSize={11}
+                            fontWeight={600}
+                            fill="#1e293b"
+                          >
+                            {unit.label}
+                          </text>
+                          <text
+                            x={unit.x + unit.width / 2}
+                            y={unit.y + unit.height / 2 + 10}
+                            textAnchor="middle"
+                            fontSize={9}
+                            fill="#475569"
+                          >
+                            {unit.subLabel}
+                          </text>
+                        </g>
+                      ))}
+                    </svg>
+                  </div>
+                );
+              })()}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 };
 

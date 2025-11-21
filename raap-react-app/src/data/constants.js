@@ -77,4 +77,15 @@ export const ASSET_PATHS = {
   LAYOUT_SHORT: "/images/short.png",
   LAYOUT_MEDIUM: "/images/medium.png",
   LAYOUT_LONG: "/images/long.png",
+
+  // 3D Building Images
+  BUILDING_3_SHORT: "/images/3%20Short-3D.png",
+  BUILDING_3_MEDIUM: "/images/3%20Medium-3D.png",
+  BUILDING_3_LONG: "/images/3%20Long-3D.png",
+  BUILDING_4_SHORT: "/images/4%20short-3D.png",
+  BUILDING_4_MEDIUM: "/images/4%20medium-3D.png",
+  BUILDING_4_LONG: "/images/4%20long-3D.png",
+  BUILDING_5_SHORT: "/images/5_Stories_Small.png",
+  BUILDING_5_MEDIUM: "/images/5_Stories_Medium.png",
+  BUILDING_5_LONG: "/images/5_Stories_Large.png",
 };
