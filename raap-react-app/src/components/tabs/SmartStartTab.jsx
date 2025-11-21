@@ -1,163 +1,138 @@
 import { useProject } from '../../contexts/ProjectContext';
 
 const SmartStartTab = () => {
-  const { activeSubtabs, switchSubtab } = useProject();
+  const { switchTab } = useProject();
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '20px' }}>
-      <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#2D5A3D', textAlign: 'center', marginBottom: '15px' }}>
-        SmartStart: Know in 2 Weeks, Launch in 6 Months
-      </h1>
-      <p style={{ fontSize: '16px', color: '#6b7280', textAlign: 'center', marginBottom: '30px' }}>
-        Turn your project vision into a financeable, modular-optimized package. Firm costs. Zero surprises. Maximum certainty.
-      </p>
+    <div style={{ padding: '0 8px' }}>
+      {/* Hero Section */}
+      <div style={{ background: 'linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%)', padding: '32px', borderRadius: '12px', border: '4px solid #D97706', marginBottom: '28px', boxShadow: '0 8px 24px rgba(217, 119, 6, 0.2)' }}>
+        <h1 style={{ fontSize: '42px', fontWeight: 900, color: '#92400E', marginBottom: '16px', textAlign: 'center', lineHeight: '1.2', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          ⚡ SmartStart: The $10K Decision That Saves You $50K–$150K
+        </h1>
+        <p style={{ fontSize: '22px', color: '#92400E', marginBottom: '0px', lineHeight: '1.6', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          Know everything in 2 weeks. Avoid 6 months of guesswork. Build from strength.
+        </p>
+      </div>
 
-      {/* Sub-tabs */}
-      <div className="subtab-container">
-        <div className="subtab-nav">
-          <button onClick={() => switchSubtab('smartstart', 1)} className={`subtab-btn ${activeSubtabs.smartstart === 1 ? 'active-subtab' : ''}`}>
-            Overview
-          </button>
-          <button onClick={() => switchSubtab('smartstart', 2)} className={`subtab-btn ${activeSubtabs.smartstart === 2 ? 'active-subtab' : ''}`}>
-            Entitlement
-          </button>
-          <button onClick={() => switchSubtab('smartstart', 3)} className={`subtab-btn ${activeSubtabs.smartstart === 3 ? 'active-subtab' : ''}`}>
-            Estimates
-          </button>
+      {/* Impact Banner */}
+      <div style={{ background: '#065F46', padding: '24px', borderRadius: '12px', border: '4px solid #047857', marginBottom: '28px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)', textAlign: 'center' }}>
+        <p style={{ fontSize: '26px', fontWeight: 900, color: '#FFFFFF', margin: '0 0 12px 0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', letterSpacing: '-0.5px' }}>
+          SmartStart pays for itself before you even break ground. Every time.
+        </p>
+        <p style={{ fontSize: '16px', fontWeight: 700, color: '#D1FAE5', margin: '0px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          $40K–$90K in immediate savings + 10–20× ROI on factory-side optimization
+        </p>
+      </div>
+
+      {/* Why Developers Fail */}
+      <div style={{ background: 'linear-gradient(135deg, #FEE2E2 0%, #FEF2F2 100%)', padding: '24px', borderRadius: '12px', border: '3px solid #DC2626', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.08)' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: 900, color: '#7F1D1D', textAlign: 'center', marginBottom: '12px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          Why Modular Projects Fail
+        </h2>
+        <p style={{ fontSize: '18px', fontWeight: 700, color: '#991B1B', textAlign: 'center', margin: '0px', lineHeight: '1.7', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          <strong>Reason 1:</strong> Bad pricing (±20% estimates) → cost creep kills the deal<br/>
+          <strong>Reason 2:</strong> Bad design (not modular-optimized) → factory rework delays everything<br/>
+          <strong>SmartStart fixes both—before they can hurt you.</strong>
+        </p>
+      </div>
+
+      {/* Three-Panel Layout */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '28px' }}>
+        {/* Panel 1: Know in 2 Weeks */}
+        <div style={{ background: 'linear-gradient(135deg, #E0F2FE 0%, #ffffff 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #0EA5E9', boxShadow: '0 6px 18px rgba(14, 165, 233, 0.15)' }}>
+          <div style={{ fontSize: '36px', marginBottom: '12px', textAlign: 'center' }}>⏱️</div>
+          <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#0369A1', marginBottom: '14px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Know in 2 Weeks
+          </h3>
+          <p style={{ fontSize: '16px', fontWeight: 700, color: '#0c4a6e', marginBottom: '14px', textAlign: 'center', lineHeight: '1.6', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Certainty Before Capital
+          </p>
+          <ul style={{ listStyle: 'none', paddingLeft: 0, fontSize: '15px', color: '#0c4a6e', fontWeight: 600, lineHeight: '1.9' }}>
+            <li>✓ Firm modular cost</li>
+            <li>✓ Fabrication-ready design</li>
+            <li>✓ Entitlement-ready package</li>
+          </ul>
+          <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '2px solid #0EA5E9', textAlign: 'center', fontSize: '13px', fontWeight: 700, color: '#0369A1' }}>
+            2 weeks → answers you normally wait 4–6 months for
+          </div>
+        </div>
+
+        {/* Panel 2: Save 20× */}
+        <div style={{ background: 'linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #D97706', boxShadow: '0 6px 18px rgba(217, 119, 6, 0.15)' }}>
+          <div style={{ fontSize: '36px', marginBottom: '12px', textAlign: 'center' }}>💰</div>
+          <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#92400E', marginBottom: '14px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Save 20× Your Spend
+          </h3>
+          <p style={{ fontSize: '18px', fontWeight: 900, color: '#D97706', marginBottom: '14px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            $10K → $50K–$150K Saved
+          </p>
+          <ul style={{ listStyle: 'none', paddingLeft: 0, fontSize: '15px', color: '#78350F', fontWeight: 600, lineHeight: '1.9' }}>
+            <li>✓ No rework during entitlement</li>
+            <li>✓ No redesign at factory</li>
+            <li>✓ No ±20% cost creep</li>
+          </ul>
+          <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '2px solid #D97706', textAlign: 'center', fontSize: '13px', fontWeight: 700, color: '#92400E' }}>
+            Removes the two biggest killers of modular deals
+          </div>
+        </div>
+
+        {/* Panel 3: Negotiate from Strength */}
+        <div style={{ background: 'linear-gradient(135deg, #F0FDF4 0%, #ffffff 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #16A34A', boxShadow: '0 6px 18px rgba(22, 163, 74, 0.15)' }}>
+          <div style={{ fontSize: '36px', marginBottom: '12px', textAlign: 'center' }}>🤝</div>
+          <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#065F46', marginBottom: '14px', textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Negotiate from Strength
+          </h3>
+          <p style={{ fontSize: '16px', fontWeight: 700, color: '#047857', marginBottom: '14px', textAlign: 'center', lineHeight: '1.6', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            Real Bids. Real Numbers. Real Partners.
+          </p>
+          <ul style={{ listStyle: 'none', paddingLeft: 0, fontSize: '15px', color: '#047857', fontWeight: 600, lineHeight: '1.9' }}>
+            <li>✓ 3–5 GC/Fabricator firm bids</li>
+            <li>✓ Scope + terms aligned early</li>
+            <li>✓ Bank-ready budget</li>
+          </ul>
+          <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '2px solid #16A34A', textAlign: 'center', fontSize: '13px', fontWeight: 700, color: '#065F46' }}>
+            Start entitlement with leverage—not guesswork
+          </div>
         </div>
       </div>
 
-      {/* Subtab 1: Summary & Process */}
-      {activeSubtabs.smartstart === 1 && (
-        <div className="card" style={{ padding: '16px' }}>
-          <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#F59E0B', marginBottom: '10px' }}>
-            The SmartStart Promise: Certainty Before Capital
-          </h3>
-          <p style={{ fontSize: '16px', color: '#111827', marginBottom: '15px' }}>
-            <strong>$10K investment.</strong> <strong>$50K–$150K soft cost savings.</strong> In just 2 weeks, you'll have a firm cost, modular-optimized design, and entitlement-ready package. No surprises. No rework. Maximum negotiation power when you're ready to build.
-          </p>
-
-          <h4 style={{ fontSize: '18px', fontWeight: 800, color: '#2D5A3D', marginTop: '20px', borderTop: '2px solid #2D5A3D', paddingTop: '15px' }}>
-            2-Week Delivery Process: Risk → Certainty
-          </h4>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <div style={{ background: '#EBF8EE', padding: '15px', borderRadius: '8px', borderLeft: '5px solid #16A34A' }}>
-              <h5 style={{ fontWeight: 700, color: '#16A34A', marginBottom: '5px' }}>
-                Phase 1: Project Intake & Modular Analysis (Day 1–7)
-              </h5>
-              <ul className="small-text" style={{ listStyle: 'disc', paddingLeft: '20px', color: '#374151' }}>
-                <li><strong>Kickoff Call:</strong> Share site details, vision, and specific constraints (30 min).</li>
-                <li>RaaP analyzes project viability against modular logic (DfMA principles).</li>
-                <li>Defines the <em>specific</em> Design and Cost inputs needed for the next phases.</li>
-              </ul>
-            </div>
-
-            <div style={{ background: '#E0F2FE', padding: '15px', borderRadius: '8px', borderLeft: '5px solid #93C5FD' }}>
-              <h5 style={{ fontWeight: 700, color: '#1E40AF', marginBottom: '5px' }}>
-                Phase 2: Design & Cost Modeling (Week 2–4)
-              </h5>
-              <ul className="small-text" style={{ listStyle: 'disc', paddingLeft: '20px', color: '#374151' }}>
-                <li>Conceptual design is optimized (unit mix, massing) using project data from Tab 2 & 3.</li>
-                <li>Hard costs are estimated using RaaP's detailed assembly database and local pricing benchmarks.</li>
-                <li>Identifies key Value Engineering (VE) opportunities.</li>
-              </ul>
-            </div>
-
-            <div style={{ background: '#FEF3C7', padding: '15px', borderRadius: '8px', borderLeft: '5px solid #F59E0B' }}>
-              <h5 style={{ fontWeight: 700, color: '#92400E', marginBottom: '5px' }}>
-                Phase 3: Bidding & Final Deliverables (Week 4–6)
-              </h5>
-              <ul className="small-text" style={{ listStyle: 'disc', paddingLeft: '20px', color: '#374151' }}>
-                <li>We solicit <strong>firm bids</strong> from 3–5 pre-vetted GCs and fabricators (Marketplace partners).</li>
-                <li>Final <strong>City Confidence & Lender Credibility Package</strong> delivered.</li>
-                <li>You are ready to proceed with financing and entitlement with maximum certainty.</li>
-              </ul>
-            </div>
+      {/* The SmartStart Equation */}
+      <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', padding: '32px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '28px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '26px', fontWeight: 900, color: '#065F46', marginBottom: '24px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          The SmartStart Equation
+        </h2>
+        
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', fontSize: '18px', fontWeight: 800, color: '#065F46', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          <div style={{ padding: '14px 20px', background: '#FEF3C7', borderRadius: '8px', border: '2px solid #D97706', minWidth: '100px', textAlign: 'center' }}>
+            $10K
+          </div>
+          <div style={{ fontSize: '24px' }}>→</div>
+          <div style={{ padding: '14px 20px', background: '#F0FDF4', borderRadius: '8px', border: '2px solid #16A34A', minWidth: '140px', textAlign: 'center', fontSize: '16px' }}>
+            Firm Design<br/>+ Firm Price
+          </div>
+          <div style={{ fontSize: '24px' }}>→</div>
+          <div style={{ padding: '14px 20px', background: '#E0F2FE', borderRadius: '8px', border: '2px solid #0EA5E9', minWidth: '120px', textAlign: 'center' }}>
+            $50K–$150K<br/>Savings
+          </div>
+          <div style={{ fontSize: '24px' }}>→</div>
+          <div style={{ padding: '14px 20px', background: '#FEE2E2', borderRadius: '8px', border: '2px solid #DC2626', minWidth: '110px', textAlign: 'center', fontSize: '16px' }}>
+            Zero Surprises<br/>+ Fast Approval
+          </div>
+          <div style={{ fontSize: '24px' }}>→</div>
+          <div style={{ padding: '14px 20px', background: '#F0FDF4', borderRadius: '8px', border: '3px solid #16A34A', minWidth: '130px', textAlign: 'center', fontWeight: 900, fontSize: '17px' }}>
+            Modular<br/>Success ✅
           </div>
         </div>
-      )}
-
-      {/* Subtab 2: City Confidence */}
-      {activeSubtabs.smartstart === 2 && (
-        <div className="card" style={{ padding: '16px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#1E40AF', marginBottom: '10px' }}>
-            City Confidence Package: Speeding Entitlement Approval
-          </h3>
-          <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '15px' }}>
-            <strong>The Problem:</strong> Traditional conceptual studies lack the necessary detail and cost credibility, causing cities and planning departments to <strong>reject projects</strong> or require months of costly rework.
-          </p>
-
-          <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginTop: '15px' }}>
-            How We Partner with Your Entitlement Team:
-          </h4>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '10px' }}>
-            <div style={{ background: '#F3F4F6', padding: '15px', borderRadius: '8px', borderLeft: '5px solid #DC2626' }}>
-              <h5 style={{ fontWeight: 700, color: '#DC2626', marginBottom: '5px' }}>
-                Output: Professional Conceptual Design
-              </h5>
-              <ul className="small-text" style={{ listStyle: 'disc', paddingLeft: '20px', color: '#374151' }}>
-                <li><strong>Modular-Optimized Massing:</strong> Provides realistic building dimensions optimized for modular transportation.</li>
-                <li><strong>Realistic Unit Mix:</strong> Proves the project meets affordable housing or program goals based on site constraints.</li>
-                <li><strong>Speeds Approval:</strong> Your design is credible and proves feasibility immediately.</li>
-              </ul>
-            </div>
-
-            <div style={{ background: '#F3F4F6', padding: '15px', borderRadius: '8px', borderLeft: '5px solid #F59E0B' }}>
-              <h5 style={{ fontWeight: 700, color: '#F59E0B', marginBottom: '5px' }}>
-                Output: Lender Credibility (for Planning)
-              </h5>
-              <ul className="small-text" style={{ listStyle: 'disc', paddingLeft: '20px', color: '#374151' }}>
-                <li><strong>Firm Cost Basis:</strong> Provides the planning department confidence that the project is financially viable.</li>
-                <li><strong>Reduces Risk:</strong> Mitigates the risk of starting the costly entitlement process only to find out the project <strong>doesn't pencil</strong>.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Subtab 3: Firm Pricing */}
-      {activeSubtabs.smartstart === 3 && (
-        <div className="card" style={{ padding: '16px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#16A34A', marginBottom: '10px' }}>
-            Firm Pricing & Risk Mitigation: Negotiate from Strength
-          </h3>
-          <p style={{ fontSize: '16px', color: '#4b5563', marginBottom: '15px' }}>
-            <strong>The Risk:</strong> Reliance on speculative estimates (±20%) and generic assumptions leaves your construction budget vulnerable to risk and future cost creep.
-          </p>
-
-          <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginTop: '15px' }}>
-            RaaP's Foundation for Robust Budgeting:
-          </h4>
-
-          <ul className="small-text" style={{ listStyle: 'none', paddingLeft: 0, color: '#374151', fontSize: '15px' }}>
-            <li style={{ marginBottom: '10px' }}>
-              <strong style={{ color: '#16A34A' }}>✅ Real Bids, Firm Costs:</strong> We leverage our detailed design and assembly analysis (from the Design & Cost tabs) to solicit <strong>firm bids from actual fabricators and GCs</strong>, providing an accurate, bank-ready budget.
-            </li>
-            <li style={{ marginBottom: '10px' }}>
-              <strong style={{ color: '#16A34A' }}>✅ Negotiation Power:</strong> This detailed cost data forms the <strong>strong basis for negotiating initial pricing and terms</strong>. We ensure the split between GC and Fabricator scope is clearly defined from the start, mitigating construction risk.
-            </li>
-            <li style={{ marginBottom: '10px' }}>
-              <strong style={{ color: '#16A34A' }}>✅ Modular Cost Intelligence:</strong> Our internal cost database, linked to your specific design, gives you <strong>Value Engineering options</strong> (VE) built-in, ensuring the building you get entitled is already optimized for fabrication cost.
-            </li>
-          </ul>
-
-          <div style={{ marginTop: '25px', background: '#E0F2FE', border: '1px solid #93C5FD', color: '#1D4ED8', padding: '12px', borderRadius: '8px' }}>
-            <p style={{ fontSize: '15px', fontWeight: 600, marginBottom: 0 }}>
-              <strong>Clear Value:</strong> Know if your project pencils <strong>BEFORE</strong> you commit massive capital to entitlement. <strong>SmartStart de-risks the entire development pipeline.</strong>
-            </p>
-          </div>
-        </div>
-      )}
+      </div>
 
       {/* Final CTA */}
-      <div className="card" style={{ marginTop: '20px', background: '#15803D', color: 'white', padding: '30px', textAlign: 'center', border: '5px solid #F59E0B' }}>
-        <p style={{ fontSize: '38px', fontWeight: 900, lineHeight: 1.2 }}>
-          "Your cost savings will exceed what you pay us." <strong>Always.</strong>
+      <div style={{ background: '#065F46', padding: '32px', borderRadius: '12px', border: '4px solid #047857', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)', textAlign: 'center' }}>
+        <p style={{ fontSize: '32px', fontWeight: 900, color: '#FFFFFF', margin: '0 0 14px 0', lineHeight: '1.3', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          Ready to Know Everything in 2 Weeks?
         </p>
-        <p style={{ fontSize: '18px', fontWeight: 500, marginTop: '10px', opacity: 0.9 }}>
-          You gain <strong>$40K–$90K</strong> in immediate soft cost savings alone. We only win when you win.
+        <p style={{ fontSize: '18px', fontWeight: 700, color: '#D1FAE5', margin: '0px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+          Your cost savings will exceed what you pay us. Guaranteed.
         </p>
       </div>
     </div>
