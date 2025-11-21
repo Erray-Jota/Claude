@@ -179,28 +179,105 @@ const OtherFactorsTab = () => {
 
             {/* Timeline Visual */}
             <div style={{ marginTop: '16px', padding: '14px', background: '#f9fafb', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
-              <h3 style={{ fontSize: '13px', marginBottom: '12px', fontWeight: 700, color: '#111827' }}>Parallelization Advantage</h3>
+              <h3 style={{ fontSize: '13px', marginBottom: '12px', fontWeight: 700, color: '#111827' }}>📊 Parallelization Advantage</h3>
               
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#7F1D1D', marginBottom: '6px' }}>Traditional (Sequential) – 45 months</div>
-                <div style={{ background: 'linear-gradient(90deg, #FCA5A5 0%, #FEE2E2 100%)', height: '32px', borderRadius: '4px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '8px', color: '#111827', fontWeight: 600, fontSize: '11px', color: '#7F1D1D' }}>
-                  Design (25mo) → Construction (20mo)
+              {/* Traditional Timeline - Sequential */}
+              <div style={{ marginBottom: '18px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 600, color: '#7F1D1D', marginBottom: '8px' }}>Traditional Path (Sequential) – 45 months</div>
+                
+                <div style={{ position: 'relative', height: '140px' }}>
+                  {/* Month ruler */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '20px', fontSize: '9px', color: '#9ca3af', display: 'flex', justifyContent: 'space-between', paddingRight: '10px' }}>
+                    <span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>45</span>
+                  </div>
+
+                  {/* Conceptual Design: 0-3 months */}
+                  <div style={{ position: 'absolute', top: '28px', left: '0%', width: '6.7%', background: '#FCA5A5', height: '24px', borderRadius: '3px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '4px', fontSize: '9px', fontWeight: 600, color: '#7F1D1D' }}>
+                    Design
+                  </div>
+
+                  {/* Entitlement: 3-15 months */}
+                  <div style={{ position: 'absolute', top: '56px', left: '6.7%', width: '26.7%', background: '#FCA5A5', height: '24px', borderRadius: '3px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '4px', fontSize: '9px', fontWeight: 600, color: '#7F1D1D' }}>
+                    Entitlement
+                  </div>
+
+                  {/* Permit Docs: 15-22 months */}
+                  <div style={{ position: 'absolute', top: '84px', left: '33.3%', width: '15.6%', background: '#FCA5A5', height: '24px', borderRadius: '3px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '4px', fontSize: '9px', fontWeight: 600, color: '#7F1D1D' }}>
+                    Permits
+                  </div>
+
+                  {/* Permitting: 22-27 months, but design ends at 25, so shows construction start */}
+                  <div style={{ position: 'absolute', top: '112px', left: '48.9%', width: '11.1%', background: '#FCA5A5', height: '24px', borderRadius: '3px', border: '1px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '4px', fontSize: '9px', fontWeight: 600, color: '#7F1D1D' }}>
+                    Review
+                  </div>
+
+                  {/* GC: 25-45 months (20 months) */}
+                  <div style={{ position: 'absolute', top: '28px', left: '55.6%', width: '44.4%', background: '#FECACA', height: '24px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', paddingLeft: '4px', fontSize: '9px', fontWeight: 600, color: '#7F1D1D' }}>
+                    GC Construction (20mo)
+                  </div>
+
+                  {/* Label on right */}
+                  <div style={{ position: 'absolute', right: '-8px', top: '28px', fontSize: '10px', fontWeight: 700, color: '#7F1D1D' }}>
+                    45 mo
+                  </div>
                 </div>
               </div>
 
+              {/* RaaP Timeline - Parallel */}
               <div>
-                <div style={{ fontSize: '11px', fontWeight: 600, color: '#065F46', marginBottom: '6px' }}>RaaP (Parallel) – 35 months</div>
-                <div style={{ position: 'relative', height: '80px' }}>
-                  <div style={{ background: '#86EFAC', height: '24px', borderRadius: '4px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '8px', color: '#111827', fontWeight: 600, fontSize: '10px', color: '#065F46', marginBottom: '4px' }}>
-                    Design (21mo)
+                <div style={{ fontSize: '11px', fontWeight: 600, color: '#065F46', marginBottom: '8px' }}>RaaP Path (Parallel) – 35 months</div>
+                
+                <div style={{ position: 'relative', height: '160px' }}>
+                  {/* Month ruler */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '20px', fontSize: '9px', color: '#9ca3af', display: 'flex', justifyContent: 'space-between', paddingRight: '10px' }}>
+                    <span>0</span><span>10</span><span>20</span><span>30</span><span>35</span>
                   </div>
-                  <div style={{ background: '#A7F3D0', height: '24px', borderRadius: '4px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '8px', color: '#111827', fontWeight: 600, fontSize: '10px', color: '#065F46', marginBottom: '4px' }}>
-                    FabAssure (13mo) — overlaps with Design
+
+                  {/* SmartStart: 0-2 months */}
+                  <div style={{ position: 'absolute', top: '28px', left: '0%', width: '5.7%', background: '#86EFAC', height: '22px', borderRadius: '3px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    Start
                   </div>
-                  <div style={{ background: '#6EE7B7', height: '24px', borderRadius: '4px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '8px', color: '#111827', fontWeight: 600, fontSize: '10px', color: '#065F46' }}>
-                    Construction (14mo)
+
+                  {/* Entitlement: 2-14 months */}
+                  <div style={{ position: 'absolute', top: '28px', left: '5.7%', width: '34.3%', background: '#86EFAC', height: '22px', borderRadius: '3px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    Entitlement
+                  </div>
+
+                  {/* Permit Docs: 12-18 months (overlaps with Entitlement) */}
+                  <div style={{ position: 'absolute', top: '54px', left: '34.3%', width: '17.1%', background: '#A7F3D0', height: '22px', borderRadius: '3px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    Permits
+                  </div>
+
+                  {/* Permitting: 18-23 months (overlaps with Permit Docs) */}
+                  <div style={{ position: 'absolute', top: '80px', left: '51.4%', width: '14.3%', background: '#A7F3D0', height: '22px', borderRadius: '3px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    Review
+                  </div>
+
+                  {/* FabAssure: 6-37 months (overlaps with Design, 13 months) */}
+                  <div style={{ position: 'absolute', top: '106px', left: '17.1%', width: '37.1%', background: '#6EE7B7', height: '22px', borderRadius: '3px', border: '1px solid #16A34A', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    FabAssure Prep
+                  </div>
+
+                  {/* Fabricator: 27-31 months (within FabAssure + during review) */}
+                  <div style={{ position: 'absolute', top: '54px', left: '77.1%', width: '11.4%', background: '#34D399', height: '22px', borderRadius: '3px', border: '1px solid #10B981', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: '#065F46' }}>
+                    Fab
+                  </div>
+
+                  {/* GC: 23-35 months (8 months, overlaps with Fabricator) */}
+                  <div style={{ position: 'absolute', top: '80px', left: '65.7%', width: '34.3%', background: '#10B981', height: '22px', borderRadius: '3px', border: '2px solid #10B981', display: 'flex', alignItems: 'center', paddingLeft: '3px', fontSize: '8px', fontWeight: 600, color: 'white' }}>
+                    GC Construction (8mo)
+                  </div>
+
+                  {/* Label on right */}
+                  <div style={{ position: 'absolute', right: '-8px', top: '106px', fontSize: '10px', fontWeight: 700, color: '#065F46' }}>
+                    35 mo
                   </div>
                 </div>
+              </div>
+
+              {/* Callout: Time Saved */}
+              <div style={{ marginTop: '16px', padding: '10px', background: '#FEF3C7', borderRadius: '4px', border: '1px solid #FCD34D', textAlign: 'center', fontSize: '11px', fontWeight: 700, color: '#92400E' }}>
+                ➡️ 10 Months Saved: Parallelization Removes Sequential Bottlenecks
               </div>
             </div>
 
