@@ -143,19 +143,15 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
 
   const zoom = calculateZoom();
 
-  // Update map center when locations change
-  useEffect(() => {
-    if (mapRef.current && center) {
-      mapRef.current.setCenter(center);
-      mapRef.current.setZoom(zoom);
-    }
-  }, [center?.lat, center?.lng, zoom]);
+  // Create a unique key based on locations to force map remount when they change
+  const mapKey = `${factoryLocation?.lat || 'no-factory'}-${factoryLocation?.lng || 'no-factory'}-${siteLocation?.lat || 'no-site'}-${siteLocation?.lng || 'no-site'}`;
 
   return (
     <div>
       <APIProvider apiKey={apiKey}>
         <div style={{ width: '100%', height: '500px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb', marginBottom: '16px' }}>
           <Map
+            key={mapKey}
             defaultCenter={center}
             defaultZoom={zoom}
             mapId="logistics-map"
