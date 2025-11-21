@@ -486,11 +486,11 @@ export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}
     bonusUnitGSF = bonusUnits * bonusType;
   }
 
-  // Calculate common area (lobby + stairs) per floor with exact dimensions
+  // Calculate common area (lobby + 2 stairs per floor) with exact dimensions
   const lobbyGSF = lobbyType === 1 ? COMMON_AREA_DIMS.lobby_1bay : 
                    lobbyType === 4 ? COMMON_AREA_DIMS.lobby_4bay : 
                    COMMON_AREA_DIMS.lobby_2bay;
-  const stairsGSF = COMMON_AREA_DIMS.stairs;
+  const stairsGSF = COMMON_AREA_DIMS.stairs * 2; // 2 stairs per floor
   const perFloorCommonGSF = lobbyGSF + stairsGSF;
   const totalCommonGSF = perFloorCommonGSF * floors;
 
@@ -509,7 +509,7 @@ export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}
     console.log('Both sides per floor:', perFloorBothSidesUnitGSF.toFixed(1), 'SF');
     console.log('Total regular units (all floors):', totalUnitGSF.toFixed(1), 'SF');
     console.log('Bonus units GSF:', bonusUnitGSF.toFixed(1), 'SF');
-    console.log('Common area (lobby + stairs):', perFloorCommonGSF.toFixed(1), 'SF/floor ×', floors, '=', totalCommonGSF.toFixed(1), 'SF');
+    console.log('Common area (lobby + 2 stairs):', perFloorCommonGSF.toFixed(1), 'SF/floor ×', floors, '=', totalCommonGSF.toFixed(1), 'SF');
     console.log('TOTAL GSF:', totalGSF.toFixed(1), 'SF');
     console.log('=====================================');
   }
