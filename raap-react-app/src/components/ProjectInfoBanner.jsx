@@ -6,9 +6,10 @@ const ProjectInfoBanner = ({ calculations }) => {
   const {
     siteCost,
     modularCost,
-    siteCostPerSF,
-    siteCostPerUnit,
-    modularCostPerUnit,
+    siteCostPerSF = 0,
+    siteCostPerUnit = 0,
+    modularCostPerSF = 0,
+    modularCostPerUnit = 0,
     siteBuildTimeMonths,
     modularBuildTimeMonths,
     timeSavings,

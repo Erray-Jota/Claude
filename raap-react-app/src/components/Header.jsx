@@ -5,13 +5,14 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="90"
-          height="60"
+          width="60"
+          height="40"
           viewBox="0 0 185.07 96.21"
           fill="#15803D"
+          style={{ flexShrink: 0 }}
         >
           <g>
             <path d="m0,30.65h24.8c8.87,0,14.36,3.64,14.36,10.89v.48c0,5.93-2.97,9.66-9.35,10.38l.03.08c6.3.56,9.35,3.81,9.35,10.39v.78c0,2.69.28,5.32.87,7.87h-9.29c-.67-2.49-1.01-5.10-1.01-7.70v-1.04c0-4.73-2.18-6.8-7.42-6.8h-13.18v15.54H0V30.65Zm22.48,18.84c5.07,0,7.39-2.32,7.39-6.1v-.36c0-4.06-2.6-5.74-7.56-5.74h-13.16v12.21h13.32Z" />
@@ -21,11 +22,11 @@ const Header = () => {
             <polygon points="0 0 0 21.25 9.15 21.25 9.15 9.15 175.91 9.15 175.91 62.36 164.34 62.36 164.34 71.52 185.07 71.52 185.07 0 0 0" />
           </g>
         </svg>
-        <span style={{ fontSize: '32px', fontWeight: 700, color: '#15803D' }}>
-          Rooms as a Product:{' '}
+        <span style={{ fontSize: '18px', fontWeight: 700, color: '#15803D' }}>
+          RaaP
         </span>
-        <span style={{ fontSize: '32px', fontWeight: 700, color: '#111827' }}>
-          ModularFeasibility
+        <span style={{ fontSize: '16px', fontWeight: 600, color: '#111827' }}>
+          Modular Feasibility
         </span>
       </div>
       <button

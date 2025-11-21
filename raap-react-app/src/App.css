@@ -580,8 +580,21 @@
   }
 
   .grid-4 {
+    display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 6px !important;
+  }
+
+  .unit-input-container {
+    min-width: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .unit-input-container input {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .form-label {
