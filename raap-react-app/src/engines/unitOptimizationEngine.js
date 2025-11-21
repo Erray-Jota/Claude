@@ -312,9 +312,22 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
   // ------------- Finalize optimized mix (convert back to building-wide unit counts) -------------
   const finalTypeCountsSide = computePerSideTypeCounts();
 
+  // Calculate bonus 1-bed units across from lobby
+  // 2-Bay lobby (24.5 ft) can fit a 1-bed corner (15.5 ft) = 5 bonus units (1 per floor)
+  // 1-Bay lobby (13.5 ft) can fit a studio (13.5 ft) = 5 bonus units
+  // 4-Bay lobby (49.0 ft) can fit two 1-bed corners (15.5 ft each) = 10 bonus units
+  let bonusUnits = 0;
+  if (lobbyType === 2) {
+    bonusUnits = floors; // 5 bonus 1-bed units (one per floor)
+  } else if (lobbyType === 1) {
+    bonusUnits = floors; // 5 bonus studio units
+  } else if (lobbyType === 4) {
+    bonusUnits = floors * 2; // 10 bonus 1-bed units
+  }
+
   const optimizedTotals = {
-    studio: finalTypeCountsSide.studios * 2 * floors,
-    oneBed: finalTypeCountsSide.oneBeds * 2 * floors,
+    studio: finalTypeCountsSide.studios * 2 * floors + (lobbyType === 1 ? bonusUnits : 0),
+    oneBed: finalTypeCountsSide.oneBeds * 2 * floors + (lobbyType === 2 || lobbyType === 4 ? bonusUnits : 0),
     twoBed: finalTypeCountsSide.twoBeds * 2 * floors,
     threeBed: finalTypeCountsSide.threeBeds * 2 * floors,
   };
@@ -347,6 +360,7 @@ export const optimizeUnits = (targets, buildingLength, lobbyType, floors = 5) =>
     totalUnitGSF,
     lobbyWidth,
     stairWidth,
+    bonusUnits,
     // SKU breakdown for advanced use
     skus: {
       sku_studio,
@@ -410,6 +424,8 @@ export const calculateIdealRequiredLength = (targets, lobbyType, floors = 5) => 
     sku_2_inline * SKU_WIDTHS.twoInline +
     sku_3_corner * SKU_WIDTHS.threeCorner;
 
+  // Note: bonus units across from lobby fit within lobby width, so they don't add to requiredSide
+  // They're just a calculation benefit, not a width requirement
   return requiredSide + lobbyWidth + stairWidth;
 };
 
