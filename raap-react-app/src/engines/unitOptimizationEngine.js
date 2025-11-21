@@ -57,12 +57,25 @@ export const BASE_BUILDING = {
 
 /**
  * Unit sizes in GSF (for GSF calculations)
+ * All units are 33 feet long; width × 33 = area
  */
 export const UNIT_SIZES_GSF = {
-  studio: 450,
-  oneBed: 650,
-  twoBed: 950,
-  threeBed: 1200,
+  studio: 13.5 * 33,        // 445.5 SF
+  oneCorner: 15.5 * 33,     // 511.5 SF
+  oneInline: 24.5 * 33,     // 808.5 SF
+  twoCorner: 31.0 * 33,     // 1,023 SF
+  twoInline: 38.0 * 33,     // 1,254 SF
+  threeCorner: 42.0 * 33,   // 1,386 SF
+};
+
+/**
+ * Common area dimensions (all 33 feet long)
+ */
+export const COMMON_AREA_DIMS = {
+  lobby_1bay: 13.5 * 33,    // 445.5 SF
+  lobby_2bay: 24.5 * 33,    // 808.5 SF
+  lobby_4bay: 49.0 * 33,    // 1,617 SF
+  stairs: 13.5 * 33,        // 445.5 SF (per side)
 };
 
 // ============================================================================
@@ -430,38 +443,56 @@ export const calculateIdealRequiredLength = (targets, lobbyType, floors = 5) => 
 };
 
 /**
- * Calculates total building GSF including common areas (exact from original)
- *
- * Note: optimized contains building-wide totals (not per-floor counts)
+ * Calculates total building GSF including common areas with exact dimensions
+ * Uses SKU breakdown for accurate unit area calculation
+ * Common area includes exact lobby and stair dimensions per floor
  */
-export const calculateBuildingGSF = (optimized, floors, commonAreaPct = 5, podiumCount = 0) => {
-  // Total unit GSF (optimized already contains building-wide totals)
-  const totalUnitGSF =
-    optimized.studio * UNIT_SIZES_GSF.studio +
-    optimized.oneBed * UNIT_SIZES_GSF.oneBed +
-    optimized.twoBed * UNIT_SIZES_GSF.twoBed +
-    optimized.threeBed * UNIT_SIZES_GSF.threeBed;
+export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}, podiumCount = 0) => {
+  const {
+    sku_studio = 0,
+    sku_1_corner = 0,
+    sku_1_inline = 0,
+    sku_2_corner = 0,
+    sku_2_inline = 0,
+    sku_3_corner = 0,
+  } = skus;
+
+  // Calculate per-floor unit GSF using exact SKU dimensions
+  const perFloorUnitGSF =
+    sku_studio * UNIT_SIZES_GSF.studio +
+    sku_1_corner * UNIT_SIZES_GSF.oneCorner +
+    sku_1_inline * UNIT_SIZES_GSF.oneInline +
+    sku_2_corner * UNIT_SIZES_GSF.twoCorner +
+    sku_2_inline * UNIT_SIZES_GSF.twoInline +
+    sku_3_corner * UNIT_SIZES_GSF.threeCorner;
+
+  const totalUnitGSF = perFloorUnitGSF * floors;
+
+  // Calculate common area (lobby + stairs) per floor with exact dimensions
+  const lobbyGSF = lobbyType === 1 ? COMMON_AREA_DIMS.lobby_1bay : 
+                   lobbyType === 4 ? COMMON_AREA_DIMS.lobby_4bay : 
+                   COMMON_AREA_DIMS.lobby_2bay;
+  const stairsGSF = COMMON_AREA_DIMS.stairs; // Per side, both sides
+  const perFloorCommonGSF = lobbyGSF + stairsGSF;
+  const totalCommonGSF = perFloorCommonGSF * floors;
 
   const residentialFloors = floors - podiumCount;
-  const unitGSFPerFloor = totalUnitGSF / residentialFloors;
-
-  const commonGSF = totalUnitGSF * (commonAreaPct / 100);
-
-  const podiumGSFPerFloor = unitGSFPerFloor * 1.2;
+  const podiumGSFPerFloor = perFloorUnitGSF * 1.2;
   const totalPodiumGSF = podiumGSFPerFloor * podiumCount;
 
-  const totalGSF = totalUnitGSF + commonGSF + totalPodiumGSF;
+  const totalGSF = totalUnitGSF + totalCommonGSF + totalPodiumGSF;
 
   const totalUnits = optimized.studio + optimized.oneBed + optimized.twoBed + optimized.threeBed;
 
   return {
     totalGSF,
     totalUnitGSF,
-    commonGSF,
+    commonGSF: totalCommonGSF,
     totalPodiumGSF,
-    unitGSFPerFloor,
+    unitGSFPerFloor: perFloorUnitGSF,
     residentialFloors,
     gsfPerUnit: totalUnits > 0 ? totalGSF / totalUnits : 0,
+    perFloorCommonGSF,
   };
 };
 
