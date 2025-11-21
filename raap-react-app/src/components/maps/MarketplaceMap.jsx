@@ -4,6 +4,9 @@ import { APIProvider, Map, AdvancedMarker, InfoWindow, Pin } from '@vis.gl/react
 const MarketplaceMap = ({ siteLocation, providers, apiKey }) => {
   const [selectedProvider, setSelectedProvider] = useState(null);
 
+  // Debug: Log received props
+  console.log('MarketplaceMap - siteLocation:', siteLocation);
+
   // Color mapping for different categories
   const getCategoryColor = (category) => {
     const colors = {
@@ -19,8 +22,9 @@ const MarketplaceMap = ({ siteLocation, providers, apiKey }) => {
     <APIProvider apiKey={apiKey}>
       <div style={{ width: '100%', height: '500px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb' }}>
         <Map
-          zoom={5}
-          center={{ lat: siteLocation.lat, lng: siteLocation.lng }}
+          key={`${siteLocation.lat}-${siteLocation.lng}`}
+          defaultZoom={5}
+          defaultCenter={{ lat: siteLocation.lat, lng: siteLocation.lng }}
           mapId="marketplace-map"
           gestureHandling="greedy"
           disableDefaultUI={false}

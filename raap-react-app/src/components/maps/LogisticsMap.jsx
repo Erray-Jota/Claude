@@ -8,6 +8,10 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
   const mapRef = useRef(null);
   const polylineRef = useRef(null);
 
+  // Debug: Log received props
+  console.log('LogisticsMap - factoryLocation:', factoryLocation);
+  console.log('LogisticsMap - siteLocation:', siteLocation);
+
   useEffect(() => {
     if (!factoryLocation || !siteLocation || !apiKey) {
       setRouteInfo(null);
@@ -121,13 +125,19 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
       }
     : siteLocation;
 
+  // Create unique key for map remount when locations change
+  const mapKey = factoryLocation
+    ? `${factoryLocation.lat}-${factoryLocation.lng}-${siteLocation.lat}-${siteLocation.lng}`
+    : `${siteLocation.lat}-${siteLocation.lng}`;
+
   return (
     <div>
       <APIProvider apiKey={apiKey}>
         <div style={{ width: '100%', height: '500px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb', marginBottom: '16px' }}>
           <Map
-            zoom={6}
-            center={center}
+            key={mapKey}
+            defaultZoom={6}
+            defaultCenter={center}
             mapId="logistics-map"
             gestureHandling="greedy"
             disableDefaultUI={false}

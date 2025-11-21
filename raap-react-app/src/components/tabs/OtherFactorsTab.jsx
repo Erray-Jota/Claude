@@ -11,6 +11,12 @@ const OtherFactorsTab = () => {
   
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
+  // Debug: Log location data
+  console.log('OtherFactorsTab - Property Location:', projectData.propertyLocation);
+  console.log('OtherFactorsTab - Property Coordinates:', projectData.propertyCoordinates);
+  console.log('OtherFactorsTab - Factory Location:', projectData.factoryLocation);
+  console.log('OtherFactorsTab - Factory Coordinates:', projectData.factoryCoordinates);
+
   const getCategoryIcon = (category) => {
     const icons = {
       'Fabricator': '🏗️',  // Factory/building
