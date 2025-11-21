@@ -49,16 +49,32 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
       );
       
       const data = await response.json();
-      
+
       if (data.status === 'OK' && data.results && data.results.length > 0) {
-        const results = data.results.slice(0, 8).map((result) => {
+        // Filter to only show cities and zip codes (not street addresses, airports, etc.)
+        const filteredResults = data.results.filter((result) => {
+          const types = result.types || [];
+          // Only include localities (cities) or postal codes
+          const isCity = types.includes('locality') ||
+                        types.includes('administrative_area_level_3') ||
+                        types.includes('postal_code');
+          // Exclude street addresses, routes, airports, and points of interest
+          const isNotStreetOrPOI = !types.includes('street_address') &&
+                                   !types.includes('route') &&
+                                   !types.includes('airport') &&
+                                   !types.includes('premise') &&
+                                   !types.includes('point_of_interest');
+          return isCity && isNotStreetOrPOI;
+        });
+
+        const results = filteredResults.slice(0, 8).map((result) => {
           const location = result.geometry.location;
           const formatted = result.formatted_address;
-          
+
           // Extract zip code and city info
           const zipMatch = formatted.match(/(\d{5})/);
           const zipCode = zipMatch ? zipMatch[1] : '';
-          
+
           return {
             display: formatted.split(',').slice(0, 2).join(',').trim(),
             fullDisplay: formatted,
@@ -67,7 +83,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
             zip: zipCode
           };
         });
-        
+
         setSuggestions(results);
         setShowSuggestions(true);
       } else {
