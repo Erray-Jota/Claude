@@ -1,5 +1,5 @@
 import { useProject } from '../../contexts/ProjectContext';
-import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
+import { COLORS, FONTS, SPACING, BORDERS, STYLE_PRESETS } from '../../styles/theme';
 
 const SmartStartTab = () => {
   const { switchTab } = useProject();
