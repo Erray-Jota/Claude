@@ -32,11 +32,14 @@ const ProjectTab = () => {
   return (
     <div>
       {/* Hero Image */}
-      <div className="card" style={{ padding: '0', marginBottom: '12px' }}>
+      <div className="card" style={{ padding: '0', marginBottom: '12px', background: 'red' }}>
+        <p style={{ color: 'white', padding: '10px' }}>TEST: Image should be here: {ASSET_PATHS.PROJECT_GRAPHIC_URL}</p>
         <img
           src={ASSET_PATHS.PROJECT_GRAPHIC_URL}
           alt="Project Overview"
           style={{ width: '100%', height: 'auto', display: 'block' }}
+          onError={(e) => console.error('Image failed to load:', e.target.src)}
+          onLoad={() => console.log('Image loaded successfully')}
         />
       </div>
 
