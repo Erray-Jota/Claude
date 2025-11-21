@@ -688,7 +688,7 @@ const DesignTab = () => {
             <h2>📐 Floor Plan Layout - {calculations.totalOptimized} Units Per Floor</h2>
             <p className="small-text" style={{ marginBottom: '16px' }}>Building footprint showing modular unit placement</p>
             
-            <div style={{ display: 'flex', justifyContent: 'center', background: '#f9fafb', padding: '20px', borderRadius: '8px', minHeight: '500px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f9fafb', padding: '12px', borderRadius: '8px', minHeight: '320px' }}>
               <img
                 src={
                   calculations.totalOptimized <= 12
@@ -698,7 +698,7 @@ const DesignTab = () => {
                     : ASSET_PATHS.LAYOUT_LONG
                 }
                 alt="Floor Layout"
-                style={{ maxWidth: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
             
