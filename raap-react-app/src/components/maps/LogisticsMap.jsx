@@ -118,6 +118,7 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
     fetchRoute();
   }, [factoryLocation, siteLocation, apiKey]);
 
+  // Calculate center and zoom based on locations
   const center = factoryLocation && siteLocation
     ? {
         lat: (factoryLocation.lat + siteLocation.lat) / 2,
@@ -125,19 +126,38 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
       }
     : siteLocation;
 
-  // Create unique key for map remount when locations change
-  const mapKey = factoryLocation
-    ? `${factoryLocation.lat}-${factoryLocation.lng}-${siteLocation.lat}-${siteLocation.lng}`
-    : `${siteLocation.lat}-${siteLocation.lng}`;
+  // Calculate appropriate zoom level based on distance between points
+  const calculateZoom = () => {
+    if (!factoryLocation || !siteLocation) return 10;
+
+    const latDiff = Math.abs(factoryLocation.lat - siteLocation.lat);
+    const lngDiff = Math.abs(factoryLocation.lng - siteLocation.lng);
+    const maxDiff = Math.max(latDiff, lngDiff);
+
+    if (maxDiff > 10) return 5;
+    if (maxDiff > 5) return 6;
+    if (maxDiff > 2) return 7;
+    if (maxDiff > 1) return 8;
+    return 9;
+  };
+
+  const zoom = calculateZoom();
+
+  // Update map center when locations change
+  useEffect(() => {
+    if (mapRef.current && center) {
+      mapRef.current.setCenter(center);
+      mapRef.current.setZoom(zoom);
+    }
+  }, [center?.lat, center?.lng, zoom]);
 
   return (
     <div>
       <APIProvider apiKey={apiKey}>
         <div style={{ width: '100%', height: '500px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb', marginBottom: '16px' }}>
           <Map
-            key={mapKey}
-            defaultZoom={6}
-            center={center}
+            defaultCenter={center}
+            defaultZoom={zoom}
             mapId="logistics-map"
             gestureHandling="greedy"
             disableDefaultUI={false}

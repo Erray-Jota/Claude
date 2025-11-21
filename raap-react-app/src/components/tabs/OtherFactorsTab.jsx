@@ -248,11 +248,19 @@ const OtherFactorsTab = () => {
             {apiKey ? (
               <div style={{ marginBottom: '20px' }}>
                 <LogisticsMap
-                  factoryLocation={projectData.factoryCoordinates ? {
-                    lat: projectData.factoryCoordinates.lat,
-                    lng: projectData.factoryCoordinates.lng,
-                    name: projectData.factoryLocation
-                  } : null}
+                  factoryLocation={
+                    projectData.factoryCoordinates &&
+                    typeof projectData.factoryCoordinates.lat === 'number' &&
+                    typeof projectData.factoryCoordinates.lng === 'number' &&
+                    !isNaN(projectData.factoryCoordinates.lat) &&
+                    !isNaN(projectData.factoryCoordinates.lng)
+                      ? {
+                          lat: projectData.factoryCoordinates.lat,
+                          lng: projectData.factoryCoordinates.lng,
+                          name: projectData.factoryLocation
+                        }
+                      : null
+                  }
                   siteLocation={{
                     lat: projectData.propertyCoordinates?.lat || DEFAULT_SITE_LOCATION.lat,
                     lng: projectData.propertyCoordinates?.lng || DEFAULT_SITE_LOCATION.lng,

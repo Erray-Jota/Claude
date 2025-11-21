@@ -53,17 +53,24 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
         // Filter to only show cities and zip codes (not street addresses, airports, etc.)
         const filteredResults = data.results.filter((result) => {
           const types = result.types || [];
-          // Only include localities (cities) or postal codes
+
+          // Primary check: Must be a locality or postal code
           const isCity = types.includes('locality') ||
                         types.includes('administrative_area_level_3') ||
-                        types.includes('postal_code');
-          // Exclude street addresses, routes, airports, and points of interest
-          const isNotStreetOrPOI = !types.includes('street_address') &&
-                                   !types.includes('route') &&
-                                   !types.includes('airport') &&
-                                   !types.includes('premise') &&
-                                   !types.includes('point_of_interest');
-          return isCity && isNotStreetOrPOI;
+                        types.includes('postal_code') ||
+                        types.includes('sublocality');
+
+          // Exclude specific non-city types (but don't exclude if they also have locality)
+          const isPurelyNonCity = (types.includes('street_address') ||
+                                   types.includes('premise') ||
+                                   types.includes('point_of_interest')) &&
+                                   !types.includes('locality') &&
+                                   !types.includes('postal_code');
+
+          // Exclude airports completely
+          const isAirport = types.includes('airport');
+
+          return isCity && !isPurelyNonCity && !isAirport;
         });
 
         const results = filteredResults.slice(0, 8).map((result) => {
@@ -74,14 +81,25 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
           const zipMatch = formatted.match(/(\d{5})/);
           const zipCode = zipMatch ? zipMatch[1] : '';
 
+          // Validate coordinates - ensure they exist and are valid numbers
+          const lat = typeof location.lat === 'function' ? location.lat() : location.lat;
+          const lng = typeof location.lng === 'function' ? location.lng() : location.lng;
+
+          // Skip invalid coordinates
+          if (lat === undefined || lng === undefined ||
+              isNaN(lat) || isNaN(lng) ||
+              lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+            return null;
+          }
+
           return {
             display: formatted.split(',').slice(0, 2).join(',').trim(),
             fullDisplay: formatted,
-            lat: location.lat,
-            lng: location.lng,
+            lat: lat,
+            lng: lng,
             zip: zipCode
           };
-        });
+        }).filter(result => result !== null); // Remove invalid results
 
         setSuggestions(results);
         setShowSuggestions(true);
@@ -145,6 +163,9 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
           handleSelectSuggestion(suggestions[selectedIndex]);
+        } else if (selectedIndex === -1 && suggestions.length > 0) {
+          // If no arrow key navigation, select first suggestion
+          handleSelectSuggestion(suggestions[0]);
         }
         break;
       case 'Escape':

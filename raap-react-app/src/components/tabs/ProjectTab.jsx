@@ -14,6 +14,17 @@ const ProjectTab = () => {
 
   const handlePropertyLocationChange = (locationData) => {
     console.log('ProjectTab - Property location changed:', locationData);
+
+    // Validate coordinates before updating
+    if (!locationData.coordinates ||
+        typeof locationData.coordinates.lat !== 'number' ||
+        typeof locationData.coordinates.lng !== 'number' ||
+        isNaN(locationData.coordinates.lat) ||
+        isNaN(locationData.coordinates.lng)) {
+      console.error('Invalid property coordinates:', locationData.coordinates);
+      return;
+    }
+
     updateProjectData({
       propertyLocation: locationData.displayLocation,
       propertyFactor: locationData.factor,
@@ -23,6 +34,17 @@ const ProjectTab = () => {
 
   const handleFactoryLocationChange = (locationData) => {
     console.log('ProjectTab - Factory location changed:', locationData);
+
+    // Validate coordinates before updating
+    if (!locationData.coordinates ||
+        typeof locationData.coordinates.lat !== 'number' ||
+        typeof locationData.coordinates.lng !== 'number' ||
+        isNaN(locationData.coordinates.lat) ||
+        isNaN(locationData.coordinates.lng)) {
+      console.error('Invalid factory coordinates:', locationData.coordinates);
+      return;
+    }
+
     updateProjectData({
       factoryLocation: locationData.displayLocation,
       factoryFactor: locationData.factor,
