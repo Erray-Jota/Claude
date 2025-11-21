@@ -126,8 +126,8 @@ const LogisticsMap = ({ factoryLocation, siteLocation, apiKey }) => {
       <APIProvider apiKey={apiKey}>
         <div style={{ width: '100%', height: '500px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb', marginBottom: '16px' }}>
           <Map
-            defaultZoom={6}
-            defaultCenter={center}
+            zoom={6}
+            center={center}
             mapId="logistics-map"
             gestureHandling="greedy"
             disableDefaultUI={false}
