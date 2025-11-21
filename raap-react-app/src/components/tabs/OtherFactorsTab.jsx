@@ -13,10 +13,10 @@ const OtherFactorsTab = () => {
 
   const getCategoryIcon = (category) => {
     const icons = {
-      'Fabricator': '🏭',
-      'GC': '👷',
-      'AoR': '🏗️',
-      'Consultant': '📋'
+      'Fabricator': '🏗️',  // Factory/building
+      'GC': '👷',          // Construction worker
+      'AoR': '📐',         // Architect/drafting
+      'Consultant': '💼'   // Business/consulting
     };
     return icons[category] || '📍';
   };
@@ -140,13 +140,13 @@ const OtherFactorsTab = () => {
                 className="form-select"
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                style={{ maxWidth: '200px' }}
+                style={{ maxWidth: '250px' }}
               >
-                <option value="All">Filter by All Categories</option>
-                <option value="Fabricator">Fabricators</option>
-                <option value="GC">General Contractors</option>
-                <option value="AoR">Architects of Record</option>
-                <option value="Consultant">Consultants</option>
+                <option value="All">🔍 Filter by All Categories</option>
+                <option value="Fabricator">🏗️ Fabricators</option>
+                <option value="GC">👷 General Contractors</option>
+                <option value="AoR">📐 Architects of Record</option>
+                <option value="Consultant">💼 Consultants</option>
               </select>
               <input
                 type="text"
@@ -161,7 +161,10 @@ const OtherFactorsTab = () => {
             <div className="grid-3" style={{ gap: '15px' }}>
               {filteredPartners.map((partner, index) => (
                 <div key={index} className="partner-card">
-                  <div className="partner-name">{partner.name}</div>
+                  <div className="partner-name">
+                    <span style={{ marginRight: '8px', fontSize: '20px' }}>{getCategoryIcon(partner.category)}</span>
+                    {partner.name}
+                  </div>
                   <div style={{ marginBottom: '8px' }}>
                     <span className="partner-tag">{partner.category}</span>
                     <span className="partner-tag">{partner.type}</span>
