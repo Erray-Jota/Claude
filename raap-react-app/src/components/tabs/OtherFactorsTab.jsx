@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
 import { DUMMY_PARTNERS, DEFAULT_SITE_LOCATION, FACTORY_LOCATIONS } from '../../data/constants';
+import MarketplaceMap from '../maps/MarketplaceMap';
+import LogisticsMap from '../maps/LogisticsMap';
 
 const OtherFactorsTab = () => {
   const { switchTab, activeSubtabs, switchSubtab, projectData } = useProject();
@@ -18,25 +20,6 @@ const OtherFactorsTab = () => {
       'Consultant': '📋'
     };
     return icons[category] || '📍';
-  };
-  
-  const getMarketplaceMapUrl = () => {
-    const markers = filteredPartners.slice(0, 25).map((p, i) => {
-      const colors = { 'Fabricator': 'FFA500', 'GC': '4169E1', 'AoR': '9370DB', 'Consultant': 'FF69B4' };
-      const color = colors[p.category] || 'FF0000';
-      return `${p.lat},${p.lng}`;
-    }).join('|');
-    
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}&zoom=4&size=800x400&style=feature:all|element:labels|visibility:off&markers=color:0x2D5A3D|${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}|label:S&markers=color:0xF59E0B|${markers.split('|').slice(0, 10).join('|')}&key=${apiKey}`;
-  };
-  
-  const getLogisticsMapUrl = () => {
-    if (!selectedFactory || !FACTORY_LOCATIONS[selectedFactory]) {
-      return `https://maps.googleapis.com/maps/api/staticmap?center=${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}&zoom=6&size=800x400&markers=color:0x2D5A3D|${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}&key=${apiKey}`;
-    }
-    
-    const factory = FACTORY_LOCATIONS[selectedFactory];
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}&zoom=6&size=800x400&markers=color:0xF59E0B|${factory.lat},${factory.lng}|label:F&markers=color:0x2D5A3D|${DEFAULT_SITE_LOCATION.lat},${DEFAULT_SITE_LOCATION.lng}|label:S&key=${apiKey}`;
   };
 
   const filteredPartners = DUMMY_PARTNERS.filter(partner => {
@@ -132,17 +115,15 @@ const OtherFactorsTab = () => {
             </p>
             
             {/* Google Maps - Partner Locations */}
-            {apiKey && (
-              <div style={{ marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb' }}>
-                <img 
-                  src={getMarketplaceMapUrl()} 
-                  alt="Partner Locations Map" 
-                  style={{ width: '100%', height: '400px', objectFit: 'cover' }}
-                  onError={() => console.log('Map failed to load')}
+            {apiKey ? (
+              <div style={{ marginBottom: '20px' }}>
+                <MarketplaceMap
+                  siteLocation={DEFAULT_SITE_LOCATION}
+                  providers={filteredPartners}
+                  apiKey={apiKey}
                 />
               </div>
-            )}
-            {!apiKey && (
+            ) : (
               <div style={{ marginBottom: '20px', padding: '20px', background: '#FEF3C7', border: '2px solid #FCD34D', borderRadius: '8px', textAlign: 'center' }}>
                 <p style={{ fontSize: '14px', color: '#92400E', margin: 0 }}>
                   📍 Google Maps will display partner locations once API key is configured
@@ -266,17 +247,15 @@ const OtherFactorsTab = () => {
             </div>
             
             {/* Google Maps - Route */}
-            {apiKey && (
-              <div style={{ marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #e5e7eb' }}>
-                <img 
-                  src={getLogisticsMapUrl()} 
-                  alt="Logistics Route Map" 
-                  style={{ width: '100%', height: '400px', objectFit: 'cover' }}
-                  onError={() => console.log('Map failed to load')}
+            {apiKey ? (
+              <div style={{ marginBottom: '20px' }}>
+                <LogisticsMap
+                  factoryLocation={selectedFactory ? FACTORY_LOCATIONS[selectedFactory] : null}
+                  siteLocation={DEFAULT_SITE_LOCATION}
+                  apiKey={apiKey}
                 />
               </div>
-            )}
-            {!apiKey && (
+            ) : (
               <div style={{ marginBottom: '20px', padding: '20px', background: '#FEF3C7', border: '2px solid #FCD34D', borderRadius: '8px', textAlign: 'center' }}>
                 <p style={{ fontSize: '14px', color: '#92400E', margin: 0 }}>
                   🗺️ Route mapping will display once API key is configured
