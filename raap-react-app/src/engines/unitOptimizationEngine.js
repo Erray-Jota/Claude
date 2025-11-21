@@ -479,13 +479,6 @@ export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}
   const perFloorBothSidesUnitGSF = perFloorUnitGSF * 2;
   const totalUnitGSF = perFloorBothSidesUnitGSF * floors;
 
-  // Add bonus units (1-bed inlines across from lobby, 1 per floor)
-  let bonusUnitGSF = 0;
-  if (bonusUnits > 0) {
-    const bonusType = lobbyType === 1 ? UNIT_SIZES_GSF.studio : UNIT_SIZES_GSF.oneInline;
-    bonusUnitGSF = bonusUnits * bonusType;
-  }
-
   // Calculate common area (lobby + 2 stairs per floor) with exact dimensions
   const lobbyGSF = lobbyType === 1 ? COMMON_AREA_DIMS.lobby_1bay : 
                    lobbyType === 4 ? COMMON_AREA_DIMS.lobby_4bay : 
@@ -498,7 +491,7 @@ export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}
   const podiumGSFPerFloor = perFloorBothSidesUnitGSF * 1.2;
   const totalPodiumGSF = podiumGSFPerFloor * podiumCount;
 
-  const totalGSF = totalUnitGSF + bonusUnitGSF + totalCommonGSF + totalPodiumGSF;
+  const totalGSF = totalUnitGSF + totalCommonGSF + totalPodiumGSF;
 
   // Debug: Log the calculation breakdown
   if (floors === 5) {
@@ -506,10 +499,8 @@ export const calculateBuildingGSF = (optimized, floors, lobbyType = 2, skus = {}
     console.log('Target units:', optimized);
     console.log('Per-floor per-side breakdown:', { sku_studio: sku_studio.toFixed(1), sku_1_corner: sku_1_corner.toFixed(1), sku_1_inline: sku_1_inline.toFixed(1), sku_2_corner: sku_2_corner.toFixed(1), sku_2_inline: sku_2_inline.toFixed(1), sku_3_corner: sku_3_corner.toFixed(1) });
     console.log('Per-side unit GSF:', perFloorUnitGSF.toFixed(1), 'SF');
-    console.log('Both sides per floor:', perFloorBothSidesUnitGSF.toFixed(1), 'SF');
-    console.log('Total regular units (all floors):', totalUnitGSF.toFixed(1), 'SF');
-    console.log('Bonus units GSF:', bonusUnitGSF.toFixed(1), 'SF');
-    console.log('Common area (lobby + 2 stairs):', perFloorCommonGSF.toFixed(1), 'SF/floor ×', floors, '=', totalCommonGSF.toFixed(1), 'SF');
+    console.log('Both sides per floor × floors:', perFloorBothSidesUnitGSF.toFixed(1), '× 5 =', totalUnitGSF.toFixed(1), 'SF');
+    console.log('Common area per floor × floors:', perFloorCommonGSF.toFixed(1), '× 5 =', totalCommonGSF.toFixed(1), 'SF');
     console.log('TOTAL GSF:', totalGSF.toFixed(1), 'SF');
     console.log('=====================================');
   }
