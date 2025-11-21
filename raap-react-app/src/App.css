@@ -531,13 +531,16 @@
   .header {
     padding: 6px 8px;
     margin-bottom: 6px;
-    flex-wrap: wrap;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
     gap: 8px !important;
   }
 
   .header > div:first-child {
-    flex-wrap: wrap;
-    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
   }
 
   .header svg {

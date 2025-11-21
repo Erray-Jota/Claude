@@ -101,31 +101,27 @@ const ProjectTab = () => {
         {/* Target Unit Mix */}
         <div className="card">
           {isEffectivelyMobile && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', alignItems: 'flex-end' }}>
               <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end' }}>
-                  <div style={{ flex: 1 }}>
-                    <LocationInput
-                      label="📍 Site Location"
-                      value={projectData.propertyLocation}
-                      placeholder="Enter city or zip code"
-                      onChange={handlePropertyLocationChange}
-                    />
-                  </div>
-                  <div style={{ flex: 0.6 }}>
-                    <label className="form-label" style={{ fontSize: '10px' }}>Floors</label>
-                    <select
-                      className="form-select"
-                      value={projectData.floors}
-                      onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
-                      style={{ display: 'block', width: '100%', fontSize: '12px', padding: '4px' }}
-                    >
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-                </div>
+                <LocationInput
+                  label="📍 Site Location"
+                  value={projectData.propertyLocation}
+                  placeholder="Enter city or zip code"
+                  onChange={handlePropertyLocationChange}
+                />
+              </div>
+              <div style={{ flex: 0.5 }}>
+                <label className="form-label" style={{ fontSize: '11px', display: 'block', marginBottom: '4px' }}>Floors</label>
+                <select
+                  className="form-select"
+                  value={projectData.floors}
+                  onChange={(e) => handleInputChange('floors', parseInt(e.target.value))}
+                  style={{ display: 'block', width: '100%', fontSize: '13px', padding: '6px 4px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                >
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
               </div>
             </div>
           )}
