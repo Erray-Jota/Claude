@@ -354,7 +354,7 @@ const DesignTab = () => {
 
               return (
                 <div
-                  key={key}
+                  key={unit.key}
                   style={{
                     background: 'white',
                     border: '2px solid #e5e7eb',
