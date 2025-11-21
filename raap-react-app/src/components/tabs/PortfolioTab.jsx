@@ -113,29 +113,6 @@ const PortfolioTab = () => {
           </div>
         ))}
       </div>
-
-      <div style={{ textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
-        <p style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '15px' }}>
-          Ready to convert feasibility into firm execution?
-        </p>
-        <button
-          onClick={() => switchTab(7)}
-          style={{
-            padding: '15px 30px',
-            border: 'none',
-            borderRadius: '8px',
-            fontWeight: 700,
-            cursor: 'pointer',
-            fontSize: '18px',
-            transition: 'all 0.2s',
-            background: '#16a34a',
-            color: 'white',
-            boxShadow: '0 4px 6px rgba(22, 163, 74, 0.5)',
-          }}
-        >
-          Continue to SmartStart Deep Dive →
-        </button>
-      </div>
     </div>
   );
 };

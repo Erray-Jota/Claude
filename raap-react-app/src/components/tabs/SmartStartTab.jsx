@@ -160,27 +160,6 @@ const SmartStartTab = () => {
           You gain <strong>$40K–$90K</strong> in immediate soft cost savings alone. We only win when you win.
         </p>
       </div>
-
-      <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px' }}>
-        <button
-          onClick={() => console.log('Final CTA clicked: Starting SmartStart')}
-          style={{
-            padding: '20px 40px',
-            border: 'none',
-            borderRadius: '10px',
-            fontWeight: 800,
-            cursor: 'pointer',
-            fontSize: '22px',
-            transition: 'all 0.3s',
-            background: '#F59E0B',
-            color: '#111827',
-            boxShadow: '0 6px 12px rgba(245, 158, 11, 0.4)',
-          }}
-        >
-          Start SmartStart for Your Project →
-        </button>
-        <p className="small-text" style={{ marginTop: '15px' }}>Questions? Book a 15-min call to learn more.</p>
-      </div>
     </div>
   );
 };
