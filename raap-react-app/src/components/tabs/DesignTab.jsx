@@ -694,7 +694,7 @@ const DesignTab = () => {
           <div className="card">
             <h2 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px' }}>📐 Floor Plan Layout</h2>
             
-            <div style={{ overflowX: 'auto', overflowY: 'hidden', background: '#f9fafb', padding: isEffectivelyMobile ? '24px 4px' : '24px 4px', borderRadius: '8px', marginBottom: '0', maxHeight: isEffectivelyMobile ? '46.875vh' : '46.875vh', display: 'flex', alignItems: 'center' }}>
+            <div style={{ overflowX: 'auto', overflowY: 'hidden', background: '#f9fafb', padding: isEffectivelyMobile ? '24px 96px' : '24px 4px', borderRadius: '8px', marginBottom: '0', maxHeight: isEffectivelyMobile ? '46.875vh' : '46.875vh', display: 'flex', alignItems: 'center' }}>
               <div style={{ display: 'flex', justifyContent: 'center', minWidth: isEffectivelyMobile ? 'max-content' : 'max-content' }}>
                 <img
                   src={
@@ -705,7 +705,7 @@ const DesignTab = () => {
                       : ASSET_PATHS.LAYOUT_LONG
                   }
                   alt="Floor Layout"
-                  style={{ width: isEffectivelyMobile ? '800px' : '2400px', height: 'auto', objectFit: 'contain', display: 'block', margin: 0 }}
+                  style={{ width: isEffectivelyMobile ? '400px' : '2400px', height: 'auto', objectFit: 'contain', display: 'block', margin: 0 }}
                 />
               </div>
             </div>
