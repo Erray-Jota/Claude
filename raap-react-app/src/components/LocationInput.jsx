@@ -3,8 +3,7 @@ import { findNearestRaapCity } from '../data/raapCities';
 
 /**
  * LocationInput Component
- * Provides autocomplete for US cities and zip codes via Google Geocoding API
- * Supports all 44,000+ US zip codes
+ * Provides autocomplete for cities and postal codes worldwide via Google Geocoding API
  * Calculates nearest RaaP city for cost factors without displaying it to user
  */
 const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zip code' }) => {
@@ -45,7 +44,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
     try {
       // Use Geocoding API to find locations
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&country=us&key=${apiKey}`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(query)}&key=${apiKey}`
       );
       
       const data = await response.json();
