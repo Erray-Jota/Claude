@@ -158,35 +158,33 @@ const CostAnalysisTab = () => {
           {/* COST SUMMARY BOX (3 Horizontal Boxes) */}
           <div className="grid-3" style={{ gap: '12px', marginBottom: '12px', display: 'grid', gridTemplateColumns: isEffectivelyMobile ? '1fr' : 'repeat(3, 1fr)' }}>
             {/* Box 1: Site Build Costs */}
-            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb' }}>
+            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb', textAlign: 'center' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#6b7280', marginBottom: '8px', textTransform: 'uppercase' }}>Site Build Cost</div>
               <div style={{ fontSize: '28px', fontWeight: 700, color: '#DC2626', marginBottom: '12px' }}>{formatMega(divisionCosts.totals.siteCost)}</div>
-              <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.6' }}>
-                <div style={{ marginBottom: '4px' }}><span style={{ fontWeight: 600 }}>${(divisionCosts.totals.siteCost / calculations.totalGSF).toFixed(0)}</span>/SF</div>
-                <div><span style={{ fontWeight: 600 }}>${Math.round(divisionCosts.totals.siteCost / calculations.totalOptimized / 1000)}K</span>/Unit</div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '18px', fontWeight: 600, color: '#6b7280' }}>
+                <span>${(divisionCosts.totals.siteCost / calculations.totalGSF).toFixed(0)}/SF</span>
+                <span>${Math.round(divisionCosts.totals.siteCost / calculations.totalOptimized / 1000)}K/Unit</span>
               </div>
             </div>
 
             {/* Box 2: Modular Costs */}
-            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb' }}>
+            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb', textAlign: 'center' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#6b7280', marginBottom: '8px', textTransform: 'uppercase' }}>Modular Cost (GC+Fab)</div>
               <div style={{ fontSize: '28px', fontWeight: 700, color: '#16A34A', marginBottom: '12px' }}>{formatMega(divisionCosts.totals.modularTotal)}</div>
-              <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.6' }}>
-                <div style={{ marginBottom: '4px' }}><span style={{ fontWeight: 600 }}>${(divisionCosts.totals.modularTotal / calculations.totalGSF).toFixed(0)}</span>/SF</div>
-                <div><span style={{ fontWeight: 600 }}>${Math.round(divisionCosts.totals.modularTotal / calculations.totalOptimized / 1000)}K</span>/Unit</div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '18px', fontWeight: 600, color: '#6b7280' }}>
+                <span>${(divisionCosts.totals.modularTotal / calculations.totalGSF).toFixed(0)}/SF</span>
+                <span>${Math.round(divisionCosts.totals.modularTotal / calculations.totalOptimized / 1000)}K/Unit</span>
               </div>
             </div>
 
             {/* Box 3: Savings */}
-            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb' }}>
+            <div style={{ background: 'white', padding: '16px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb', textAlign: 'center' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#6b7280', marginBottom: '8px', textTransform: 'uppercase' }}>Savings</div>
               <div style={{ fontSize: '28px', fontWeight: 700, color: divisionCosts.totals.savings > 0 ? '#16A34A' : '#DC2626', marginBottom: '12px' }}>
                 {divisionCosts.totals.savings > 0 ? '+' : ''}{formatMega(divisionCosts.totals.savings)}
               </div>
-              <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.6' }}>
-                <div style={{ fontWeight: 600, color: divisionCosts.totals.savings > 0 ? '#16A34A' : '#DC2626', fontSize: '18px' }}>
-                  {divisionCosts.totals.savingsPercent.toFixed(1)}%
-                </div>
+              <div style={{ fontWeight: 600, color: divisionCosts.totals.savings > 0 ? '#16A34A' : '#DC2626', fontSize: '18px' }}>
+                {divisionCosts.totals.savingsPercent.toFixed(1)}%
               </div>
             </div>
           </div>
