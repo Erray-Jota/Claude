@@ -10,11 +10,7 @@ const OtherFactorsTab = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFactory, setSelectedFactory] = useState('');
   
-  const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
-
-  // Debug: Log API key status (first 10 chars only for security)
-  console.log('API Key configured:', apiKey ? `${apiKey.substring(0, 10)}...` : 'NO KEY FOUND');
-  console.log('Full env:', import.meta.env);
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
   const getCategoryIcon = (category) => {
     const icons = {
