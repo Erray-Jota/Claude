@@ -42,9 +42,6 @@ export const MapComponent = ({
             return;
         }
 
-        // Reset fit bounds flag when markers change
-        hasFitBounds.current = false;
-
         const directionsService = new window.google.maps.DirectionsService();
 
         directionsService.route(
@@ -56,17 +53,6 @@ export const MapComponent = ({
             (result, status) => {
                 if (status === window.google.maps.DirectionsStatus.OK) {
                     setDirections(result);
-
-                    // Fit bounds only once when route is first loaded
-                    if (map && !hasFitBounds.current) {
-                        const bounds = new window.google.maps.LatLngBounds();
-                        result.routes[0].legs[0].steps.forEach(step => {
-                            bounds.extend(step.start_location);
-                            bounds.extend(step.end_location);
-                        });
-                        map.fitBounds(bounds);
-                        hasFitBounds.current = true;
-                    }
 
                     // Extract route metadata
                     if (onRouteCalculated && result.routes[0]) {
@@ -94,7 +80,20 @@ export const MapComponent = ({
                 }
             }
         );
-    }, [isLoaded, showRoute, markers, onRouteCalculated, map]);
+    }, [isLoaded, showRoute, markers, onRouteCalculated]);
+
+    // Fit bounds once when directions are loaded and map is ready
+    useEffect(() => {
+        if (directions && map && !hasFitBounds.current) {
+            const bounds = new window.google.maps.LatLngBounds();
+            directions.routes[0].legs[0].steps.forEach(step => {
+                bounds.extend(step.start_location);
+                bounds.extend(step.end_location);
+            });
+            map.fitBounds(bounds);
+            hasFitBounds.current = true;
+        }
+    }, [directions, map]);
 
 
     if (!isLoaded) {
