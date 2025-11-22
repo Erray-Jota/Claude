@@ -201,10 +201,10 @@ const OtherFactorsTab = () => {
             {/* Timeline Visual - Hero Graphic */}
             <div style={{ marginTop: '20px', padding: '20px', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', borderRadius: '12px', border: '2px solid #16A34A', boxShadow: '0 4px 12px rgba(45, 90, 61, 0.1)' }}>
               <h3 style={{ fontSize: FONTS.sizes.md, marginBottom: SPACING.lg, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, textAlign: 'center' }}>📊 Timelines</h3>
-              
+
               {/* Unified Timeline Container - Same 45-month scale */}
               <div style={{ position: 'relative', minHeight: '280px' }}>
-                
+
                 {/* Month Scale Ruler */}
                 <div style={{ position: 'absolute', top: 0, left: '20px', right: '20px', height: '30px', fontSize: '11px', fontWeight: 800, color: COLORS.gray.medium, display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '2px solid #d1d5db' }}>
                   <span>Month 0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span><span>35</span><span>40</span><span>45</span>
@@ -213,24 +213,24 @@ const OtherFactorsTab = () => {
                 {/* TRADITIONAL PATH */}
                 <div style={{ position: 'absolute', top: '50px', left: 0, right: 0, height: '100px' }}>
                   <div style={{ fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, paddingLeft: '20px', marginBottom: SPACING.sm }}>🔴 Traditional Path (Sequential)</div>
-                  
+
                   {/* Traditional Design phases sequential in one line */}
                   <div style={{ position: 'relative', height: '30px', paddingLeft: '20px', paddingRight: '20px' }}>
                     {/* Design: 0-3 mo */}
                     <div style={{ position: 'absolute', top: '0px', left: '20px', width: 'calc(7.5% - 4px)', background: 'linear-gradient(to right, #FECACA, #FCA5A5)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
                       Design
                     </div>
-                    
+
                     {/* Entitlement: 3-15 mo */}
                     <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 7.5%)', width: 'calc(29%)', background: 'linear-gradient(to right, #FCA5A5, #FBB6B6)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
                       Entitlement (12mo)
                     </div>
-                    
+
                     {/* Permit Docs: 15-22 mo */}
                     <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 36.5%)', width: 'calc(16.5%)', background: 'linear-gradient(to right, #FBB6B6, #FCA5A5)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
                       Permits (7mo)
                     </div>
-                    
+
                     {/* GC Construction: 25-45 mo (20 months) */}
                     <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 53%)', width: 'calc(47%)', background: 'linear-gradient(to right, #FCA5A5, #FE9B9B)', height: '18px', borderRadius: '4px', border: '2.5px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: 800, color: COLORS.red.dark, boxShadow: '0 2px 6px rgba(220, 38, 38, 0.2)', padding: '0 4px' }}>
                       🏗️ GC Construction (20mo)
@@ -241,7 +241,7 @@ const OtherFactorsTab = () => {
                 {/* RAAP PATH */}
                 <div style={{ position: 'absolute', top: '160px', left: 0, right: 0, height: '120px' }}>
                   <div style={{ fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, paddingLeft: '20px', marginBottom: SPACING.sm }}>🟢 RaaP Path (Parallel)</div>
-                  
+
                   <div style={{ position: 'relative', height: '110px', paddingLeft: '20px', paddingRight: '20px' }}>
                     {/* SmartStart: 0-2 mo */}
                     <div style={{ position: 'absolute', top: '0px', left: '20px', width: 'calc(5% - 4px)', background: 'linear-gradient(to right, #86EFAC, #6EE7B7)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 2px', flexDirection: 'column', lineHeight: '1' }}>
@@ -249,36 +249,36 @@ const OtherFactorsTab = () => {
                       <br />
                       Start
                     </div>
-                    
+
                     {/* Entitlement: 2-14 mo */}
                     <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 5%)', width: 'calc(29%)', background: 'linear-gradient(to right, #86EFAC, #A7F3D0)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 4px' }}>
                       Entitlement (12mo)
                     </div>
-                    
+
                     {/* EasyDesign + Permit Docs: 12-18 mo */}
                     <div style={{ position: 'absolute', top: '18px', left: 'calc(20px + 34%)', width: 'calc(18.5%)', background: 'linear-gradient(to right, #A7F3D0, #6EE7B7)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 4px' }}>
                       Permits (4mo)
                     </div>
-                    
+
                     {/* Review: 18-23 mo */}
                     <div style={{ position: 'absolute', top: '36px', left: 'calc(20px + 52.5%)', width: 'calc(11.5%)', background: 'linear-gradient(to right, #6EE7B7, #34D399)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 2px' }}>
                       Review
                     </div>
-                    
+
                     {/* Fabricator: 27-31 mo */}
                     <div style={{ position: 'absolute', top: '18px', left: 'calc(20px + 61%)', width: 'calc(9.5%)', background: 'linear-gradient(to right, #10B981, #059669)', height: '14px', borderRadius: '2px', border: '2px solid #059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: FONTS.weight.bold, color: 'white', padding: '0 2px' }}>
                       Fabricator
                     </div>
-                    
+
                     {/* GC Construction: 23-35 mo (8 months) */}
                     <div style={{ position: 'absolute', top: '36px', left: 'calc(20px + 52.5%)', width: 'calc(38%)', background: 'linear-gradient(to right, #10B981, #047857)', height: '18px', borderRadius: '4px', border: '2.5px solid #047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: 800, color: 'white', boxShadow: '0 2px 6px rgba(4, 120, 87, 0.3)', padding: '0 4px' }}>
                       🏗️ GC (8mo)
                     </div>
-                    
+
                     {/* Finish Line - 35 months */}
                     <div style={{ position: 'absolute', top: '72px', left: 'calc(20px + 77.78%)', fontSize: '11px', fontWeight: 800, color: COLORS.green.light, textAlign: 'center' }}>
                       ✓ DONE
-                      <br/>
+                      <br />
                       <span style={{ fontSize: '9px' }}>Month 35</span>
                     </div>
                   </div>
@@ -307,21 +307,36 @@ const OtherFactorsTab = () => {
               A factory that can't deliver. A GC misaligned with modular logic. Scope creep that derails costs. We mitigate these risks through a rigorous 4-pillar evaluation framework ensuring long-term success.
             </p>
 
+
             {/* Google Maps - Partner Locations */}
-            {apiKey && getMarketplaceMapUrl() && (
+            {apiKey && projectData.propertyCoordinates && (
               <div style={{ marginBottom: SPACING['2xl'], borderRadius: BORDERS.radius.md, overflow: 'hidden', border: '2px solid #e5e7eb' }}>
-                <img
-                  src={getMarketplaceMapUrl()}
-                  alt="Partner Locations Map"
-                  style={{ width: '100%', height: '400px', objectFit: 'cover' }}
-                  onError={(e) => {
-                    console.log('Map failed to load');
-                    e.target.style.display = 'none';
-                  }}
+                <MapComponent
+                  height="400px"
+                  center={projectData.propertyCoordinates}
+                  zoom={6}
+                  markers={[
+                    {
+                      position: projectData.propertyCoordinates,
+                      title: 'Project Site',
+                      label: { text: 'S', color: 'white' }
+                    },
+                    ...filteredPartners.slice(0, 10).map((partner) => ({
+                      position: { lat: partner.lat, lng: partner.lng },
+                      title: partner.name,
+                      icon: {
+                        fillColor: getCategoryColor(partner.category),
+                        fillOpacity: 0.9,
+                        strokeColor: '#FFFFFF',
+                        strokeWeight: 2,
+                        scale: 8
+                      }
+                    }))
+                  ]}
                 />
               </div>
             )}
-            {(!apiKey || !getMarketplaceMapUrl()) && (
+            {(!apiKey || !projectData.propertyCoordinates) && (
               <div style={{ marginBottom: SPACING['2xl'], padding: '20px', background: COLORS.gold.bg, border: '2px solid #FCD34D', borderRadius: BORDERS.radius.md, textAlign: 'center' }}>
                 <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gold.dark, margin: 0 }}>
                   {!apiKey ? '📍 Google Maps API key not configured' : '📍 Set project site location in Project tab to view map'}
@@ -451,7 +466,7 @@ const OtherFactorsTab = () => {
             {/* 4-Quadrant Risk Wheel */}
             <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', padding: '32px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '24px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)' }}>
               <h3 style={{ fontSize: '26px', marginBottom: '24px', fontWeight: 900, color: COLORS.green.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>RaaP FabAssure: Verified Partner Reliability</h3>
-              
+
               {/* 4-Quadrant Grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 {/* Top Left: Commercial Viability */}
@@ -534,21 +549,51 @@ const OtherFactorsTab = () => {
               ) : null}
             </div>
 
-            {/* Logistics Map */}
-            {apiKey && getLogisticsMapUrl() && (
+            {/* Route Metadata Display */}
+            {routeMetadata && (
+              <div style={{
+                marginBottom: SPACING.md,
+                padding: '16px',
+                background: '#EFF6FF',
+                border: '2px solid #3B82F6',
+                borderRadius: BORDERS.radius.md
+              }}>
+                <div style={{ fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: '#1E40AF', marginBottom: '12px' }}>
+                  📊 Route Information
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+                  <div>
+                    <div style={{ fontSize: FONTS.sizes.xs, color: '#6B7280', marginBottom: '2px' }}>Distance</div>
+                    <div style={{ fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.semibold, color: '#111827' }}>
+                      {routeMetadata.distance}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: FONTS.sizes.xs, color: '#6B7280', marginBottom: '2px' }}>Est. Drive Time</div>
+                    <div style={{ fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.semibold, color: '#111827' }}>
+                      {routeMetadata.duration}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+            {/* Interactive Map */}
+            {apiKey && (projectData.factoryCoordinates || projectData.propertyCoordinates) && (
               <div style={{ marginBottom: SPACING['2xl'], borderRadius: BORDERS.radius.md, overflow: 'hidden', border: '2px solid #e5e7eb' }}>
-                <img
-                  src={getLogisticsMapUrl()}
-                  alt="Factory to Site Route Map"
-                  style={{ width: '100%', height: '400px', objectFit: 'cover' }}
-                  onError={(e) => {
-                    console.log('Map failed to load');
-                    e.target.style.display = 'none';
-                  }}
+                <MapComponent
+                  height="600px"
+                  showRoute={true}
+                  onRouteCalculated={setRouteMetadata}
+                  markers={[
+                    ...(projectData.factoryCoordinates ? [{ position: projectData.factoryCoordinates, title: 'Factory' }] : []),
+                    ...(projectData.propertyCoordinates ? [{ position: projectData.propertyCoordinates, title: 'Site' }] : [])
+                  ]}
                 />
               </div>
             )}
-            {(!apiKey || !getLogisticsMapUrl()) && (
+            {(!apiKey || (!projectData.factoryCoordinates && !projectData.propertyCoordinates)) && (
               <div style={{ marginBottom: SPACING['2xl'], padding: '20px', background: COLORS.gold.bg, border: '2px solid #FCD34D', borderRadius: BORDERS.radius.md, textAlign: 'center' }}>
                 <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gold.dark, margin: 0 }}>
                   {!apiKey ? '🗺️ Google Maps API key not configured' : '🗺️ Set project site and factory locations in Project tab to view map'}
@@ -695,7 +740,7 @@ const OtherFactorsTab = () => {
             {/* Three-Pillar Result */}
             <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', padding: '32px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '24px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)' }}>
               <h3 style={{ fontSize: '26px', marginBottom: '24px', fontWeight: 900, color: COLORS.green.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>The RaaP Sustainability Advantage</h3>
-              
+
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
                 {/* Left: Built In by Modular */}
                 <div style={{ background: '#F0FDF4', padding: '22px', borderRadius: '10px', border: '4px solid #16A34A', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.15)' }}>

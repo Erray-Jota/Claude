@@ -1,4 +1,5 @@
 import { ProjectProvider, useProject } from './contexts/ProjectContext';
+import { GoogleMapsLoader } from './components/GoogleMapsLoader';
 import { useMobile } from './hooks/useMobile';
 import Header from './components/Header';
 import ResponsiveTabNavigation from './components/ResponsiveTabNavigation';
@@ -63,7 +64,9 @@ function AppContent() {
 function App() {
   return (
     <ProjectProvider>
-      <AppContent />
+      <GoogleMapsLoader>
+        <AppContent />
+      </GoogleMapsLoader>
     </ProjectProvider>
   );
 }
