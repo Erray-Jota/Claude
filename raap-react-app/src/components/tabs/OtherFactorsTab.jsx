@@ -42,6 +42,18 @@ const OtherFactorsTab = () => {
     return shapes[category] || '●';
   };
 
+  const getCategoryMapPath = (category) => {
+    if (typeof window === 'undefined' || !window.google) return null;
+
+    const paths = {
+      'Fabricator': window.google.maps.SymbolPath.CIRCLE,
+      'GC': 'M -2,-2 L 2,-2 L 2,2 L -2,2 Z',  // Square SVG path
+      'AoR': 'M 0,-2.5 L 2.5,2 L -2.5,2 Z',   // Triangle SVG path
+      'Consultant': 'M 0,-2.5 L 2.5,0 L 0,2.5 L -2.5,0 Z'  // Diamond SVG path
+    };
+    return paths[category] || window.google.maps.SymbolPath.CIRCLE;
+  };
+
   // Generate marketplace map URL using project site location
   const getMarketplaceMapUrl = () => {
     if (!projectData.propertyCoordinates?.lat || !projectData.propertyCoordinates?.lng) {
@@ -347,6 +359,7 @@ const OtherFactorsTab = () => {
                       position: { lat: partner.lat, lng: partner.lng },
                       title: partner.name,
                       icon: {
+                        path: getCategoryMapPath(partner.category),
                         fillColor: getCategoryColor(partner.category),
                         fillOpacity: 0.9,
                         strokeColor: '#FFFFFF',
