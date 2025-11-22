@@ -11,6 +11,7 @@ import CostAnalysisTab from './components/tabs/CostAnalysisTab';
 import OtherFactorsTab from './components/tabs/OtherFactorsTab';
 import PortfolioTab from './components/tabs/PortfolioTab';
 import SmartStartTab from './components/tabs/SmartStartTab';
+import DiagnosticInfo from './components/DiagnosticInfo';
 import './App.css';
 
 function AppContent() {
@@ -57,6 +58,7 @@ function AppContent() {
           </div>
         </div>
       </div>
+      <DiagnosticInfo />
     </div>
   );
 }
