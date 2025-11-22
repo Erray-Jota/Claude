@@ -2,13 +2,25 @@ import { useState } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
 import { DUMMY_PARTNERS } from '../../data/constants';
 import { COLORS, FONTS, SPACING, BORDERS } from '../../styles/theme';
+import { MapComponent } from '../MapComponent';
 
 const OtherFactorsTab = () => {
   const { switchTab, activeSubtabs, switchSubtab, projectData } = useProject();
   const [filterCategory, setFilterCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [routeMetadata, setRouteMetadata] = useState(null);
 
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
+
+  const getCategoryColor = (category) => {
+    const colors = {
+      'Fabricator': '#F59E0B',
+      'GC': '#3B82F6',
+      'AoR': '#8B5CF6',
+      'Consultant': '#10B981'
+    };
+    return colors[category] || '#6B7280';
+  };
 
   const getCategoryIcon = (category) => {
     const icons = {
