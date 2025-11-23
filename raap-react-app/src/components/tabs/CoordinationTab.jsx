@@ -558,7 +558,7 @@ const CoordinationTab = () => {
                     }}
                   />
 
-                  {/* TEMPORARY GRID OVERLAY - Remove after label positioning */}
+                  {/* TEMPORARY GRID OVERLAY - Spreadsheet Style - Remove after label positioning */}
                   <svg
                     style={{
                       position: 'absolute',
@@ -572,8 +572,8 @@ const CoordinationTab = () => {
                     viewBox="0 0 100 100"
                     preserveAspectRatio="none"
                   >
-                    {/* Vertical grid lines every 10% */}
-                    {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(x => (
+                    {/* Vertical grid lines every 10% with letter labels (A-K) */}
+                    {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((x, i) => (
                       <g key={`v-${x}`}>
                         <line
                           x1={x}
@@ -587,18 +587,19 @@ const CoordinationTab = () => {
                         <text
                           x={x}
                           y={3}
-                          fontSize="2.5"
-                          fill="#1F2937"
-                          fontWeight="700"
+                          fontSize="3"
+                          fill="#FFFFFF"
+                          fontWeight="900"
                           textAnchor="middle"
-                          style={{ backgroundColor: 'white' }}
+                          stroke="#000000"
+                          strokeWidth="0.3"
                         >
-                          {x}%
+                          {String.fromCharCode(65 + i)}
                         </text>
                       </g>
                     ))}
-                    {/* Horizontal grid lines every 10% */}
-                    {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(y => (
+                    {/* Horizontal grid lines every 10% with number labels (1-11) */}
+                    {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((y, i) => (
                       <g key={`h-${y}`}>
                         <line
                           x1={0}
@@ -611,13 +612,15 @@ const CoordinationTab = () => {
                         />
                         <text
                           x={2}
-                          y={y + 1}
-                          fontSize="2.5"
-                          fill="#1F2937"
-                          fontWeight="700"
+                          y={y + 1.2}
+                          fontSize="3"
+                          fill="#FFFFFF"
+                          fontWeight="900"
                           textAnchor="start"
+                          stroke="#000000"
+                          strokeWidth="0.3"
                         >
-                          {y}%
+                          {i + 1}
                         </text>
                       </g>
                     ))}
