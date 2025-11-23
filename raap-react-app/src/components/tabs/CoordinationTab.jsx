@@ -593,10 +593,10 @@ const CoordinationTab = () => {
                     }}
                     title={`Click to view ${system.label} details`}
                   >
+                    {system.iconPosition === 'above' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
                     {system.iconPosition === 'left' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
                     <span style={{ whiteSpace: 'nowrap' }}>{system.label}</span>
                     {system.iconPosition === 'right' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
-                    {system.iconPosition === 'above' && <span style={{ fontSize: '16px', marginTop: '-4px' }}>{system.icon}</span>}
                   />
                 ))}
 
