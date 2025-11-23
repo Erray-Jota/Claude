@@ -1,7 +1,7 @@
+import { useRef, useLayoutEffect } from 'react';
 import { useProject } from '../../contexts/ProjectContext';
 import { useMobile } from '../../hooks/useMobile';
 import { useCalculations } from '../../hooks/useCalculations';
-import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
 import { generateFloorPlan, generateSVGElements } from '../../engines/floorplanPlacementEngine';
 import { COLORS, FONTS, SPACING, BORDERS, STYLE_PRESETS } from '../../styles/theme';
@@ -269,7 +269,7 @@ const DesignTab = () => {
             {(() => {
               const skus = calculations.skus || {};
               const unitsToDisplay = [];
-              
+
               // Studio
               if (skus.sku_studio > 0) {
                 unitsToDisplay.push({
@@ -282,7 +282,7 @@ const DesignTab = () => {
                   count: skus.sku_studio * projectData.floors,
                 });
               }
-              
+
               // 1-Bed Corner
               if (skus.sku_1_corner > 0) {
                 unitsToDisplay.push({
@@ -295,7 +295,7 @@ const DesignTab = () => {
                   count: skus.sku_1_corner * projectData.floors,
                 });
               }
-              
+
               // 1-Bed Inline
               if (skus.sku_1_inline > 0) {
                 unitsToDisplay.push({
@@ -308,7 +308,7 @@ const DesignTab = () => {
                   count: skus.sku_1_inline * projectData.floors,
                 });
               }
-              
+
               // 2-Bed Corner
               if (skus.sku_2_corner > 0) {
                 unitsToDisplay.push({
@@ -321,7 +321,7 @@ const DesignTab = () => {
                   count: skus.sku_2_corner * projectData.floors,
                 });
               }
-              
+
               // 2-Bed Inline
               if (skus.sku_2_inline > 0) {
                 unitsToDisplay.push({
@@ -334,7 +334,7 @@ const DesignTab = () => {
                   count: skus.sku_2_inline * projectData.floors,
                 });
               }
-              
+
               // 3-Bed Corner
               if (skus.sku_3_corner > 0) {
                 unitsToDisplay.push({
@@ -347,102 +347,102 @@ const DesignTab = () => {
                   count: skus.sku_3_corner * projectData.floors,
                 });
               }
-              
+
               return unitsToDisplay.map((unit) => {
                 const totalUnitsOfType = unit.count;
                 const count = unit.perFloor;
 
-              return (
-                <div
-                  key={unit.key}
-                  style={{
-                    background: 'white',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                    hover: { transform: 'translateY(-4px)', boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
-                    e.currentTarget.style.borderColor = '#15803D';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-                    e.currentTarget.style.borderColor = '#e5e7eb';
-                  }}
-                >
-                  {/* Image Section */}
-                  <a href={unit.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
-                    <div style={{ position: 'relative', padding: '12px', height: '280px', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <img
-                        src={unit.link}
-                        alt={unit.name}
-                        style={{
-                          maxWidth: '100%',
-                          maxHeight: '100%',
-                          objectFit: 'contain',
-                          display: 'block',
-                          transition: 'transform 0.3s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.05)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                        }}
-                      />
-                    </div>
-                  </a>
+                return (
+                  <div
+                    key={unit.key}
+                    style={{
+                      background: 'white',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer',
+                      hover: { transform: 'translateY(-4px)', boxShadow: '0 8px 20px rgba(0,0,0,0.12)' }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+                      e.currentTarget.style.borderColor = '#15803D';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+                      e.currentTarget.style.borderColor = '#e5e7eb';
+                    }}
+                  >
+                    {/* Image Section */}
+                    <a href={unit.link} target="_blank" rel="noopener noreferrer" style={{ display: 'block' }}>
+                      <div style={{ position: 'relative', padding: '12px', height: '280px', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <img
+                          src={unit.link}
+                          alt={unit.name}
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            objectFit: 'contain',
+                            display: 'block',
+                            transition: 'transform 0.3s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                          }}
+                        />
+                      </div>
+                    </a>
 
-                  {/* Content Section */}
-                  <div style={{ padding: '16px' }}>
-                    {/* Unit Name and Icon */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '20px' }}>{unit.icon}</span>
-                      <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', margin: 0 }}>
-                        {unit.name}
-                      </h3>
-                    </div>
+                    {/* Content Section */}
+                    <div style={{ padding: '16px' }}>
+                      {/* Unit Name and Icon */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '20px' }}>{unit.icon}</span>
+                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', margin: 0 }}>
+                          {unit.name}
+                        </h3>
+                      </div>
 
-                    {/* Unit Stats */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-                      <div style={{ padding: '8px', background: '#f0fdf4', borderRadius: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '2px' }}>
-                          Per Floor
+                      {/* Unit Stats */}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+                        <div style={{ padding: '8px', background: '#f0fdf4', borderRadius: '6px', textAlign: 'center' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 600, color: '#15803D', marginBottom: '2px' }}>
+                            Per Floor
+                          </div>
+                          <div style={{ fontSize: '20px', fontWeight: 700, color: '#15803D' }}>
+                            {count}
+                          </div>
                         </div>
-                        <div style={{ fontSize: '20px', fontWeight: 700, color: '#15803D' }}>
-                          {count}
+                        <div style={{ padding: '8px', background: '#eff6ff', borderRadius: '6px', textAlign: 'center' }}>
+                          <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '2px' }}>
+                            Total ({projectData.floors} Floors)
+                          </div>
+                          <div style={{ fontSize: '20px', fontWeight: 700, color: '#1e40af' }}>
+                            {totalUnitsOfType}
+                          </div>
                         </div>
                       </div>
-                      <div style={{ padding: '8px', background: '#eff6ff', borderRadius: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '12px', fontWeight: 600, color: '#1e40af', marginBottom: '2px' }}>
-                          Total ({projectData.floors} Floors)
-                        </div>
-                        <div style={{ fontSize: '20px', fontWeight: 700, color: '#1e40af' }}>
-                          {totalUnitsOfType}
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Unit Details */}
-                    <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '8px' }}>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                        <div style={{ marginBottom: '2px' }}>
-                          <strong>Typical Size:</strong> ~{unit.sqft} SF
-                        </div>
-                        <div style={{ color: '#0ea5e9', cursor: 'pointer', marginTop: '4px', fontWeight: 600 }}>
-                          → View Full Floorplan
+                      {/* Unit Details */}
+                      <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '8px' }}>
+                        <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                          <div style={{ marginBottom: '2px' }}>
+                            <strong>Typical Size:</strong> ~{unit.sqft} SF
+                          </div>
+                          <div style={{ color: '#0ea5e9', cursor: 'pointer', marginTop: '4px', fontWeight: 600 }}>
+                            → View Full Floorplan
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
+                );
               });
             })()}
           </div>
@@ -655,7 +655,7 @@ const DesignTab = () => {
           {/* Building Visualization */}
           <div className="card" style={{ marginBottom: '12px' }}>
             <h2 style={{ fontSize: isEffectivelyMobile ? '16px' : '22px' }}>🏗️ Building Massing</h2>
-            
+
             <div style={{ display: 'flex', justifyContent: 'center', background: '#f9fafb', padding: '12px', borderRadius: '8px', marginBottom: '12px' }}>
               <img
                 src={
@@ -663,19 +663,19 @@ const DesignTab = () => {
                     ? calculations.requiredLength < 150
                       ? ASSET_PATHS.BUILDING_3_SHORT
                       : calculations.requiredLength < 250
-                      ? ASSET_PATHS.BUILDING_3_MEDIUM
-                      : ASSET_PATHS.BUILDING_3_LONG
+                        ? ASSET_PATHS.BUILDING_3_MEDIUM
+                        : ASSET_PATHS.BUILDING_3_LONG
                     : projectData.floors === 4
-                    ? calculations.requiredLength < 150
-                      ? ASSET_PATHS.BUILDING_4_SHORT
-                      : calculations.requiredLength < 250
-                      ? ASSET_PATHS.BUILDING_4_MEDIUM
-                      : ASSET_PATHS.BUILDING_4_LONG
-                    : calculations.requiredLength < 150
-                    ? ASSET_PATHS.BUILDING_5_SMALL
-                    : calculations.requiredLength < 250
-                    ? ASSET_PATHS.BUILDING_5_MEDIUM
-                    : ASSET_PATHS.BUILDING_5_LARGE
+                      ? calculations.requiredLength < 150
+                        ? ASSET_PATHS.BUILDING_4_SHORT
+                        : calculations.requiredLength < 250
+                          ? ASSET_PATHS.BUILDING_4_MEDIUM
+                          : ASSET_PATHS.BUILDING_4_LONG
+                      : calculations.requiredLength < 150
+                        ? ASSET_PATHS.BUILDING_5_SMALL
+                        : calculations.requiredLength < 250
+                          ? ASSET_PATHS.BUILDING_5_MEDIUM
+                          : ASSET_PATHS.BUILDING_5_LARGE
                 }
                 alt={`${projectData.floors}-Story Building`}
                 style={{ maxWidth: '100%', maxHeight: isEffectivelyMobile ? '250px' : '400px', objectFit: 'contain', display: 'block' }}
@@ -707,17 +707,41 @@ const DesignTab = () => {
           <div className="card">
             <h2 style={{ fontSize: isEffectivelyMobile ? '14px' : '18px' }}>📐 Floor Plan Layout</h2>
 
-            <div style={{ overflowX: 'auto', overflowY: 'auto', background: '#f9fafb', padding: '2px', borderRadius: '8px', marginBottom: '0', height: isEffectivelyMobile ? '250px' : '450px', display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <div
+              ref={(el) => {
+                if (el) {
+                  setTimeout(() => {
+                    // Center both horizontally and vertically
+                    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+                    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+                  }, 100);
+                }
+              }}
+              style={{
+                overflow: 'auto', // Allow scrolling in both directions
+                background: '#f9fafb',
+                padding: '2px',
+                borderRadius: '8px',
+                marginBottom: '0',
+                height: isEffectivelyMobile ? '200px' : '300px',
+                display: 'block'
+              }}
+            >
               <img
                 src={
-                  calculations.totalOptimized <= 12
+                  (calculations.totalOptimized <= 12
                     ? ASSET_PATHS.LAYOUT_SHORT
                     : calculations.totalOptimized <= 25
-                    ? ASSET_PATHS.LAYOUT_MEDIUM
-                    : ASSET_PATHS.LAYOUT_LONG
+                      ? ASSET_PATHS.LAYOUT_MEDIUM
+                      : ASSET_PATHS.LAYOUT_LONG) + '?v=' + new Date().getTime()
                 }
                 alt="Floor Layout"
-                style={{ height: '300%', width: 'auto', display: 'block' }}
+                style={{
+                  height: '300%', // Zoomed in
+                  width: 'auto',
+                  display: 'block',
+                  margin: '0 auto'
+                }}
               />
             </div>
           </div>
