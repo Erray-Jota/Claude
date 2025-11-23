@@ -598,7 +598,7 @@ const CoordinationTab = () => {
                     {system.iconPosition === 'left' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
                     <span style={{ whiteSpace: 'nowrap' }}>{system.label}</span>
                     {system.iconPosition === 'right' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
-                  />
+                  </div>
                 ))}
 
                 {/* System Detail Overlay Box */}
