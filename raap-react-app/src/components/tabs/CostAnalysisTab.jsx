@@ -5,7 +5,7 @@ import { useMobile } from '../../hooks/useMobile';
 import { MASTER_DIVISIONS } from '../../data/constants';
 import { calculateDivisionCosts, LOCATION_FACTORS as COST_LOCATION_FACTORS, compareScenarios } from '../../engines/costEngine';
 import LocationInput from '../LocationInput';
-import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
+import { COLORS, FONTS, SPACING, BORDERS, STYLE_PRESETS } from '../../styles/theme';
 import { AlertModal } from '../Modal';
 
 const CostAnalysisTab = () => {

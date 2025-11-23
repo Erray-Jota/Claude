@@ -4,7 +4,7 @@ import { useCalculations } from '../../hooks/useCalculations';
 import ProjectInfoBanner from '../ProjectInfoBanner';
 import { ASSET_PATHS } from '../../data/constants';
 import { generateFloorPlan, generateSVGElements } from '../../engines/floorplanPlacementEngine';
-import { COLORS, FONTS, SPACING, STYLE_PRESETS } from '../../styles/theme';
+import { COLORS, FONTS, SPACING, BORDERS, STYLE_PRESETS } from '../../styles/theme';
 
 const DesignTab = () => {
   const { projectData, updateProjectData, switchTab, activeSubtabs, switchSubtab } = useProject();
