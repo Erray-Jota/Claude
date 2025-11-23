@@ -74,6 +74,25 @@ const PortfolioTab = () => {
         </p>
       </div>
 
+      {/* Portfolio Image */}
+      <div style={{ marginBottom: SPACING['3xl'], textAlign: 'center', overflow: 'hidden', borderRadius: BORDERS.radius.lg }}>
+        <img
+          src="/images/portfolio.png"
+          alt="RaaP Portfolio Overview"
+          style={{
+            width: '100%',
+            maxWidth: '1200px',
+            height: 'auto',
+            maxHeight: '300px',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            borderRadius: BORDERS.radius.lg,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            border: `2px solid ${COLORS.gray.lighter}`
+          }}
+        />
+      </div>
+
       {/* Product Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: SPACING['3xl'] }}>
         {products.map((product) => (

@@ -9,6 +9,7 @@ const CoordinationTab = () => {
   const [filterCategory, setFilterCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [routeMetadata, setRouteMetadata] = useState(null);
+  const [selectedSystem, setSelectedSystem] = useState(null);
 
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
 
@@ -516,26 +517,204 @@ const CoordinationTab = () => {
         {/* Construction Tab */}
         {activeSubtabs.factors === 4 && (
           <div style={{ padding: '0 8px' }}>
+            <style>{`
+              .clickable-label {
+                cursor: pointer;
+                transition: all 0.2s ease;
+              }
+              .clickable-label:hover {
+                background: rgba(22, 163, 74, 0.2);
+                transform: scale(1.05);
+              }
+            `}</style>
+
             {/* Main Hero Section */}
             <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '28px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)' }}>
               <h2 style={{ fontSize: '38px', color: COLORS.green.dark, fontWeight: 900, marginBottom: SPACING.lg, textAlign: 'center', lineHeight: '1.3', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                🏗️ Construction Planning & Execution
+                Modular Only Works When Everything Connects.<br />RaaP Makes That Coordination Repeatable.
               </h2>
-              <p style={{ fontSize: FONTS.sizes.xl, color: '#047857', marginBottom: '0px', lineHeight: '1.8', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                Streamlined on-site construction with factory-built modules for faster, more predictable project delivery and quality assurance.
+              <p style={{ fontSize: FONTS.sizes.lg, color: '#047857', marginBottom: '0px', lineHeight: '1.8', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                From structure to plumbing, every interface in a modular building must align across companies, crews, drawings, and jurisdictions.
+              </p>
+              <p style={{ fontSize: FONTS.sizes.lg, color: '#047857', marginBottom: '0px', lineHeight: '1.8', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', marginTop: SPACING.sm }}>
+                RaaP standardizes these touchpoints so your project runs smoothly — before design even begins.
               </p>
             </div>
 
-            {/* Central Hero Image Placeholder */}
-            <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #065F46', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-              <div style={{ background: '#f0fdf4', border: '3px dashed #16A34A', borderRadius: '8px', padding: '80px 40px', minHeight: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ fontSize: '64px', marginBottom: '20px' }}>🏗️</div>
-                <h3 style={{ fontSize: '24px', fontWeight: 900, color: COLORS.green.dark, marginBottom: '12px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                  Hero Image Placeholder
-                </h3>
-                <p style={{ fontSize: FONTS.sizes.lg, color: COLORS.gray.medium, maxWidth: '600px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-                  Construction process visualization, site installation, or modular assembly imagery will be displayed here
-                </p>
+            {/* Hero Visual with Clickable Systems */}
+            <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #065F46', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)' }}>
+              {/* Construction Hero Image with Overlaid Clickable Labels */}
+              <div style={{ position: 'relative', textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
+                <>
+                  <img
+                    src="/images/construction_hero.png"
+                    alt="Modular Construction Coordination"
+                    style={{
+                      width: '100%',
+                      borderRadius: '8px',
+                      opacity: selectedSystem ? 0.3 : 1,
+                      transition: 'opacity 0.4s ease',
+                      display: 'block'
+                    }}
+                  />
+
+                  {/* Clickable Text Label Areas - Clock Position Layout */}
+                  {[
+                  { id: 'exterior', label: 'Exterior Walls', icon: '🧱', top: '50%', left: '1%', iconPosition: 'right', image: '/images/Outside_walls.png', pain: 'Water and fire continuity fail when factory + GC don\'t align.', fix: 'Pre-validated WRB overlaps, close-up sequencing, and fire stop details.' },
+                  { id: 'electrical', label: 'Electrical', icon: '⚡', top: '15%', left: '28%', iconPosition: 'above', image: '/images/electrical.png', pain: 'Multi-company wiring pathways create chaos.', fix: 'Panel strategies, branch circuits, and mate-line pathways standardized.' },
+                  { id: 'roof', label: 'Roof', icon: '🏠', top: '3%', left: '52%', iconPosition: 'above', image: '/images/roof.png', pain: 'Membranes, drains, curbs, and venting require hybrid coordination.', fix: 'RaaP\'s roof interface templates define who does what at every step.' },
+                  { id: 'mechanical', label: 'Mechanical', icon: '⚙️', top: '15%', left: '70%', iconPosition: 'above', image: '/images/hvac.png', pain: 'Ducts, HRVs, and exhausts crossing mate-lines require millimeter accuracy.', fix: 'RaaP creates factory-ready HVAC diagrams with set-day instructions.' },
+                  { id: 'fire', label: 'Fire', icon: '🔥', top: '22%', left: '60%', iconPosition: 'above', image: '/images/Fire.png', pain: 'The greatest risk for leaks, delays, and inspection failures.', fix: 'Standardized zone boundaries for sprinklers.' },
+                  { id: 'plumbing', label: 'Plumbing', icon: '💧', top: '75%', left: '70%', iconPosition: 'above', image: '/images/plumbing.png', pain: 'The greatest risk for leaks, delays, and inspection failures.', fix: 'Pod-based plumbing kits.' },
+                  { id: 'corridors', label: 'Corridors', icon: '🚪', top: '50%', left: '45%', iconPosition: 'above', image: '/images/corridor.png', pain: 'Alignment issues cause inspection delays and rework.', fix: 'Standard corridor modules with predictable clearances, J-box layouts, and rated panels.' },
+                  { id: 'structural', label: 'Structural', icon: '🏗️', top: '83%', left: '1%', iconPosition: 'right', image: '/images/Structural.png', pain: 'Two engineering teams, one load path — and no owner of continuity.', fix: 'Standard bearing plates, diaphragm details, and mate-line structural kits.' }
+                ].map(system => (
+                  <div
+                    key={system.id}
+                    onClick={() => setSelectedSystem(selectedSystem === system.id ? null : system.id)}
+                    className="clickable-label"
+                    style={{
+                      position: 'absolute',
+                      top: system.top,
+                      left: system.left,
+                      display: 'flex',
+                      flexDirection: system.iconPosition === 'above' ? 'column' : 'row',
+                      alignItems: 'center',
+                      gap: '4px',
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      borderRadius: '6px',
+                      padding: '6px 10px',
+                      border: '2px solid #065F46',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                      cursor: 'pointer',
+                      zIndex: 10,
+                      fontWeight: 700,
+                      fontSize: '13px',
+                      color: '#065F46'
+                    }}
+                    title={`Click to view ${system.label} details`}
+                  >
+                    {system.iconPosition === 'above' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
+                    {system.iconPosition === 'left' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
+                    <span style={{ whiteSpace: 'nowrap' }}>{system.label}</span>
+                    {system.iconPosition === 'right' && <span style={{ fontSize: '16px' }}>{system.icon}</span>}
+                  </div>
+                ))}
+
+                {/* System Detail Overlay Box */}
+                {selectedSystem && (() => {
+                  const system = [
+                    { id: 'structural', label: 'Structural', image: '/images/Structural.png', pain: 'Two engineering teams, one load path — and no owner of continuity.', fix: 'Standard bearing plates, diaphragm details, and mate-line structural kits.' },
+                    { id: 'exterior', label: 'Exterior Walls', image: '/images/Outside_walls.png', pain: 'Water and fire continuity fail when factory + GC don\'t align.', fix: 'Pre-validated WRB overlaps, close-up sequencing, and fire stop details.' },
+                    { id: 'roof', label: 'Roof', image: '/images/roof.png', pain: 'Membranes, drains, curbs, and venting require hybrid coordination.', fix: 'RaaP\'s roof interface templates define who does what at every step.' },
+                    { id: 'corridors', label: 'Corridors', image: '/images/corridor.png', pain: 'Alignment issues cause inspection delays and rework.', fix: 'Standard corridor modules with predictable clearances, J-box layouts, and rated panels.' },
+                    { id: 'mechanical', label: 'Mechanical', image: '/images/hvac.png', pain: 'Ducts, HRVs, and exhausts crossing mate-lines require millimeter accuracy.', fix: 'RaaP creates factory-ready HVAC diagrams with set-day instructions.' },
+                    { id: 'electrical', label: 'Electrical', image: '/images/electrical.png', pain: 'Multi-company wiring pathways create chaos.', fix: 'Panel strategies, branch circuits, and mate-line pathways standardized.' },
+                    { id: 'plumbing', label: 'Plumbing', image: '/images/plumbing.png', pain: 'The greatest risk for leaks, delays, and inspection failures.', fix: 'Pod-based plumbing kits.' },
+                    { id: 'fire', label: 'Fire Protection', image: '/images/Fire.png', pain: 'The greatest risk for leaks, delays, and inspection failures.', fix: 'Standardized zone boundaries for sprinklers.' }
+                  ].find(s => s.id === selectedSystem);
+
+                  return (
+                    <div style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: '#FFFFFF',
+                      borderRadius: '8px',
+                      border: '4px solid #065F46',
+                      padding: '16px',
+                      zIndex: 20,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                    }}>
+                      {/* Close Button */}
+                      <div style={{ textAlign: 'right', marginBottom: '8px' }}>
+                        <button
+                          onClick={() => setSelectedSystem(null)}
+                          style={{
+                            background: '#DC2626',
+                            color: '#FFFFFF',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '28px',
+                            height: '28px',
+                            cursor: 'pointer',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            lineHeight: 1
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      {/* System Name - Compact */}
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: FONTS.weight.black,
+                        color: COLORS.green.dark,
+                        textAlign: 'center',
+                        marginBottom: '12px',
+                        margin: 0
+                      }}>
+                        {system.label}
+                      </h3>
+
+                      {/* Pain/Fix Text - Compact */}
+                      <div style={{ marginBottom: '12px', fontSize: FONTS.sizes.sm }}>
+                        <div style={{ marginBottom: '8px' }}>
+                          <span style={{ fontWeight: FONTS.weight.black, color: '#DC2626' }}>Pain: </span>
+                          <span style={{ color: '#991B1B', fontWeight: FONTS.weight.semibold }}>{system.pain}</span>
+                        </div>
+                        <div>
+                          <span style={{ fontWeight: FONTS.weight.black, color: '#16A34A' }}>RaaP Fix: </span>
+                          <span style={{ color: '#065F46', fontWeight: FONTS.weight.semibold }}>{system.fix}</span>
+                        </div>
+                      </div>
+
+                      {/* System Image - Scaled to fit */}
+                      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px', overflow: 'hidden' }}>
+                        <img
+                          src={system.image}
+                          alt={system.label}
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            objectFit: 'contain',
+                            borderRadius: '6px',
+                            border: '2px solid #16A34A'
+                          }}
+                        />
+                      </div>
+
+                      {/* Action Buttons - Compact */}
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        {['Design Detail', 'Scope Definition', 'Install Sequence', 'Inspection Points', 'Product Docs'].map(btn => (
+                          <button
+                            key={btn}
+                            style={{
+                              padding: '6px 12px',
+                              background: 'linear-gradient(135deg, #16A34A 0%, #065F46 100%)',
+                              color: '#FFFFFF',
+                              border: '2px solid #065F46',
+                              borderRadius: BORDERS.radius.sm,
+                              fontSize: FONTS.sizes.xs,
+                              fontWeight: FONTS.weight.bold,
+                              cursor: 'pointer',
+                              boxShadow: '0 2px 4px rgba(6, 95, 70, 0.2)'
+                            }}
+                          >
+                            {btn}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+                </>
               </div>
             </div>
           </div>
