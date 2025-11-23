@@ -545,20 +545,21 @@ const CoordinationTab = () => {
             <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #065F46', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)' }}>
               {/* Construction Hero Image with Overlaid Clickable Labels */}
               <div style={{ position: 'relative', textAlign: 'center', maxWidth: '1200px', margin: '0 auto' }}>
-                <img
-                  src="/images/construction_hero.png"
-                  alt="Modular Construction Coordination"
-                  style={{
-                    width: '100%',
-                    borderRadius: '8px',
-                    opacity: selectedSystem ? 0.3 : 1,
-                    transition: 'opacity 0.4s ease',
-                    display: 'block'
-                  }}
-                />
+                <>
+                  <img
+                    src="/images/construction_hero.png"
+                    alt="Modular Construction Coordination"
+                    style={{
+                      width: '100%',
+                      borderRadius: '8px',
+                      opacity: selectedSystem ? 0.3 : 1,
+                      transition: 'opacity 0.4s ease',
+                      display: 'block'
+                    }}
+                  />
 
-                {/* Clickable Text Label Areas - Clock Position Layout */}
-                {[
+                  {/* Clickable Text Label Areas - Clock Position Layout */}
+                  {[
                   { id: 'exterior', label: 'Exterior Walls', icon: '🧱', top: '50%', left: '1%', iconPosition: 'right', image: '/images/Outside_walls.png', pain: 'Water and fire continuity fail when factory + GC don\'t align.', fix: 'Pre-validated WRB overlaps, close-up sequencing, and fire stop details.' },
                   { id: 'electrical', label: 'Electrical', icon: '⚡', top: '15%', left: '20%', iconPosition: 'above', image: '/images/electrical.png', pain: 'Multi-company wiring pathways create chaos.', fix: 'Panel strategies, branch circuits, and mate-line pathways standardized.' },
                   { id: 'roof', label: 'Roof', icon: '🏠', top: '3%', left: '45%', iconPosition: 'above', image: '/images/roof.png', pain: 'Membranes, drains, curbs, and venting require hybrid coordination.', fix: 'RaaP\'s roof interface templates define who does what at every step.' },
@@ -713,6 +714,7 @@ const CoordinationTab = () => {
                     </div>
                   );
                 })()}
+                </>
               </div>
             </div>
           </div>
