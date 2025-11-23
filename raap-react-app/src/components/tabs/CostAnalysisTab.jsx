@@ -148,9 +148,12 @@ const CostAnalysisTab = () => {
               📊 Summary
             </button>
             <button onClick={() => switchSubtab('cost', 2)} className={`subtab-btn ${activeSubtabs.cost === 2 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
-              🔀 Scenarios
+              ⏱️ Build Time
             </button>
             <button onClick={() => switchSubtab('cost', 3)} className={`subtab-btn ${activeSubtabs.cost === 3 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
+              🔀 Scenarios
+            </button>
+            <button onClick={() => switchSubtab('cost', 4)} className={`subtab-btn ${activeSubtabs.cost === 4 ? 'active-subtab' : ''}`} style={{ fontSize: '12px', padding: '6px 12px' }}>
               🔍 Assemblies
             </button>
           </div>
@@ -165,9 +168,12 @@ const CostAnalysisTab = () => {
               📊 Summary
             </button>
             <button onClick={() => switchSubtab('cost', 2)} className={`subtab-btn ${activeSubtabs.cost === 2 ? 'active-subtab' : ''}`}>
-              🔀 Scenarios
+              ⏱️ Build Time
             </button>
             <button onClick={() => switchSubtab('cost', 3)} className={`subtab-btn ${activeSubtabs.cost === 3 ? 'active-subtab' : ''}`}>
+              🔀 Scenarios
+            </button>
+            <button onClick={() => switchSubtab('cost', 4)} className={`subtab-btn ${activeSubtabs.cost === 4 ? 'active-subtab' : ''}`}>
               🔍 Assemblies
             </button>
           </div>
@@ -635,8 +641,205 @@ const CostAnalysisTab = () => {
         </div>
       )}
 
-      {/* SCENARIO COMPARISON SUB TAB */}
+      {/* BUILD TIME SUB TAB */}
       {activeSubtabs.cost === 2 && (
+        <div className="card" style={{ padding: SPACING.lg, background: COLORS.white }}>
+          <h2 style={{ fontSize: FONTS.sizes.xl, color: COLORS.green.light, fontWeight: FONTS.weight.black, marginBottom: SPACING.md }}>
+            ⚡ 10 Months Faster: Design + Construction Parallelized
+          </h2>
+          <p style={{ fontSize: FONTS.sizes.base, color: COLORS.gray.medium, marginBottom: SPACING.md, lineHeight: '1.5', fontWeight: FONTS.weight.bold }}>
+            RaaP cuts 4 months from design and 6 months from construction by removing the "dead time" in traditional workflows. Traditional development forces a strict sequence: Design → Entitlements → Permit Docs → Permitting → Construction. Each step waits for the one before it. RaaP collapses the sequence.
+          </p>
+
+          {/* Key Metrics Boxes */}
+          <div className="grid-3" style={{ marginBottom: SPACING['2xl'], gap: SPACING.md }}>
+            <div style={{ textAlign: 'center', padding: SPACING.md, borderRadius: BORDERS.radius.sm, background: COLORS.green.bg, border: '2px solid #16A34A' }}>
+              <div style={{ fontSize: '26px', fontWeight: 'bold', color: COLORS.green.dark, marginBottom: '4px' }}>35 mo</div>
+              <div style={{ fontSize: '11px', color: COLORS.green.dark, fontWeight: 600 }}>RaaP Total</div>
+            </div>
+            <div style={{ textAlign: 'center', padding: SPACING.md, borderRadius: BORDERS.radius.sm, background: COLORS.red.bg, border: '2px solid #DC2626' }}>
+              <div style={{ fontSize: '26px', fontWeight: 'bold', color: COLORS.red.dark, marginBottom: '4px' }}>45 mo</div>
+              <div style={{ fontSize: '11px', color: COLORS.red.dark, fontWeight: 600 }}>Traditional Total</div>
+            </div>
+            <div style={{ textAlign: 'center', padding: SPACING.md, borderRadius: BORDERS.radius.sm, background: COLORS.gold.bg, border: '2px solid #F59E0B' }}>
+              <div style={{ fontSize: '26px', fontWeight: 'bold', color: COLORS.gold.dark, marginBottom: '4px' }}>10 mo</div>
+              <div style={{ fontSize: '11px', color: COLORS.gold.dark, fontWeight: 600 }}>Saved</div>
+            </div>
+          </div>
+
+          {/* Design Phase Table */}
+          <div style={{ background: COLORS.gray.bg, padding: SPACING.md, borderRadius: BORDERS.radius.md, border: `1px solid ${COLORS.gray.border}`, marginBottom: SPACING.lg }}>
+            <h3 style={{ fontSize: FONTS.sizes.xs, marginBottom: '10px', fontWeight: FONTS.weight.bold, color: COLORS.gray.dark }}>Design + Permitting (4 months saved)</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: FONTS.sizes.sm }}>
+              <thead>
+                <tr style={{ background: '#e5e7eb', borderBottom: '2px solid #d1d5db' }}>
+                  <th style={{ padding: '8px', textAlign: 'left', fontWeight: FONTS.weight.bold }}>Phase</th>
+                  <th style={{ padding: '8px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.green.dark }}>RaaP</th>
+                  <th style={{ padding: '8px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.red.dark }}>Traditional</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>SmartStart/Conceptual</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.green.dark, fontWeight: 600 }}>2 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.gray.medium }}>3 mo</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>Entitlements</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.green.dark, fontWeight: 600 }}>12 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.gray.medium }}>12 mo</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>Permit Docs</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.green.dark, fontWeight: 600 }}>2 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.gray.medium }}>7 mo</td>
+                </tr>
+                <tr style={{ background: '#f0fdf4', borderTop: '2px solid #16A34A' }}>
+                  <td style={{ padding: '9px', fontWeight: FONTS.weight.bold, color: COLORS.green.dark }}>Total Design</td>
+                  <td style={{ padding: '9px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.green.dark, fontSize: FONTS.sizes.xs }}>21 mo</td>
+                  <td style={{ padding: '9px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.red.dark, fontSize: FONTS.sizes.xs }}>25 mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Construction Phase Table */}
+          <div style={{ background: COLORS.gray.bg, padding: SPACING.md, borderRadius: BORDERS.radius.md, border: `1px solid ${COLORS.gray.border}`, marginBottom: SPACING.lg }}>
+            <h3 style={{ fontSize: FONTS.sizes.xs, marginBottom: '10px', fontWeight: FONTS.weight.bold, color: COLORS.gray.dark }}>Construction (6 months saved)</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: FONTS.sizes.sm }}>
+              <thead>
+                <tr style={{ background: '#e5e7eb', borderBottom: '2px solid #d1d5db' }}>
+                  <th style={{ padding: '8px', textAlign: 'left', fontWeight: FONTS.weight.bold }}>Phase</th>
+                  <th style={{ padding: '8px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.green.dark }}>RaaP</th>
+                  <th style={{ padding: '8px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.red.dark }}>Traditional</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>FabAssure (Pre-construction)</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: '#059669', fontWeight: 600 }}>13 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: '#d1d5db' }}>—</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>Fabricator (Modules)</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: '#059669', fontWeight: 600 }}>4 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: '#d1d5db' }}>—</td>
+                </tr>
+                <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '8px', fontWeight: 600, color: COLORS.gray.dark }}>GC On-Site</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: '#059669', fontWeight: 600 }}>8 mo</td>
+                  <td style={{ padding: '8px', textAlign: 'center', color: COLORS.gray.medium }}>14 mo</td>
+                </tr>
+                <tr style={{ background: '#f0fdf4', borderTop: '2px solid #16A34A' }}>
+                  <td style={{ padding: '9px', fontWeight: FONTS.weight.bold, color: COLORS.green.dark }}>Total Construction</td>
+                  <td style={{ padding: '9px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.green.dark, fontSize: FONTS.sizes.xs }}>14 mo</td>
+                  <td style={{ padding: '9px', textAlign: 'center', fontWeight: FONTS.weight.bold, color: COLORS.red.dark, fontSize: FONTS.sizes.xs }}>20 mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Timeline Visual - Hero Graphic */}
+          <div style={{ marginTop: '20px', padding: '20px', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', borderRadius: '12px', border: '2px solid #16A34A', boxShadow: '0 4px 12px rgba(45, 90, 61, 0.1)' }}>
+            <h3 style={{ fontSize: FONTS.sizes.md, marginBottom: SPACING.lg, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, textAlign: 'center' }}>📊 Timelines</h3>
+
+            {/* Unified Timeline Container - Same 45-month scale */}
+            <div style={{ position: 'relative', minHeight: '280px' }}>
+
+              {/* Month Scale Ruler */}
+              <div style={{ position: 'absolute', top: 0, left: '20px', right: '20px', height: '30px', fontSize: '11px', fontWeight: 800, color: COLORS.gray.medium, display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '2px solid #d1d5db' }}>
+                <span>Month 0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span><span>35</span><span>40</span><span>45</span>
+              </div>
+
+              {/* TRADITIONAL PATH */}
+              <div style={{ position: 'absolute', top: '50px', left: 0, right: 0, height: '100px' }}>
+                <div style={{ fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, paddingLeft: '20px', marginBottom: SPACING.sm }}>🔴 Traditional Path (Sequential)</div>
+
+                {/* Traditional Design phases sequential in one line */}
+                <div style={{ position: 'relative', height: '30px', paddingLeft: '20px', paddingRight: '20px' }}>
+                  {/* Design: 0-3 mo */}
+                  <div style={{ position: 'absolute', top: '0px', left: '20px', width: 'calc(7.5% - 4px)', background: 'linear-gradient(to right, #FECACA, #FCA5A5)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
+                    Design
+                  </div>
+
+                  {/* Entitlement: 3-15 mo */}
+                  <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 7.5%)', width: 'calc(29%)', background: 'linear-gradient(to right, #FCA5A5, #FBB6B6)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
+                    Entitlement (12mo)
+                  </div>
+
+                  {/* Permit Docs: 15-22 mo */}
+                  <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 36.5%)', width: 'calc(16.5%)', background: 'linear-gradient(to right, #FBB6B6, #FCA5A5)', height: '16px', borderRadius: '3px', border: '2px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.red.dark, padding: '0 4px' }}>
+                    Permits (7mo)
+                  </div>
+
+                  {/* GC Construction: 25-45 mo (20 months) */}
+                  <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 53%)', width: 'calc(47%)', background: 'linear-gradient(to right, #FCA5A5, #FE9B9B)', height: '18px', borderRadius: '4px', border: '2.5px solid #DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: 800, color: COLORS.red.dark, boxShadow: '0 2px 6px rgba(220, 38, 38, 0.2)', padding: '0 4px' }}>
+                    🏗️ GC Construction (20mo)
+                  </div>
+                </div>
+              </div>
+
+              {/* RAAP PATH */}
+              <div style={{ position: 'absolute', top: '160px', left: 0, right: 0, height: '120px' }}>
+                <div style={{ fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, paddingLeft: '20px', marginBottom: SPACING.sm }}>🟢 RaaP Path (Parallel)</div>
+
+                <div style={{ position: 'relative', height: '110px', paddingLeft: '20px', paddingRight: '20px' }}>
+                  {/* SmartStart: 0-2 mo */}
+                  <div style={{ position: 'absolute', top: '0px', left: '20px', width: 'calc(5% - 4px)', background: 'linear-gradient(to right, #86EFAC, #6EE7B7)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 2px', flexDirection: 'column', lineHeight: '1' }}>
+                    Smart
+                    <br />
+                    Start
+                  </div>
+
+                  {/* Entitlement: 2-14 mo */}
+                  <div style={{ position: 'absolute', top: '0px', left: 'calc(20px + 5%)', width: 'calc(29%)', background: 'linear-gradient(to right, #86EFAC, #A7F3D0)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 4px' }}>
+                    Entitlement (12mo)
+                  </div>
+
+                  {/* EasyDesign + Permit Docs: 12-18 mo */}
+                  <div style={{ position: 'absolute', top: '18px', left: 'calc(20px + 34%)', width: 'calc(18.5%)', background: 'linear-gradient(to right, #A7F3D0, #6EE7B7)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.sm, fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 4px' }}>
+                    Permits (4mo)
+                  </div>
+
+                  {/* Review: 18-23 mo */}
+                  <div style={{ position: 'absolute', top: '36px', left: 'calc(20px + 52.5%)', width: 'calc(11.5%)', background: 'linear-gradient(to right, #6EE7B7, #34D399)', height: '14px', borderRadius: '2px', border: '2px solid #16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: FONTS.weight.bold, color: COLORS.green.dark, padding: '0 2px' }}>
+                    Review
+                  </div>
+
+                  {/* Fabricator: 27-31 mo */}
+                  <div style={{ position: 'absolute', top: '18px', left: 'calc(20px + 61%)', width: 'calc(9.5%)', background: 'linear-gradient(to right, #10B981, #059669)', height: '14px', borderRadius: '2px', border: '2px solid #059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: FONTS.weight.bold, color: 'white', padding: '0 2px' }}>
+                    Fabricator
+                  </div>
+
+                  {/* GC Construction: 23-35 mo (8 months) */}
+                  <div style={{ position: 'absolute', top: '36px', left: 'calc(20px + 52.5%)', width: 'calc(38%)', background: 'linear-gradient(to right, #10B981, #047857)', height: '18px', borderRadius: '4px', border: '2.5px solid #047857', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: FONTS.sizes.base, fontWeight: 800, color: 'white', boxShadow: '0 2px 6px rgba(4, 120, 87, 0.3)', padding: '0 4px' }}>
+                    🏗️ GC (8mo)
+                  </div>
+
+                  {/* Finish Line - 35 months */}
+                  <div style={{ position: 'absolute', top: '72px', left: 'calc(20px + 77.78%)', fontSize: '11px', fontWeight: 800, color: COLORS.green.light, textAlign: 'center' }}>
+                    ✓ DONE
+                    <br />
+                    <span style={{ fontSize: '9px' }}>Month 35</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Insight Box */}
+          <div style={{ marginTop: '12px', padding: SPACING.md, background: '#F0FDF4', borderRadius: BORDERS.radius.sm, border: '1px solid #86EFAC' }}>
+            <p style={{ fontSize: FONTS.sizes.sm, fontWeight: 600, color: COLORS.green.dark, marginBottom: '6px' }}>💡 The Key Insight:</p>
+            <p style={{ fontSize: FONTS.sizes.sm, color: '#047857', lineHeight: '1.5', margin: 0 }}>
+              SmartStart delivers permit-ready prototypes upfront. EasyDesign leverages 80% standardized, factory-validated drawings. While entitlements proceed, FabAssure aligns your fabricator + GC. Modules fabricate in parallel—not waiting for permits.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* SCENARIO COMPARISON SUB TAB */}
+      {activeSubtabs.cost === 3 && (
         <div>
           <div className="card">
             <h2>🔀 Scenario Comparison</h2>
@@ -905,7 +1108,7 @@ const CostAnalysisTab = () => {
       )}
 
       {/* ASSEMBLY EXPLORER SUB TAB */}
-      {activeSubtabs.cost === 3 && (
+      {activeSubtabs.cost === 4 && (
         <div>
           {/* Title and Search */}
           <div className="card" style={{ marginBottom: '12px' }}>

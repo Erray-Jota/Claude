@@ -91,6 +91,9 @@ const DesignTab = () => {
             <button onClick={() => switchSubtab('design', 4)} className={`subtab-btn ${activeSubtabs.design === 4 ? 'active-subtab' : ''}`}>
               🏗️ Building
             </button>
+            <button onClick={() => switchSubtab('design', 5)} className={`subtab-btn ${activeSubtabs.design === 5 ? 'active-subtab' : ''}`}>
+              🌎 Sustainability
+            </button>
           </div>
         </div>
       )}
@@ -726,6 +729,160 @@ const DesignTab = () => {
                   alt="Floor Layout"
                   style={{ width: isEffectivelyMobile ? '400px' : '2400px', height: 'auto', objectFit: 'contain', display: 'block', margin: 0 }}
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sustainability Subtab */}
+      {activeSubtabs.design === 5 && (
+        <div style={{ padding: '0 8px' }}>
+          {/* Main Hero Section */}
+          <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%)', padding: '28px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '28px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)' }}>
+            <h2 style={{ fontSize: '38px', color: COLORS.green.dark, fontWeight: 900, marginBottom: SPACING.lg, textAlign: 'center', lineHeight: '1.3', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+              🌱 Modular = High-Performance by Default
+            </h2>
+            <p style={{ fontSize: FONTS.sizes.xl, color: '#047857', marginBottom: '0px', lineHeight: '1.8', textAlign: 'center', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+              Factory precision, quality control, and thermal optimization deliver Net Zero Energy standards inherently. Minimal, predictable upgrades get you to full certification.
+            </p>
+          </div>
+
+          {/* What Modular Gives You For Free */}
+          <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #065F46', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
+            <h3 style={{ fontSize: '24px', marginBottom: '18px', fontWeight: 900, color: COLORS.green.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>What Modular Gives You For Free</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: FONTS.sizes.md, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+              <thead>
+                <tr style={{ background: '#065F46', borderBottom: '4px solid #047857' }}>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Feature</th>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Status</th>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Why It Matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>🏢 Solar-Ready Roof</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Ready</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>No structural redesign needed later</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb', background: '#f9fafb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>🔋 Battery Prep</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Included</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Pre-wired for future microgrid / resilience</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>💡 LED Lighting</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Standard</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Lower energy use, lower OPEX</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb', background: '#f9fafb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>🔒 Factory Air-Tightness</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Factory Controlled</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Consistent, verifiable air sealing</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>🌡️ Thermal Bridging Reduction</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Optimized</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Better comfort + lower HVAC loads</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb', background: '#f9fafb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>✓ Factory QC</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Included</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Higher performance + fewer field failures</td>
+                </tr>
+                <tr style={{ background: '#f0fdf4' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.green.dark, fontSize: FONTS.sizes.md }}>♻️ Low Construction Waste</td>
+                  <td style={{ padding: SPACING.lg, color: '#047857', fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>Up to 50% Less</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Lower landfill fees + LEED points</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Costed Upgrades for NZE/PHIUS */}
+          <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '3px solid #D97706', marginBottom: '28px', boxShadow: '0 6px 18px rgba(0,0,0,0.1)', overflowX: 'auto' }}>
+            <h3 style={{ fontSize: '24px', marginBottom: '18px', fontWeight: 900, color: COLORS.gold.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>Types of Upgrades for Full NZE/PHIUS Certification</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: FONTS.sizes.md, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+              <thead>
+                <tr style={{ background: '#D97706', borderBottom: '4px solid #EA580C' }}>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Component</th>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Standard</th>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>NZE/PHIUS Spec</th>
+                  <th style={{ padding: SPACING.lg, textAlign: 'left', fontWeight: 900, color: '#FFFFFF', fontSize: FONTS.sizes.md }}>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.gold.dark, fontSize: FONTS.sizes.md }}>🧱 Walls</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>R-19</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.green.dark, fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>R-24+ Continuous</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.red.main, fontWeight: 800, fontSize: FONTS.sizes.md }}>+$8K</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb', background: '#fffbeb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.gold.dark, fontSize: FONTS.sizes.md }}>🪟 Windows</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>U-0.30</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.green.dark, fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>U-0.15 Triple Glazed</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.red.main, fontWeight: 800, fontSize: FONTS.sizes.md }}>+$25K</td>
+                </tr>
+                <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.gold.dark, fontSize: FONTS.sizes.md }}>❄️ HVAC</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>Std Heat Pump</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.green.dark, fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>High-Eff HP + HRV</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.red.main, fontWeight: 800, fontSize: FONTS.sizes.md }}>+$35K</td>
+                </tr>
+                <tr style={{ background: '#fffbeb' }}>
+                  <td style={{ padding: SPACING.lg, fontWeight: 800, color: COLORS.gold.dark, fontSize: FONTS.sizes.md }}>⚡ Solar + Battery</td>
+                  <td style={{ padding: SPACING.lg, color: '#1F2937', fontWeight: 600, fontSize: FONTS.sizes.base }}>None</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.green.dark, fontWeight: FONTS.weight.bold, fontSize: FONTS.sizes.base }}>120 kW + 200 kWh</td>
+                  <td style={{ padding: SPACING.lg, color: COLORS.red.main, fontWeight: 800, fontSize: FONTS.sizes.md }}>+$180K</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style={{ marginTop: '16px', padding: SPACING.md, background: COLORS.gold.bg, borderRadius: BORDERS.radius.md, fontSize: FONTS.sizes.base, fontWeight: FONTS.weight.bold, color: COLORS.gold.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+              Total for Full NZE Certification: $248K
+            </div>
+          </div>
+
+          {/* Three-Pillar Result */}
+          <div style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', padding: '32px', borderRadius: '12px', border: '4px solid #065F46', marginBottom: '24px', boxShadow: '0 8px 24px rgba(6, 95, 70, 0.2)' }}>
+            <h3 style={{ fontSize: '26px', marginBottom: '24px', fontWeight: 900, color: COLORS.green.dark, textAlign: 'center', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>The RaaP Sustainability Advantage</h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+              {/* Left: Built In by Modular */}
+              <div style={{ background: '#F0FDF4', padding: '22px', borderRadius: '10px', border: '4px solid #16A34A', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.15)' }}>
+                <div style={{ fontSize: FONTS.sizes.xl, fontWeight: 900, color: COLORS.green.dark, marginBottom: '14px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>✓ Built In by Modular</div>
+                <div style={{ fontSize: FONTS.sizes.md, color: '#047857', lineHeight: '2', fontWeight: FONTS.weight.bold, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                  <div>🏭 Factory Precision</div>
+                  <div>🔒 Air Sealing</div>
+                  <div>🌡️ Thermal Bridging</div>
+                  <div>♻️ 50% Less Waste</div>
+                  <div>💡 LED Standard</div>
+                  <div>✓ Factory QC</div>
+                </div>
+              </div>
+
+              {/* Middle: Recommended Upgrades */}
+              <div style={{ background: '#FFFBEB', padding: '22px', borderRadius: '10px', border: '4px solid #D97706', textAlign: 'center', boxShadow: '0 4px 12px rgba(217, 119, 6, 0.15)' }}>
+                <div style={{ fontSize: FONTS.sizes.xl, fontWeight: 900, color: COLORS.gold.dark, marginBottom: '14px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>🎯 Recommended Upgrades</div>
+                <div style={{ fontSize: FONTS.sizes.md, color: '#78350F', lineHeight: '2.2', fontWeight: FONTS.weight.bold, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                  <div>🧱 R-24+ Walls</div>
+                  <div>🪟 Triple-Glazed Windows</div>
+                  <div>❄️ High-Efficiency HVAC</div>
+                  <div>⚡ Solar + Battery</div>
+                </div>
+              </div>
+
+              {/* Right: Outcome */}
+              <div style={{ background: '#F0FDF4', padding: '22px', borderRadius: '10px', border: '4px solid #16A34A', textAlign: 'center', boxShadow: '0 4px 12px rgba(22, 163, 74, 0.15)' }}>
+                <div style={{ fontSize: FONTS.sizes.xl, fontWeight: 900, color: COLORS.green.dark, marginBottom: '14px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>🌿 Outcome: Net Zero Ready</div>
+                <div style={{ fontSize: FONTS.sizes.md, color: '#047857', lineHeight: '2', fontWeight: FONTS.weight.bold, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                  <div>📉 Lower OPEX</div>
+                  <div>✅ 5.0/5 Score</div>
+                  <div>🏆 Higher Value</div>
+                  <div>😊 Tenant Comfort</div>
+                  <div>📊 Predictable ROI</div>
+                  <div>🔒 Verified Performance</div>
+                </div>
               </div>
             </div>
           </div>

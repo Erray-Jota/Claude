@@ -29,7 +29,7 @@ const ResponsiveTabNavigation = () => {
     { id: 2, label: '📋 Project', shortLabel: 'Project' },
     { id: 3, label: '📐 Design', shortLabel: 'Design' },
     { id: 4, label: '💰 Cost', shortLabel: 'Cost' },
-    { id: 5, label: '⚙️ Other Factors', shortLabel: 'Factors' },
+    { id: 5, label: '⚙️ Coordination', shortLabel: 'Coordination' },
     { id: 6, label: '🎨 Portfolio', shortLabel: 'Portfolio' },
     { id: 7, label: '✨ SmartStart', shortLabel: 'SmartStart' },
   ];

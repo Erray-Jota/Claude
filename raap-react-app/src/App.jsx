@@ -8,7 +8,7 @@ import IntroductionTab from './components/tabs/IntroductionTab';
 import ProjectTab from './components/tabs/ProjectTab';
 import DesignTab from './components/tabs/DesignTab';
 import CostAnalysisTab from './components/tabs/CostAnalysisTab';
-import OtherFactorsTab from './components/tabs/OtherFactorsTab';
+import CoordinationTab from './components/tabs/CoordinationTab';
 import PortfolioTab from './components/tabs/PortfolioTab';
 import SmartStartTab from './components/tabs/SmartStartTab';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -49,7 +49,7 @@ function AppContent() {
                   {activeTab === 2 && <ProjectTab />}
                   {activeTab === 3 && <DesignTab />}
                   {activeTab === 4 && <CostAnalysisTab />}
-                  {activeTab === 5 && <OtherFactorsTab />}
+                  {activeTab === 5 && <CoordinationTab />}
                   {activeTab === 6 && <PortfolioTab />}
                   {activeTab === 7 && <SmartStartTab />}
                 </div>
