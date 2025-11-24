@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { findNearestRaapCity } from '../data/raapCities';
+import { US_CITIES } from '../data/usCities';
 
 /**
  * LocationInput Component
  * Provides autocomplete for US cities and zip codes via Google Geocoding API
+ * Falls back to local US_CITIES database when API key is not available
  * Filters to show only cities and towns (no streets, airports, etc.)
  * Calculates nearest RaaP city for cost factors without displaying it to user
  */
@@ -35,10 +37,38 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
     }
   }, [value]);
 
+  // Local search fallback using US_CITIES database
+  const searchLocalCities = (query) => {
+    const searchTerm = query.toLowerCase();
+    const results = US_CITIES.filter((city) => {
+      const cityMatch = city.city.toLowerCase().includes(searchTerm);
+      const stateMatch = city.state.toLowerCase().includes(searchTerm);
+      const zipMatch = city.zip && city.zip.includes(searchTerm);
+      return cityMatch || stateMatch || zipMatch;
+    })
+      .slice(0, 8)
+      .map((city) => ({
+        display: `${city.city}, ${city.state} ${city.zip}`,
+        fullDisplay: `${city.city}, ${city.state} ${city.zip}`,
+        lat: city.lat,
+        lng: city.lng,
+        zip: city.zip,
+      }));
+
+    setSuggestions(results);
+    setShowSuggestions(results.length > 0);
+  };
+
   // Search using Google Geocoding API with filtering for cities
   const searchLocations = async (query) => {
-    if (!apiKey || query.length < 2) {
+    if (query.length < 2) {
       setSuggestions([]);
+      return;
+    }
+
+    // If no API key, fallback to local search
+    if (!apiKey) {
+      searchLocalCities(query);
       return;
     }
 
