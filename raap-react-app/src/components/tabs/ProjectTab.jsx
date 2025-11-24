@@ -54,6 +54,35 @@ const ProjectTab = () => {
 
   return (
     <div>
+      {/* DEBUG PANEL - TEMPORARY */}
+      <div style={{
+        background: '#fff3cd',
+        border: '2px solid #ff9800',
+        borderRadius: '8px',
+        padding: '16px',
+        marginBottom: '20px',
+        fontFamily: 'monospace',
+        fontSize: '12px'
+      }}>
+        <h3 style={{ margin: '0 0 12px 0', color: '#ff9800', fontSize: '14px', fontWeight: 'bold' }}>
+          🔍 DEBUG: Location Data
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div>
+            <strong>Property Location:</strong>
+            <div>Display: {projectData.propertyLocation || 'NOT SET'}</div>
+            <div>Factor: {projectData.propertyFactor || 'NOT SET'}</div>
+            <div>Coords: {projectData.propertyCoordinates ? `${projectData.propertyCoordinates.lat}, ${projectData.propertyCoordinates.lng}` : 'NOT SET'}</div>
+          </div>
+          <div>
+            <strong>Factory Location:</strong>
+            <div>Display: {projectData.factoryLocation || 'NOT SET'}</div>
+            <div>Factor: {projectData.factoryFactor || 'NOT SET'}</div>
+            <div>Coords: {projectData.factoryCoordinates ? `${projectData.factoryCoordinates.lat}, ${projectData.factoryCoordinates.lng}` : 'NOT SET'}</div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <div style={{ background: `linear-gradient(135deg, ${COLORS.blue.bg} 0%, #ffffff 100%)`, padding: SPACING['2xl'], borderRadius: '12px', border: `3px solid ${COLORS.blue.main}`, marginBottom: SPACING['3xl'], boxShadow: '0 4px 12px rgba(14, 165, 233, 0.1)', textAlign: 'center' }}>
         <h1 style={{ fontSize: FONTS.sizes['2xl'], fontWeight: FONTS.weight.black, color: COLORS.blue.dark, margin: 0, marginBottom: SPACING.sm }}>

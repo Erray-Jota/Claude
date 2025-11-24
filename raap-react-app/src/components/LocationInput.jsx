@@ -39,6 +39,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
 
   // Local search fallback using US_CITIES database
   const searchLocalCities = (query) => {
+    console.log('🔍 [LocationInput] Searching local cities for:', query);
     const searchTerm = query.toLowerCase();
     const results = US_CITIES.filter((city) => {
       const cityMatch = city.city.toLowerCase().includes(searchTerm);
@@ -55,6 +56,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
         zip: city.zip,
       }));
 
+    console.log('✅ [LocationInput] Found results:', results.length, results);
     setSuggestions(results);
     setShowSuggestions(results.length > 0);
   };
@@ -137,6 +139,7 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
+    console.log('⌨️ [LocationInput] Input changed to:', newValue);
     setInputValue(newValue);
     setSelectedIndex(-1);
 
@@ -154,20 +157,25 @@ const LocationInput = ({ value, onChange, label, placeholder = 'Enter city or zi
 
   const handleSelectSuggestion = (location) => {
     const displayValue = location.display;
+    console.log('✅ [LocationInput] Location selected:', location);
     setInputValue(displayValue);
     setShowSuggestions(false);
     setSuggestions([]);
 
     // Find nearest RaaP city to calculate cost factor
     const nearestRaapCity = findNearestRaapCity(location.lat, location.lng);
+    console.log('📍 [LocationInput] Nearest RaaP city:', nearestRaapCity);
 
-    // Call onChange with both display location and calculated factor
-    onChange({
+    const locationData = {
       displayLocation: displayValue,
       factor: nearestRaapCity.factor,
       coordinates: { lat: location.lat, lng: location.lng },
       nearestRaapCity: nearestRaapCity.name,
-    });
+    };
+    console.log('📤 [LocationInput] Calling onChange with:', locationData);
+
+    // Call onChange with both display location and calculated factor
+    onChange(locationData);
   };
 
   const handleKeyDown = (e) => {
