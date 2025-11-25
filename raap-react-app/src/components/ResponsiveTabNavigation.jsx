@@ -25,13 +25,11 @@ const ResponsiveTabNavigation = () => {
   }, [lastScrollY]);
 
   const tabs = [
-    { id: 1, label: '🎯 Intro', shortLabel: 'Intro' },
-    { id: 2, label: '📋 Project', shortLabel: 'Project' },
-    { id: 3, label: '📐 Design', shortLabel: 'Design' },
-    { id: 4, label: '💰 Cost', shortLabel: 'Cost' },
-    { id: 5, label: '⚙️ Coordination', shortLabel: 'Coordination' },
-    { id: 6, label: '🎨 Portfolio', shortLabel: 'Portfolio' },
-    { id: 7, label: '✨ SmartStart', shortLabel: 'SmartStart' },
+    { id: 1, label: '🎨 Intro', shortLabel: 'Intro' },
+    { id: 2, label: '📐 Design', shortLabel: 'Design' },
+    { id: 3, label: '💰 Budget', shortLabel: 'Budget' },
+    { id: 4, label: '🏆 Award', shortLabel: 'Award' },
+    { id: 5, label: '📦 Archive', shortLabel: 'Archive' },
   ];
 
   // Desktop top navigation
@@ -68,8 +66,8 @@ const ResponsiveTabNavigation = () => {
     );
   }
 
-  // Mobile bottom navigation - only show first 4 tabs on mobile
-  const mobileVisibleTabs = tabs.slice(0, 4);
+  // Mobile bottom navigation - show all main tabs on mobile
+  const mobileVisibleTabs = tabs;
   
   // Design sub-tabs for mobile
   const designSubtabs = [
@@ -94,8 +92,8 @@ const ResponsiveTabNavigation = () => {
         transition: 'transform 0.3s ease',
       }}
     >
-      {/* Design sub-tabs - show only when Design tab (3) is active */}
-      {activeTab === 3 && (
+      {/* Design sub-tabs - show only when Design tab (2) is active */}
+      {activeTab === 2 && (
         <div
           style={{
             display: 'grid',
@@ -133,8 +131,8 @@ const ResponsiveTabNavigation = () => {
         </div>
       )}
 
-      {/* Cost sub-tabs - show only when Cost tab (4) is active */}
-      {activeTab === 4 && (
+      {/* Budget sub-tabs - show only when Budget tab (3) is active */}
+      {activeTab === 3 && (
         <div
           style={{
             display: 'grid',
@@ -176,11 +174,96 @@ const ResponsiveTabNavigation = () => {
         </div>
       )}
 
+      {/* Award sub-tabs - show only when Award tab (4) is active */}
+      {activeTab === 4 && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 0,
+            borderBottom: '1px solid #e5e7eb',
+          }}
+        >
+          {[
+            { id: 1, label: '🤝 Partners' },
+            { id: 2, label: '🏛️ Architect' },
+          ].map((subtab) => (
+            <button
+              key={subtab.id}
+              onClick={() => switchSubtab('award', subtab.id)}
+              style={{
+                padding: '8px 6px',
+                background: activeSubtabs.award === subtab.id ? '#E8F5E9' : 'white',
+                color: activeSubtabs.award === subtab.id ? '#2D5A3D' : '#6b7280',
+                border: 'none',
+                borderBottom: activeSubtabs.award === subtab.id ? '3px solid #2D5A3D' : 'none',
+                cursor: 'pointer',
+                fontSize: '10px',
+                fontWeight: activeSubtabs.award === subtab.id ? 700 : 500,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '2px',
+                transition: 'all 0.2s',
+              }}
+            >
+              <span style={{ fontSize: '14px' }}>{subtab.label.charAt(0)}</span>
+              <span style={{ fontSize: '9px', fontWeight: 500 }}>
+                {subtab.label.split(' ')[1] || ''}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Archive sub-tabs - show only when Archive tab (5) is active */}
+      {activeTab === 5 && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 0,
+            borderBottom: '1px solid #e5e7eb',
+          }}
+        >
+          {[
+            { id: 1, label: '🎯 Introduction' },
+            { id: 2, label: '📋 Project' },
+            { id: 3, label: '✨ SmartStart' },
+          ].map((subtab) => (
+            <button
+              key={subtab.id}
+              onClick={() => switchSubtab('archive', subtab.id)}
+              style={{
+                padding: '8px 6px',
+                background: activeSubtabs.archive === subtab.id ? '#FEF3C7' : 'white',
+                color: activeSubtabs.archive === subtab.id ? '#92400E' : '#6b7280',
+                border: 'none',
+                borderBottom: activeSubtabs.archive === subtab.id ? '3px solid #D97706' : 'none',
+                cursor: 'pointer',
+                fontSize: '10px',
+                fontWeight: activeSubtabs.archive === subtab.id ? 700 : 500,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '2px',
+                transition: 'all 0.2s',
+              }}
+            >
+              <span style={{ fontSize: '14px' }}>{subtab.label.charAt(0)}</span>
+              <span style={{ fontSize: '9px', fontWeight: 500 }}>
+                {subtab.label.split(' ')[1] || ''}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Main tabs */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: 'repeat(5, 1fr)',
           gap: 0,
           borderTop: '1px solid #e5e7eb',
         }}

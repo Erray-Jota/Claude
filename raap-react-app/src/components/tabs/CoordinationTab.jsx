@@ -3,6 +3,7 @@ import { useProject } from '../../contexts/ProjectContext';
 import { DUMMY_PARTNERS } from '../../data/constants';
 import { COLORS, FONTS, SPACING, BORDERS } from '../../styles/theme';
 import { MapComponent } from '../MapComponent';
+import ArchitectTab from './ArchitectTab';
 
 const CoordinationTab = () => {
   const { switchTab, activeSubtabs, switchSubtab, projectData } = useProject();
@@ -10,6 +11,13 @@ const CoordinationTab = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [routeMetadata, setRouteMetadata] = useState(null);
   const [selectedSystem, setSelectedSystem] = useState(null);
+
+  // If Architect subtab is active, show ArchitectTab component
+  if (activeSubtabs.award === 2) {
+    return <ArchitectTab />;
+  }
+
+  // Otherwise show Partners content (default)
 
   const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || '';
 

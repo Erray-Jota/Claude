@@ -72,12 +72,14 @@ export const ProjectProvider = ({ children }) => {
 
   const currentProject = projects.find((p) => p.id === currentProjectId) || projects[0];
 
-  const [activeTab, setActiveTab] = useState(1); // Start with Introduction tab
+  const [activeTab, setActiveTab] = useState(1); // Start with Intro tab (Portfolio)
   const [activeSubtabs, setActiveSubtabs] = useState({
     design: 1,
     cost: 1,
     factors: 1,
     smartstart: 1,
+    award: 1,
+    archive: 1,
   });
 
   const updateProjectData = useCallback((updates) => {
@@ -111,7 +113,8 @@ export const ProjectProvider = ({ children }) => {
     setProjects((prev) => [...prev, newProject]);
     setCurrentProjectId(newProject.id);
     setShowingProjectsPage(false);
-    setActiveTab(2);
+    setActiveTab(5); // Navigate to Archive tab
+    setActiveSubtabs((prev) => ({ ...prev, archive: 2 })); // Show Project subtab
   }, [projects.length]);
 
   const openProject = useCallback((projectId) => {
